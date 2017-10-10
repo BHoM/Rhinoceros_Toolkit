@@ -1,32 +1,67 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
+# Compiled source #
+###################
+*.com
+*.class
 *.exe
-*.out
-*.app
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+
+# build folders #
+###############
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Bb]uild/
+[Pp]ackages/
+
+# Visual Studio User File #
+###########################
+*.suo
+*.user
+.vs/
+Alligator/Alligator.csproj.orig
+Alligator/Alligator_BACKUP_9848.csproj
+Alligator/Alligator_BASE_9848.csproj
+Alligator/Alligator_LOCAL_9848.csproj
+Alligator/Alligator_REMOTE_9848.csproj
+
+# Exceptions #
+##############
+!/lib/*.dll
