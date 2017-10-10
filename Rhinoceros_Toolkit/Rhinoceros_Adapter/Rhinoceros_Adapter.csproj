@@ -7,7 +7,7 @@
     <ProjectGuid>{28229169-253D-4578-A9D5-F6860BBCA3CC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rhinoceros_Adapter</RootNamespace>
+    <RootNamespace>BH.Adapter.Rhinoceros</RootNamespace>
     <AssemblyName>Rhinoceros_Adapter</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -34,6 +34,9 @@
   <ItemGroup>
     <Reference Include="BHoM">
       <HintPath>..\..\..\BHoM\Build\BHoM.dll</HintPath>
+    </Reference>
+    <Reference Include="BHoM_Adapter">
+      <HintPath>..\..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
     </Reference>
     <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
       <HintPath>..\packages\RhinoCommon.5.12.50810.13095\lib\net35\RhinoCommon.dll</HintPath>
@@ -51,7 +54,15 @@
   <ItemGroup>
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToRhino.cs" />
+    <Compile Include="CRUD\Create.cs" />
+    <Compile Include="CRUD\Delete.cs" />
+    <Compile Include="CRUD\Exeute.cs" />
+    <Compile Include="CRUD\Pull.cs" />
+    <Compile Include="CRUD\Push.cs" />
+    <Compile Include="CRUD\Read.cs" />
+    <Compile Include="CRUD\Update.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RhinocerosAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
