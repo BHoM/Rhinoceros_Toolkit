@@ -58,7 +58,7 @@
     <Compile Include="Convert\ToRhino.cs" />
     <Compile Include="CRUD\Create.cs" />
     <Compile Include="CRUD\Delete.cs" />
-    <Compile Include="CRUD\Exeute.cs" />
+    <Compile Include="CRUD\Execute.cs" />
     <Compile Include="CRUD\Pull.cs" />
     <Compile Include="CRUD\Push.cs" />
     <Compile Include="CRUD\Read.cs" />
