@@ -15,7 +15,7 @@ namespace BH.Adapter.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static RHG.GeometryBase ToRhino(this BHG.IBHoMGeometry geometry)
+        public static RHG.GeometryBase IToRhino(this BHG.IBHoMGeometry geometry)
         {
             return Convert.ToRhino(geometry as dynamic);
         }
