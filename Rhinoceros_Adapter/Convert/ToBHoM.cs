@@ -89,6 +89,13 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
+        public static BHG.Ellipse ToBHoM(this RHG.Ellipse ellipse)
+        {
+            return new BHG.Ellipse(ellipse.Plane.Origin.ToBHoM(), ellipse.Plane.XAxis.ToBHoM(), ellipse.Plane.YAxis.ToBHoM(), ellipse.Radius1, ellipse.Radius2);
+        }
+
+        /***************************************************/
+
         public static BHG.Line ToBHoM(this RHG.Line line)
         {
             return new BHG.Line(line.From.ToBHoM(), line.To.ToBHoM());
@@ -96,52 +103,56 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.NurbCurve ToBHoM(this RHG.Curve nurbCurve)
+        public static BHG.ICurve ToBHoM(this RHG.Curve rCurve)
         {
-            // Old Code is not used since the BHoM2.0 implementatation of NurbCurve lacks some fields
+            if (rCurve.IsArc())
+            {
+                RHG.Arc arc = new RHG.Arc();
+                rCurve.TryGetArc(out arc);
+                return arc.ToBHoM();
+            }
+            else if (rCurve.IsPolyline())
+            {
+                RHG.Polyline polyline = new RHG.Polyline();
+                rCurve.TryGetPolyline(out polyline);
+                return polyline.ToBHoM();
+            }
+            else if (rCurve.IsCircle())
+            {
+                RHG.Circle circle = new RHG.Circle();
+                rCurve.TryGetCircle(out circle);
+                return circle.ToBHoM();
+            }
+            else if (rCurve.IsEllipse())
+            {
+                RHG.Ellipse ellipse = new RHG.Ellipse();
+                rCurve.TryGetEllipse(out ellipse);
+                return ellipse.ToBHoM();
+            }
+            else
+            {
+                RHG.NurbsCurve nurbCrv = rCurve.ToNurbsCurve();
 
-            //if (rCurve is R.ArcCurve && (rCurve as R.ArcCurve).AngleRadians < Math.PI * 2 / 3)
-            //{
-            //    R.Arc arc = (rCurve as R.ArcCurve).Arc;
-            //    return new BHG.Arc(Convert(arc.StartPoint), Convert(arc.EndPoint), Convert(arc.MidPoint));
-            //}
-            //else if (rCurve is R.LineCurve)
-            //{
-            //    return new BHG.Line(Convert(rCurve.PointAtStart), Convert(rCurve.PointAtEnd));
-            //}
-            //else if (rCurve is R.PolylineCurve)
-            //{
-            //    R.PolylineCurve pl = (rCurve as R.PolylineCurve);
-            //    List<R.Point3d> points = new List<R.Point3d>();
-            //    for (int i = 0; i < pl.PointCount; i++)
-            //    {
-            //        points.Add(pl.Point(i));
-            //    }
-            //    return new BHG.Polyline(points.Select(x => Convert(x)).ToList());
-            //}
-            //else
-            //{
-            //    R.NurbsCurve nurbCurve = rCurve.ToNurbsCurve();
-            //    int degree = nurbCurve.Degree;
-            //    double[] knots = new double[nurbCurve.Knots.Count + 2];
-            //    List<BHG.Point> points = new List<BHG.Point>();
-            //    double[] weight = new double[nurbCurve.Points.Count];
-            //    knots[0] = nurbCurve.Knots[0];
-            //    knots[knots.Length - 1] = nurbCurve.Knots[nurbCurve.Knots.Count - 1];
-            //    for (int i = 1; i < nurbCurve.Knots.Count + 1; i++)
-            //    {
-            //        knots[i] = nurbCurve.Knots[i - 1];
+                List<BHG.Point> controlPts = new List<BHG.Point>();
+                double[] knots = new double[nurbCrv.Knots.Count + 2];
+                double[] weight = new double[nurbCrv.Points.Count];
 
-            //    }
+                knots[0] = nurbCrv.Knots[0];
+                knots[knots.Length - 1] = nurbCrv.Knots[nurbCrv.Knots.Count - 1];
 
-            //    for (int i = 0; i < nurbCurve.Points.Count; i++)
-            //    {
-            //        points.Add(Convert(nurbCurve.Points[i].Location));
-            //        weight[i] = nurbCurve.Points[i].Weight;
-            //    }
-            //    return new BHG.NurbCurve(points, knots, weight);
-            //}
-            throw new NotImplementedException();    // TODO Rhino_Adapter conversion from NurbsCurve
+                for (int i = 1; i < nurbCrv.Knots.Count + 1; i++)
+                {
+                    knots[i] = nurbCrv.Knots[i - 1];
+                }
+
+                for (int i = 0; i < nurbCrv.Points.Count; i++)
+                {
+                    controlPts.Add(nurbCrv.Points[i].Location.ToBHoM());
+                    weight[i] = nurbCrv.Points[i].Weight;
+                }
+
+                return new BHG.NurbCurve(controlPts, weight, knots);
+            }
         }
 
         /***************************************************/
