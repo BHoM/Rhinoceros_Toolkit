@@ -193,15 +193,23 @@ namespace BH.Adapter.Rhinoceros
         /***************************************************/
 
         public static BHG.NurbSurface ToBHoM(this RHG.Surface surface)
-        {
-            throw new NotImplementedException();    // TODO Rhino_Adapter conversion from Surface
+        {            
+            RHG.NurbsSurface nurbSurface = surface.ToNurbsSurface();
+            
+            return nurbSurface.ToBHoM();
+           
         }
 
         /***************************************************/
 
         public static BHG.NurbSurface ToBHoM(this RHG.NurbsSurface surface)
         {
-            throw new NotImplementedException();    // TODO Rhino_Adapter conversion from NurbsSurface
+            List<BHG.Point> controlPts = surface.Points.Select(x => x.Location.ToBHoM()).ToList();
+            List<double> weights = surface.Points.Select(x => x.Weight).ToList();
+            List<double> uKnots = surface.KnotsU.ToList();
+            List<double> vKnots = surface.KnotsV.ToList();
+
+            return new BHG.NurbSurface(controlPts, weights, uKnots, vKnots);
         }
 
         /***************************************************/
