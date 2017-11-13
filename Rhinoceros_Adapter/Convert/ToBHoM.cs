@@ -27,7 +27,7 @@ namespace BH.Adapter.Rhinoceros
         }
 
         /***************************************************/
-        /**** Public Methods  - 1D                      ****/
+        /**** Public Methods  - Vectors                 ****/
         /***************************************************/
 
         public static BHG.Point ToBHoM(this RHG.Point3d rhinoPoint)
@@ -71,7 +71,14 @@ namespace BH.Adapter.Rhinoceros
         }
 
         /***************************************************/
-        /**** Public Methods  - 1D                      ****/
+
+        public static BHG.Plane ToBHoM(this RHG.Plane plane)
+        {
+            return new BHG.Plane(plane.Origin.ToBHoM(), plane.Normal.ToBHoM());
+        }
+
+        /***************************************************/
+        /**** Public Methods  - Curves                  ****/
         /***************************************************/
 
         public static BHG.Arc ToBHoM(this RHG.Arc arc)
@@ -108,6 +115,11 @@ namespace BH.Adapter.Rhinoceros
         }
 
         /***************************************************/
+
+        public static BHG.Line ToBHoM(this RHG.LineCurve line)
+        {
+            return new BHG.Line(line.PointAtStart.ToBHoM(), line.PointAtEnd.ToBHoM());
+        }
 
         public static BHG.NurbCurve ToBHoM(this RHG.NurbsCurve rCurve)
         {
@@ -151,13 +163,6 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.Plane ToBHoM(this RHG.Plane plane)
-        {
-            return new BHG.Plane(plane.Origin.ToBHoM(), plane.Normal.ToBHoM());
-        }
-
-        /***************************************************/
-
         public static BHG.PolyCurve ToBHoM(this RHG.PolyCurve polyCurve)
         {
             return new BHG.PolyCurve(polyCurve.Explode().Select(x => x.ToBHoM()));
@@ -171,7 +176,16 @@ namespace BH.Adapter.Rhinoceros
         }
 
         /***************************************************/
-        /**** Public Methods  - 1D                      ****/
+
+        public static BHG.Polyline ToBHoM(this RHG.PolylineCurve polyline)
+        {
+            if (!polyline.IsPolyline()) { return null; }
+            RHG.Polyline rPolyline; polyline.TryGetPolyline(out rPolyline);
+            return rPolyline.ToBHoM();
+        }
+
+        /***************************************************/
+        /**** Public Methods  - Surfaces                ****/
         /***************************************************/
 
         public static BHG.BoundingBox ToBHoM(this RHG.BoundingBox boundingBox)
@@ -212,6 +226,8 @@ namespace BH.Adapter.Rhinoceros
             throw new NotImplementedException(); // TODO Rhino_Adapter conversion from Extrusion
         }
 
+        /***************************************************/
+        /**** Public Methods  - Mesh                    ****/
         /***************************************************/
 
         public static BHG.Mesh ToBHoM(this RHG.Mesh rMesh)

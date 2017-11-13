@@ -15,21 +15,26 @@ namespace BH.Adapter.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static RHG.GeometryBase IToRhino(this BHG.IBHoMGeometry geometry)
+        public static object IToRhino(this BHG.IBHoMGeometry geometry)
+        {
+            return Convert.ToRhino(geometry as dynamic);
+        }
+
+        public static RHG.Curve IToRhino(this BHG.ICurve geometry)
         {
             return Convert.ToRhino(geometry as dynamic);
         }
 
         /***************************************************/
 
-        public static List<RHG.GeometryBase> ToRhino(this BHG.CompositeGeometry geometries)
+        public static List<object> ToRhino(this BHG.CompositeGeometry geometries)
         {
             return geometries.Elements.Select(x => x.IToRhino()).ToList();
         }
 
 
         /***************************************************/
-        /**** Public Methods  - 1D                      ****/
+        /**** Public Methods  - Vectors                 ****/
         /***************************************************/
 
         public static RHG.Point3d ToRhino(this BHG.Point point)
@@ -44,14 +49,21 @@ namespace BH.Adapter.Rhinoceros
             return new RHG.Vector3d(vector.X, vector.Y, vector.Z);
         }
 
-
-        /***************************************************/
-        /**** Public Methods  - 2D                      ****/
         /***************************************************/
 
-        public static RHG.Arc ToRhino(this BHG.Arc arc)
+        public static RHG.Plane ToRhino(this BHG.Plane plane)
         {
-            return new RHG.Arc(arc.Start.ToRhino(), arc.Middle.ToRhino(), arc.End.ToRhino());
+            return new RHG.Plane(plane.Origin.ToRhino(), plane.Normal.ToRhino());
+        }
+
+
+        /***************************************************/
+        /**** Public Methods  - Curves                  ****/
+        /***************************************************/
+
+        public static RHG.ArcCurve ToRhino(this BHG.Arc arc)
+        {
+            return new RHG.ArcCurve(new RHG.Arc(arc.Start.ToRhino(), arc.Middle.ToRhino(), arc.End.ToRhino()));
         }
 
         /***************************************************/
@@ -63,17 +75,9 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.Ellipse ToRhino(this BHG.Ellipse ellipse)
+        public static RHG.LineCurve ToRhino(this BHG.Line line)
         {
-            RHG.Plane plane = new RHG.Plane(ellipse.Centre.ToRhino(), ellipse.Axis1.ToRhino(), ellipse.Axis2.ToRhino());
-            return new RHG.Ellipse(plane, ellipse.Radius1, ellipse.Radius2);
-        }
-
-        /***************************************************/
-
-        public static RHG.Line ToRhino(this BHG.Line line)
-        {
-            return new RHG.Line(line.Start.ToRhino(), line.End.ToRhino());
+            return new RHG.LineCurve(line.Start.ToRhino(), line.End.ToRhino());
         }
 
         /***************************************************/
@@ -86,13 +90,6 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.Plane ToRhino(this BHG.Plane plane)
-        {
-            return new RHG.Plane(plane.Origin.ToRhino(), plane.Normal.ToRhino());
-        }
-
-        /***************************************************/
-
         public static RHG.PolyCurve ToRhino(this BHG.PolyCurve polyCurve)
         {
             return RHG.Curve.JoinCurves(polyCurve.Curves.Select(x => x.IToRhino()) as IEnumerable<RHG.PolyCurve>)[0] as RHG.PolyCurve;
@@ -100,14 +97,14 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.Polyline ToRhino(this BHG.Polyline polyline)
+        public static RHG.PolylineCurve ToRhino(this BHG.Polyline polyline)
         {
-            return new RHG.Polyline(polyline.ControlPoints.Select(x => x.ToRhino()));
+            return new RHG.PolylineCurve(polyline.ControlPoints.Select(x => x.ToRhino()));
         }
 
 
         /***************************************************/
-        /**** Public Methods  - 3D                      ****/
+        /**** Public Methods  - Surfaces                ****/
         /***************************************************/
 
         public static RHG.BoundingBox ToRhino(this BHG.BoundingBox boundingBox)
@@ -119,7 +116,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static RHG.Surface ToRhino(this BHG.NurbSurface surface)
         {
-            throw new NotImplementedException();    // TODO Rhino_Adapter conversion to Surface
+            return RHG.NurbsSurface.CreateFromPoints(surface.ControlPoints.Select(x => x.ToRhino()), surface.UKnots.Count, surface.VKnots.Count, surface.GetDegree(), surface.GetDegree());
         }
 
         /***************************************************/
@@ -136,6 +133,8 @@ namespace BH.Adapter.Rhinoceros
             throw new NotImplementedException();    // TODO Rhino_Adapter conversion to Extrusion
         }
 
+        /***************************************************/
+        /**** Public Methods  - Mesh                    ****/
         /***************************************************/
 
         public static RHG.Mesh ToRhino(this BHG.Mesh mesh)
