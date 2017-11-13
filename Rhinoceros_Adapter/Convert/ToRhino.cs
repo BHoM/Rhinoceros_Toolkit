@@ -22,10 +22,10 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        //public static List<RHG.GeometryBase> ToRhino(this BHG.CompositeGeometry geometries)
-        //{
-        //    return geometries.Decompose().Select(x => x.ToRhino()); // TODO Waiting for the CompositeGeometry.Decompose() method
-        //}
+        public static List<RHG.GeometryBase> ToRhino(this BHG.CompositeGeometry geometries)
+        {
+            return geometries.Elements.Select(x => x.IToRhino()).ToList();
+        }
 
 
         /***************************************************/
@@ -70,30 +70,21 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.NurbsCurve ToRhino(this BHG.NurbCurve nurbCurve)
-        {
-            // Old Code is not used since the BHoM2.0 implementatation of NurbCurve lacks some fields
-            //R.NurbsCurve c = new R.NurbsCurve(curve.GetDegree(), curve.ControlPoints.Count);
-            //for (int i = 1; i < curve.Knots.Count - 1; i++)
+        //public static RHG.NurbsCurve ToRhino(this BHG.NurbCurve bCurve)
+        //{
+            //// TODO : The first argument is hardcoded to false since calling bCurve.IsClosed() will require a circular reference to Geometry_Engine
+            ////return RHG.NurbsCurve.Create(false, bCurve.GetDegree(), bCurve.ControlPoints.Select(x => x.ToRhino()));
+            ////return RHG.NurbsCurve.CreateInterpolatedCurve(bCurve.ControlPoints.Select(x => x.ToRhino()), bCurve.GetDegree()) as RHG.NurbsCurve;
+            //List<RHG.ControlPoint> cp = new List<RHG.ControlPoint>();
+            //for (int i = 0; i < bCurve.ControlPoints.Count; i++)
             //{
-            //    if (c.Knots.Count < i)
-            //    {
-            //        c.Knots.InsertKnot(curve.Knots[i]);
-            //    }
-            //    else
-            //    {
-            //        c.Knots[i - 1] = curve.Knots[i];
-            //    }
+            //    cp.Add(new RHG.ControlPoint());
             //}
-            //int index = 0;
-            //foreach (BHG.Point p in curve.ControlPoints)
-            //{
-            //    c.Points.SetPoint(index, p.X, p.Y, p.Z, curve.Weights[index]);
-            //    index++;
-            //}
-            //return c;
-            throw new NotImplementedException();    // TODO Rhino_Adapter conversion to NurbsCurve
-        }
+            //RHG.NurbsCurve rCurve = RHG.NurbsCurve.CreateControlPointCurve(cp, bCurve.GetDegree()) as RHG.NurbsCurve;
+            //rCurve.Knots = bCurve.Knots;
+            //RHG.NurbsCurve.
+            //return RHG.NurbsCurve.CreateControlPointCurve(bCurve.ControlPoints.Select(x => x.ToRhino()), bCurve.GetDegree()) as RHG.NurbsCurve;
+        //}
 
         /***************************************************/
 
@@ -106,8 +97,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static RHG.PolyCurve ToRhino(this BHG.PolyCurve polyCurve)
         {
-            //return Rhino.Geometry.Curve.((polyCurve.Curves.Select(x => x.ToRhino())) as IEnumerable<RHG.Curve>));
-            throw new NotImplementedException();
+            return RHG.Curve.JoinCurves(polyCurve.Curves.Select(x => x.IToRhino()) as IEnumerable<RHG.PolyCurve>)[0] as RHG.PolyCurve;
         }
 
         /***************************************************/

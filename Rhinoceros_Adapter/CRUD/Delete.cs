@@ -9,7 +9,7 @@ namespace BH.Adapter.Rhinoceros
 {
     public partial class RhinocerosAdapter
     {
-        public override int Delete(FilterQuery filter, Dictionary<string, string> config = null)
+        public override int Delete(FilterQuery filter, Dictionary<string, object> config = null)
         {
             throw new NotImplementedException();
         }
