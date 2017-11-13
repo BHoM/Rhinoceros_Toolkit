@@ -23,8 +23,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.CompositeGeometry ToBHoM(this List<RHG.GeometryBase> geometries)
         {
-            //return new BHG.CompositeGeometry(geometries.Select(x => x.ToBHoM()));
-            throw new NotImplementedException();
+            return new BHG.CompositeGeometry(geometries.Select(x => x.IToBHoM()));
         }
 
         /***************************************************/
@@ -184,10 +183,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.NurbSurface ToBHoM(this RHG.Surface surface)
         {            
-            RHG.NurbsSurface nurbSurface = surface.ToNurbsSurface();
-            
-            return nurbSurface.ToBHoM();
-           
+            return surface.ToNurbsSurface().ToBHoM();
         }
 
         /***************************************************/

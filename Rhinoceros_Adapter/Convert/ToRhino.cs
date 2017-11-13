@@ -70,21 +70,11 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        //public static RHG.NurbsCurve ToRhino(this BHG.NurbCurve bCurve)
-        //{
-            //// TODO : The first argument is hardcoded to false since calling bCurve.IsClosed() will require a circular reference to Geometry_Engine
-            ////return RHG.NurbsCurve.Create(false, bCurve.GetDegree(), bCurve.ControlPoints.Select(x => x.ToRhino()));
-            ////return RHG.NurbsCurve.CreateInterpolatedCurve(bCurve.ControlPoints.Select(x => x.ToRhino()), bCurve.GetDegree()) as RHG.NurbsCurve;
-            //List<RHG.ControlPoint> cp = new List<RHG.ControlPoint>();
-            //for (int i = 0; i < bCurve.ControlPoints.Count; i++)
-            //{
-            //    cp.Add(new RHG.ControlPoint());
-            //}
-            //RHG.NurbsCurve rCurve = RHG.NurbsCurve.CreateControlPointCurve(cp, bCurve.GetDegree()) as RHG.NurbsCurve;
-            //rCurve.Knots = bCurve.Knots;
-            //RHG.NurbsCurve.
-            //return RHG.NurbsCurve.CreateControlPointCurve(bCurve.ControlPoints.Select(x => x.ToRhino()), bCurve.GetDegree()) as RHG.NurbsCurve;
-        //}
+        public static RHG.NurbsCurve ToRhino(this BHG.NurbCurve bCurve)
+        {
+            IEnumerable<RHG.Point3d> rPoints = bCurve.ControlPoints.Select(x => x.ToRhino());
+            return RHG.Curve.CreateControlPointCurve(rPoints, bCurve.GetDegree()) as RHG.NurbsCurve;
+        }
 
         /***************************************************/
 
