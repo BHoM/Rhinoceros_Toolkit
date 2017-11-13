@@ -23,8 +23,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.CompositeGeometry ToBHoM(this List<RHG.GeometryBase> geometries)
         {
-            //return new BHG.CompositeGeometry(geometries.Select(x => x.ToBHoM()));
-            throw new NotImplementedException();
+            return new BHG.CompositeGeometry(geometries.Select(x => x.IToBHoM()));
         }
 
         /***************************************************/
@@ -46,6 +45,13 @@ namespace BH.Adapter.Rhinoceros
         /***************************************************/
 
         public static BHG.Point ToBHoM(this RHG.Point rhinoPoint)
+        {
+            return new BHG.Point(rhinoPoint.Location.X, rhinoPoint.Location.Y, rhinoPoint.Location.Z);
+        }
+
+        /***************************************************/
+
+        public static BHG.Point ToBHoM(this RHG.ControlPoint rhinoPoint)
         {
             return new BHG.Point(rhinoPoint.Location.X, rhinoPoint.Location.Y, rhinoPoint.Location.Z);
         }
@@ -103,27 +109,10 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.NurbCurve ToBHoM(this RHG.NurbsCurve nurbCurve)
+        public static BHG.NurbCurve ToBHoM(this RHG.NurbsCurve rCurve)
         {
-            List<BHG.Point> controlPts = new List<BHG.Point>();
-            double[] knots = new double[nurbCurve.Knots.Count + 2];
-            double[] weight = new double[nurbCurve.Points.Count];
-
-            knots[0] = nurbCurve.Knots[0];
-            knots[knots.Length - 1] = nurbCurve.Knots[nurbCurve.Knots.Count - 1];
-
-            for (int i = 1; i < nurbCurve.Knots.Count + 1; i++)
-            {
-                knots[i] = nurbCurve.Knots[i - 1];
-            }
-
-            for (int i = 0; i < nurbCurve.Points.Count; i++)
-            {
-                controlPts.Add(nurbCurve.Points[i].Location.ToBHoM());
-                weight[i] = nurbCurve.Points[i].Weight;
-            }
-
-            return new BHG.NurbCurve(controlPts, weight, knots);
+            IEnumerable<RHG.ControlPoint> rPoints = rCurve.Points;
+            return new BHG.NurbCurve(rPoints.Select(x => x.ToBHoM()), rPoints.Select(x => x.Weight), rCurve.Knots.ToArray());
         }
 
         /***************************************************/
@@ -194,10 +183,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.NurbSurface ToBHoM(this RHG.Surface surface)
         {            
-            RHG.NurbsSurface nurbSurface = surface.ToNurbsSurface();
-            
-            return nurbSurface.ToBHoM();
-           
+            return surface.ToNurbsSurface().ToBHoM();
         }
 
         /***************************************************/

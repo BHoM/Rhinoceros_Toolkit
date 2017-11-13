@@ -9,7 +9,7 @@ namespace BH.Adapter.Rhinoceros
 {
     public partial class RhinocerosAdapter
     {
-        public override int UpdateProperty(FilterQuery filter, string property, object newValue, Dictionary<string, string> config = null)
+        public override int UpdateProperty(FilterQuery filter, string property, object newValue, Dictionary<string, object> config = null)
         {
             throw new NotImplementedException();
         }
