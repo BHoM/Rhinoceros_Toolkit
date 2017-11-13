@@ -75,9 +75,9 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.Line ToRhino(this BHG.Line line)
+        public static RHG.LineCurve ToRhino(this BHG.Line line)
         {
-            return new RHG.Line(line.Start.ToRhino(), line.End.ToRhino());
+            return new RHG.LineCurve(line.Start.ToRhino(), line.End.ToRhino());
         }
 
         /***************************************************/
