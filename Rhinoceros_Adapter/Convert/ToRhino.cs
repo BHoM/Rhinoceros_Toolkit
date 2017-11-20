@@ -75,6 +75,14 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
+        public static RHG.Ellipse ToRhino(this BHG.Ellipse ellipse)
+        {
+            RHG.Plane plane = new RHG.Plane(ellipse.Centre.ToRhino(), ellipse.Axis1.ToRhino(), ellipse.Axis2.ToRhino());
+            return new RHG.Ellipse(plane, ellipse.Radius1, ellipse.Radius2);
+        }
+
+        /***************************************************/
+
         public static RHG.Line ToRhino(this BHG.Line line)
         {
             return new RHG.Line(line.Start.ToRhino(), line.End.ToRhino());
