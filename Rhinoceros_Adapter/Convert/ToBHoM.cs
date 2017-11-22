@@ -21,10 +21,11 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.CompositeGeometry ToBHoM(this List<RHG.GeometryBase> geometries)
+        public static BHG.IBHoMGeometry IToBHoM<T>(this Rhino.IEpsilonComparable<T> geometry)
         {
-            return new BHG.CompositeGeometry(geometries.Select(x => x.IToBHoM()));
+            return Convert.ToBHoM(geometry as dynamic);
         }
+
 
         /***************************************************/
         /**** Public Methods  - Vectors                 ****/
@@ -131,13 +132,14 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.ICurve ToBHoM(this RHG.Curve rCurve)
         {
-            if (rCurve.IsArc())
+            Type curveType = rCurve.GetType();
+            if (rCurve.IsArc() || typeof(RHG.ArcCurve).IsAssignableFrom(curveType))
             {
                 RHG.Arc arc = new RHG.Arc();
                 rCurve.TryGetArc(out arc);
                 return arc.ToBHoM();
             }
-            else if (rCurve.IsPolyline())
+            else if (rCurve.IsPolyline() || typeof(RHG.PolylineCurve).IsAssignableFrom(curveType))
             {
                 RHG.Polyline polyline = new RHG.Polyline();
                 rCurve.TryGetPolyline(out polyline);
@@ -155,6 +157,10 @@ namespace BH.Adapter.Rhinoceros
                 rCurve.TryGetEllipse(out ellipse);
                 return ellipse.ToBHoM();
             }
+            else if (rCurve is RHG.PolyCurve)
+            {
+                return ((RHG.PolyCurve)rCurve).ToBHoM();
+            }
             else
             {
                 return (rCurve.ToNurbsCurve()).ToBHoM();
@@ -165,6 +171,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.PolyCurve ToBHoM(this RHG.PolyCurve polyCurve)
         {
+            polyCurve.RemoveNesting();
             return new BHG.PolyCurve(polyCurve.Explode().Select(x => x.ToBHoM()));
         }
 
@@ -195,6 +202,13 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
+        public static BHG.BoundingBox ToBHoM(this RHG.Box box)
+        {
+            return box.BoundingBox.ToBHoM();
+        }
+
+        /***************************************************/
+
         public static BHG.NurbSurface ToBHoM(this RHG.Surface surface)
         {            
             return surface.ToNurbsSurface().ToBHoM();
@@ -214,15 +228,18 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.PolySurface ToBHoM(this RHG.Brep brep)
+        public static BHG.ISurface ToBHoM(this RHG.Brep brep)
         {
-            return new BHG.PolySurface(brep.Surfaces.Select(x => x.ToBHoM()));
+            if (brep.IsSurface)
+                return brep.Faces[0].ToBHoM();
+            return null;
         }
 
         /***************************************************/
 
         public static BHG.Extrusion ToBHoM(this RHG.Extrusion extrusion)
         {
+            extrusion.PathLineCurve();
             throw new NotImplementedException(); // TODO Rhino_Adapter conversion from Extrusion
         }
 
@@ -249,40 +266,14 @@ namespace BH.Adapter.Rhinoceros
             return new BHG.Mesh(vertices, Faces);
         }
 
-        // Unused Code not to waste
 
-        //public static List<R.Surface> ExtrudeAlong(R.Curve section, R.Curve centreline, R.Plane sectionPlane)
-        //{
-        //    R.Vector3d globalUp = R.Vector3d.ZAxis;
-        //    R.Vector3d localX = sectionPlane.XAxis;
-        //    R.Curve[] baseCurves = centreline.DuplicateSegments();
-        //    List<R.Surface> extrustions = new List<R.Surface>();
-        //    if (baseCurves.Length == 0) baseCurves = new R.Curve[] { centreline };
-        //    for (int i = 0; i < baseCurves.Length; i++)
-        //    {
-        //        R.Vector3d v = baseCurves[i].PointAtEnd - baseCurves[i].PointAtStart;
-        //        R.Curve start = section.Duplicate() as R.Curve;
-        //        if (v.IsParallelTo(globalUp) == 0)
-        //        {
-        //            R.Vector3d direction = sectionPlane.Normal;
-        //            double angle = R.Vector3d.VectorAngle(v, direction);
-        //            R.Transform alignPerpendicular = R.Transform.Rotation(-angle, R.Vector3d.CrossProduct(v, R.Vector3d.ZAxis), R.Point3d.Origin);
-        //            localX.Transform(alignPerpendicular);
-        //            direction.Transform(alignPerpendicular);
-        //            double angleAxisAlign = R.Vector3d.VectorAngle(localX, R.Vector3d.CrossProduct(globalUp, v));
-        //            if (localX * globalUp > 0) angleAxisAlign = -angleAxisAlign;
-        //            R.Transform axisAlign = R.Transform.Rotation(angleAxisAlign, v, R.Point3d.Origin);
-        //            R.Transform result = R.Transform.Translation(baseCurves[i].PointAtStart - R.Point3d.Origin) * axisAlign * alignPerpendicular;// * axisAlign *                
+        /***************************************************/
+        /**** Miscellanea                               ****/
+        /***************************************************/
 
-        //            start.Transform(result);
-        //        }
-        //        else
-        //        {
-        //            start.Translate(baseCurves[i].PointAtStart - R.Point3d.Origin);
-        //        }
-        //        extrustions.Add(R.Extrusion.CreateExtrusion(start, v));
-        //    }
-        //    return extrustions;
-        //}
+        public static BHG.CompositeGeometry ToBHoM(this List<RHG.GeometryBase> geometries)
+        {
+            return new BHG.CompositeGeometry(geometries.Select(x => x.IToBHoM()));
+        }
     }
 }
