@@ -15,7 +15,7 @@ namespace BH.Adapter.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static RHG.GeometryBase IToRhino(this BHG.IBHoMGeometry geometry)
+        public static object IToRhino(this BHG.IBHoMGeometry geometry)
         {
             return Convert.ToRhino(geometry as dynamic);
         }
@@ -178,7 +178,7 @@ namespace BH.Adapter.Rhinoceros
         /**** Miscellanea                               ****/
         /***************************************************/
 
-        public static List<RHG.GeometryBase> ToRhino(this BHG.CompositeGeometry geometries)
+        public static List<object> ToRhino(this BHG.CompositeGeometry geometries)
         {
             return geometries.Elements.Select(x => x.IToRhino()).ToList();
         }
