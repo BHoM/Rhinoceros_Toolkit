@@ -129,7 +129,8 @@ namespace BH.Adapter.Rhinoceros
 
         public static RHG.Surface ToRhino(this BHG.NurbSurface surface)
         {
-            return RHG.NurbsSurface.CreateFromPoints(surface.ControlPoints.Select(x => x.ToRhino()), surface.GetUVCount()[0], surface.GetUVCount()[1], surface.GetDegrees()[0], surface.GetDegrees()[1]) as RHG.Surface;
+            return RHG.NurbsSurface.CreateFromPoints(surface.ControlPoints.Select(x => x.ToRhino()), 
+                surface.GetUVCount()[0], surface.GetUVCount()[1], surface.GetDegrees()[0], surface.GetDegrees()[1]) as RHG.Surface;
         }
 
         /***************************************************/
