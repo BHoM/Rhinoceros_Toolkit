@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
 using Rhino;
+using BH.Engine.Geometry;
 
 namespace BH.Adapter.Rhinoceros
 {
@@ -128,8 +129,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static RHG.Surface ToRhino(this BHG.NurbSurface surface)
         {
-            throw new NotImplementedException();
-            //return RHG.NurbsSurface.CreateFromPoints(surface.ControlPoints.Select(x => x.ToRhino()), surface.GetUVCount()[0], surface.GetUVCount()[1], surface.GetDegree()[0], surface.GetDegree()[1]);
+            return RHG.NurbsSurface.CreateFromPoints(surface.ControlPoints.Select(x => x.ToRhino()), surface.GetUVCount()[0], surface.GetUVCount()[1], surface.GetDegrees()[0], surface.GetDegrees()[1]) as RHG.Surface;
         }
 
         /***************************************************/
