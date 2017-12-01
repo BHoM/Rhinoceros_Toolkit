@@ -125,7 +125,11 @@ namespace BH.Adapter.Rhinoceros
         public static BHG.NurbCurve ToBHoM(this RHG.NurbsCurve rCurve)
         {
             IEnumerable<RHG.ControlPoint> rPoints = rCurve.Points;
-            return new BHG.NurbCurve(rPoints.Select(x => x.ToBHoM()), rPoints.Select(x => x.Weight), rCurve.Knots.ToArray());
+            List<double> knots = rCurve.Knots.ToList();
+            knots.Insert(0, knots.First());
+            knots.Add(knots.Last());
+
+            return new BHG.NurbCurve(rPoints.Select(x => x.ToBHoM()), rPoints.Select(x => x.Weight), knots);
         }
 
         /***************************************************/
