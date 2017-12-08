@@ -137,7 +137,13 @@ namespace BH.Adapter.Rhinoceros
         public static BHG.ICurve ToBHoM(this RHG.Curve rCurve)
         {
             Type curveType = rCurve.GetType();
-            if (rCurve.IsArc() || typeof(RHG.ArcCurve).IsAssignableFrom(curveType))
+            if (rCurve.IsCircle())
+            {
+                RHG.Circle circle = new RHG.Circle();
+                rCurve.TryGetCircle(out circle);
+                return circle.ToBHoM();
+            }
+            else if (rCurve.IsArc() || typeof(RHG.ArcCurve).IsAssignableFrom(curveType))
             {
                 RHG.Arc arc = new RHG.Arc();
                 rCurve.TryGetArc(out arc);
@@ -148,12 +154,6 @@ namespace BH.Adapter.Rhinoceros
                 RHG.Polyline polyline = new RHG.Polyline();
                 rCurve.TryGetPolyline(out polyline);
                 return polyline.ToBHoM();
-            }
-            else if (rCurve.IsCircle())
-            {
-                RHG.Circle circle = new RHG.Circle();
-                rCurve.TryGetCircle(out circle);
-                return circle.ToBHoM();
             }
             else if (rCurve.IsEllipse())
             {
