@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Geometry
+namespace BH.Engine.Rhinoceros
 {
     public static partial class Transform
     {
