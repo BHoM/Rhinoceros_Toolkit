@@ -55,9 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Transform\BooleanUnion.cs" />
-    <Compile Include="Transform\ExternalEdges.cs" />
+    <Compile Include="Query\ExternalEdges.cs" />
     <Compile Include="Transform\Join.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transform\Offset.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rhinoceros_Adapter\Rhinoceros_Adapter.csproj">

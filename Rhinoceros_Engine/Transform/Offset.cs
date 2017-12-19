@@ -12,12 +12,12 @@ namespace BH.Engine.Rhinoceros
     public static partial class Transform
     {
         /***************************************************/
-        /**** Public Methods  - Mesh                    ****/
+        /**** Public Methods - Curve                    ****/
         /***************************************************/
 
-        public static List<Polyline> GetExternalEdges(this Mesh mesh)
+        public static List<ICurve> Offset(this ICurve polyline, Plane plane, double distance, int corner)
         {
-            return mesh.ToRhino().GetNakedEdges().Select(crv => crv.ToBHoM()).ToList();
+            return polyline.IToRhino().Offset(plane.ToRhino(), distance, Tolerance.Distance, (RG.CurveOffsetCornerStyle)corner).Select(crv => crv.ToBHoM()).ToList();
         }
     }
 }
