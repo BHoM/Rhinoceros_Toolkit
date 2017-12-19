@@ -14,7 +14,7 @@ namespace BH.Adapter.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static BHG.IBHoMGeometry ToBHoM(this RHG.GeometryBase geometry)
+        public static BHG.IBHoMGeometry IToBHoM(this RHG.GeometryBase geometry)
         {
             return Convert.ToBHoM(geometry as dynamic);
         }
@@ -277,7 +277,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.CompositeGeometry ToBHoM(this List<RHG.GeometryBase> geometries)
         {
-            return new BHG.CompositeGeometry(geometries.Select(x => x.ToBHoM()));
+            return new BHG.CompositeGeometry(geometries.Select(x => x.IToBHoM()));
         }
     }
 }
