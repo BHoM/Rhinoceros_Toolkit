@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Transform\BooleanUnion.cs" />
+    <Compile Include="Transform\ExternalEdges.cs" />
     <Compile Include="Transform\Join.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
