@@ -15,6 +15,9 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Mesh                    ****/
         /***************************************************/
 
+        /// <summary>
+        /// ALWAYS USE THIS METHOD IN ITS EXTENSION FORM
+        /// </summary>
         public static List<Polyline> GetExternalEdges(this Mesh mesh)
         {
             return mesh.ToRhino().GetNakedEdges().Select(crv => crv.ToBHoM()).ToList();

@@ -15,6 +15,9 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods - Curve                    ****/
         /***************************************************/
 
+        /// <summary>
+        /// ALWAYS USE THIS METHOD IN ITS EXTENSION FORM
+        /// </summary>
         public static List<ICurve> Offset(this ICurve polyline, Plane plane, double distance, int corner)
         {
             return polyline.IToRhino().Offset(plane.ToRhino(), distance, Tolerance.Distance, (RG.CurveOffsetCornerStyle)corner).Select(crv => crv.ToBHoM()).ToList();

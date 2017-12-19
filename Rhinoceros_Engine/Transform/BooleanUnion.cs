@@ -15,6 +15,9 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
+        /// <summary>
+        /// ALWAYS USE THIS METHOD IN ITS EXTENSION FORM
+        /// </summary>
         public static List<ICurve> GetBooleanUnion(this List<ICurve> curves)
         {
             // BHoM method to implement is at https://hal.inria.fr/inria-00517670/document

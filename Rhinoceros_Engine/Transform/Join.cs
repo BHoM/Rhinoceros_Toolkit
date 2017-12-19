@@ -15,6 +15,9 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods - Interfaces               ****/
         /***************************************************/
 
+        /// <summary>
+        /// ALWAYS USE THIS METHOD IN ITS EXTENSION FORM
+        /// </summary>
         public static List<ICurve> IGetJoined(this IEnumerable<ICurve> curves)
         {
             IEnumerable<RG.Curve> rCurves = curves.Select(x => x.IToRhino() as RG.Curve);
