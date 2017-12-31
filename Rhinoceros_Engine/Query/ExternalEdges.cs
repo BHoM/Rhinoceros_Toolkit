@@ -1,11 +1,6 @@
-﻿using BH.Adapter.Rhinoceros;
-using BH.oM.Geometry;
-using RG = Rhino.Geometry;
-using System;
+﻿using BH.oM.Geometry;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -15,12 +10,12 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Mesh                    ****/
         /***************************************************/
 
-        /// <summary>
-        /// ALWAYS USE THIS METHOD IN ITS EXTENSION FORM
-        /// </summary>
-        public static List<Polyline> GetExternalEdges(this Mesh mesh)
+        public static List<Polyline> ExternalEdges(this Mesh mesh)      // ALWAYS USE THIS METHOD IN ITS EXTENSION FORM   //TODO: Why???? (AD)
         {
             return mesh.ToRhino().GetNakedEdges().Select(crv => crv.ToBHoM()).ToList();
         }
+
+
+        /***************************************************/
     }
 }

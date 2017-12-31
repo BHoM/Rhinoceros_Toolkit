@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
 
-namespace BH.Adapter.Rhinoceros
+namespace BH.Engine.Rhinoceros
 {
     public static partial class Convert
     {
@@ -33,49 +31,49 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.Point ToBHoM(this RHG.Point3d rhinoPoint)
         {
-            return new BHG.Point(rhinoPoint.X, rhinoPoint.Y, rhinoPoint.Z);
+            return new BHG.Point { X = rhinoPoint.X, Y = rhinoPoint.Y, Z = rhinoPoint.Z };
         }
 
         /***************************************************/
 
         public static BHG.Point ToBHoM(this RHG.Point3f rhinoPoint)
         {
-            return new BHG.Point(rhinoPoint.X, rhinoPoint.Y, rhinoPoint.Z);
+            return new BHG.Point { X = rhinoPoint.X, Y = rhinoPoint.Y, Z = rhinoPoint.Z };
         }
 
         /***************************************************/
 
         public static BHG.Point ToBHoM(this RHG.Point rhinoPoint)
         {
-            return new BHG.Point(rhinoPoint.Location.X, rhinoPoint.Location.Y, rhinoPoint.Location.Z);
+            return new BHG.Point { X = rhinoPoint.Location.X, Y = rhinoPoint.Location.Y, Z = rhinoPoint.Location.Z };
         }
 
         /***************************************************/
 
         public static BHG.Point ToBHoM(this RHG.ControlPoint rhinoPoint)
         {
-            return new BHG.Point(rhinoPoint.Location.X, rhinoPoint.Location.Y, rhinoPoint.Location.Z);
+            return new BHG.Point { X = rhinoPoint.Location.X, Y = rhinoPoint.Location.Y, Z = rhinoPoint.Location.Z };
         }
 
         /***************************************************/
 
         public static BHG.Vector ToBHoM(this RHG.Vector3d vector)
         {
-            return new BHG.Vector(vector.X, vector.Y, vector.Z);
+            return new BHG.Vector { X = vector.X, Y = vector.Y, Z = vector.Z };
         }
 
         /***************************************************/
 
         public static BHG.Vector ToBHoM(this RHG.Vector3f vector)
         {
-            return new BHG.Vector(vector.X, vector.Y, vector.Z);
+            return new BHG.Vector { X = vector.X, Y = vector.Y, Z = vector.Z };
         }
 
         /***************************************************/
 
         public static BHG.Plane ToBHoM(this RHG.Plane plane)
         {
-            return new BHG.Plane(plane.Origin.ToBHoM(), plane.Normal.ToBHoM());
+            return new BHG.Plane { Origin = plane.Origin.ToBHoM(), Normal = plane.Normal.ToBHoM() };
         }
 
         /***************************************************/
@@ -84,42 +82,49 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.Arc ToBHoM(this RHG.Arc arc)
         {
-            return new BHG.Arc(arc.StartPoint.ToBHoM(), arc.MidPoint.ToBHoM(), arc.EndPoint.ToBHoM());
+            return new BHG.Arc { Start = arc.StartPoint.ToBHoM(), Middle = arc.MidPoint.ToBHoM(), End = arc.EndPoint.ToBHoM() };
         }
 
         /***************************************************/
 
         public static BHG.Arc ToBHoM(this RHG.ArcCurve arcCurve)
         {
-            return new BHG.Arc(arcCurve.Arc.StartPoint.ToBHoM(), arcCurve.Arc.MidPoint.ToBHoM(), arcCurve.Arc.EndPoint.ToBHoM());
+            return new BHG.Arc { Start = arcCurve.Arc.StartPoint.ToBHoM(), Middle = arcCurve.Arc.MidPoint.ToBHoM(), End = arcCurve.Arc.EndPoint.ToBHoM() };
         }
 
         /***************************************************/
 
         public static BHG.Circle ToBHoM(this RHG.Circle circle)
         {
-            return new BHG.Circle(circle.Center.ToBHoM(), circle.Normal.ToBHoM(), circle.Radius);
+            return new BHG.Circle { Centre = circle.Center.ToBHoM(), Normal = circle.Normal.ToBHoM(), Radius = circle.Radius };
         }
 
         /***************************************************/
 
         public static BHG.Ellipse ToBHoM(this RHG.Ellipse ellipse)
         {
-            return new BHG.Ellipse(ellipse.Plane.Origin.ToBHoM(), ellipse.Plane.XAxis.ToBHoM(), ellipse.Plane.YAxis.ToBHoM(), ellipse.Radius1, ellipse.Radius2);
+            return new BHG.Ellipse
+            {
+                Centre = ellipse.Plane.Origin.ToBHoM(),
+                Axis1 = ellipse.Plane.XAxis.ToBHoM(),
+                Axis2 = ellipse.Plane.YAxis.ToBHoM(),
+                Radius1 = ellipse.Radius1,
+                Radius2 = ellipse.Radius2
+            };
         }
 
         /***************************************************/
 
         public static BHG.Line ToBHoM(this RHG.Line line)
         {
-            return new BHG.Line(line.From.ToBHoM(), line.To.ToBHoM());
+            return new BHG.Line { Start = line.From.ToBHoM(), End = line.To.ToBHoM() };
         }
 
         /***************************************************/
 
         public static BHG.Line ToBHoM(this RHG.LineCurve line)
         {
-            return new BHG.Line(line.PointAtStart.ToBHoM(), line.PointAtEnd.ToBHoM());
+            return new BHG.Line { Start = line.PointAtStart.ToBHoM(), End = line.PointAtEnd.ToBHoM() };
         }
 
         public static BHG.NurbCurve ToBHoM(this RHG.NurbsCurve rCurve)
@@ -129,7 +134,12 @@ namespace BH.Adapter.Rhinoceros
             knots.Insert(0, knots.First());
             knots.Add(knots.Last());
 
-            return new BHG.NurbCurve(rPoints.Select(x => x.ToBHoM()), rPoints.Select(x => x.Weight), knots);
+            return new BHG.NurbCurve
+            {
+                ControlPoints = rPoints.Select(x => x.ToBHoM()).ToList(),
+                Weights = rPoints.Select(x => x.Weight).ToList(),
+                Knots = knots
+            };
         }
 
         /***************************************************/
@@ -176,14 +186,14 @@ namespace BH.Adapter.Rhinoceros
         public static BHG.PolyCurve ToBHoM(this RHG.PolyCurve polyCurve)
         {
             polyCurve.RemoveNesting();
-            return new BHG.PolyCurve(polyCurve.Explode().Select(x => x.ToBHoM()));
+            return new BHG.PolyCurve { Curves = polyCurve.Explode().Select(x => x.ToBHoM()).ToList() };
         }
 
         /***************************************************/
 
         public static BHG.Polyline ToBHoM(this RHG.Polyline polyline)
         {
-            return new BHG.Polyline(polyline.Select(x => x.ToBHoM()));
+            return new BHG.Polyline { ControlPoints = polyline.Select(x => x.ToBHoM()).ToList() };
         }
 
         /***************************************************/
@@ -201,7 +211,7 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.BoundingBox ToBHoM(this RHG.BoundingBox boundingBox)
         {
-            return new BHG.BoundingBox(boundingBox.Min.ToBHoM(), boundingBox.Max.ToBHoM());
+            return new BHG.BoundingBox { Min = boundingBox.Min.ToBHoM(), Max = boundingBox.Max.ToBHoM() };
         }
 
         /***************************************************/
@@ -222,12 +232,13 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.NurbSurface ToBHoM(this RHG.NurbsSurface surface)
         {
-            List<BHG.Point> controlPts = surface.Points.Select(x => x.Location.ToBHoM()).ToList();
-            List<double> weights = surface.Points.Select(x => x.Weight).ToList();
-            List<double> uKnots = surface.KnotsU.ToList();
-            List<double> vKnots = surface.KnotsV.ToList();
-
-            return new BHG.NurbSurface(controlPts, weights, uKnots, vKnots);
+            return new BHG.NurbSurface
+            {
+                ControlPoints = surface.Points.Select(x => x.Location.ToBHoM()).ToList(),
+                Weights = surface.Points.Select(x => x.Weight).ToList(),
+                UKnots = surface.KnotsU.ToList(),
+                VKnots = surface.KnotsV.ToList()
+            };
         }
 
         /***************************************************/
@@ -255,19 +266,19 @@ namespace BH.Adapter.Rhinoceros
         {
             List<BHG.Point> vertices = rMesh.Vertices.ToList().Select(x => x.ToBHoM()).ToList();
             List<RHG.MeshFace> rFaces = rMesh.Faces.ToList();
-            List<BHG.Face> Faces = new List<BHG.Face>();
+            List<BHG.Face> faces = new List<BHG.Face>();
             for (int i = 0; i < rFaces.Count; i++)
             {
                 if (rFaces[i].IsQuad)
                 {
-                    Faces.Add(new BHG.Face(rFaces[i].A, rFaces[i].B, rFaces[i].C, rFaces[i].D));
+                    faces.Add(new BHG.Face { A = rFaces[i].A, B = rFaces[i].B, C = rFaces[i].C, D = rFaces[i].D });
                 }
                 if (rFaces[i].IsTriangle)
                 {
-                    Faces.Add(new BHG.Face(rFaces[i].A, rFaces[i].B, rFaces[i].C));
+                    faces.Add(new BHG.Face { A = rFaces[i].A, B = rFaces[i].B, C = rFaces[i].C });
                 }
             }
-            return new BHG.Mesh(vertices, Faces);
+            return new BHG.Mesh { Vertices = vertices, Faces = faces };
         }
 
 
@@ -277,7 +288,9 @@ namespace BH.Adapter.Rhinoceros
 
         public static BHG.CompositeGeometry ToBHoM(this List<RHG.GeometryBase> geometries)
         {
-            return new BHG.CompositeGeometry(geometries.Select(x => x.IToBHoM()));
+            return new BHG.CompositeGeometry { Elements = geometries.Select(x => x.IToBHoM()).ToList() };
         }
+
+        /***************************************************/
     }
 }
