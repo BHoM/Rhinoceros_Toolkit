@@ -54,9 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Transform\BooleanUnion.cs" />
+    <Compile Include="Convert\ToBHoM.cs" />
+    <Compile Include="Convert\ToRhino.cs" />
+    <Compile Include="Modify\BooleanUnion.cs" />
     <Compile Include="Query\ExternalEdges.cs" />
-    <Compile Include="Transform\Join.cs" />
+    <Compile Include="Modify\Join.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

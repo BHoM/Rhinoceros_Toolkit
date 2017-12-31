@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
-using Rhino;
 using BH.Engine.Geometry;
 
-namespace BH.Adapter.Rhinoceros
+namespace BH.Engine.Rhinoceros
 {
     public static partial class Convert
     {
@@ -96,7 +93,7 @@ namespace BH.Adapter.Rhinoceros
         public static RHG.NurbsCurve ToRhino(this BHG.NurbCurve bCurve)
         {
             IEnumerable<RHG.Point3d> rPoints = bCurve.ControlPoints.Select(x => x.ToRhino());
-            return RHG.Curve.CreateControlPointCurve(rPoints, bCurve.GetDegree()) as RHG.NurbsCurve;
+            return RHG.Curve.CreateControlPointCurve(rPoints, bCurve.Degree()) as RHG.NurbsCurve;
         }
 
         /***************************************************/
@@ -129,8 +126,8 @@ namespace BH.Adapter.Rhinoceros
 
         public static RHG.NurbsSurface ToRhino(this BHG.NurbSurface surface)
         {
-            List<int> uvCount = surface.GetUVCount();
-            List<int> degrees = surface.GetDegrees();
+            List<int> uvCount = surface.UVCount();
+            List<int> degrees = surface.Degrees();
             return RHG.NurbsSurface.CreateFromPoints(surface.ControlPoints.Select(x => x.ToRhino()),
                 uvCount[0], uvCount[1], degrees[0], degrees[1]);
         }
@@ -185,5 +182,7 @@ namespace BH.Adapter.Rhinoceros
         {
             return geometries.Elements.Select(x => x.IToRhino()).ToList();
         }
+
+        /***************************************************/
     }
 }
