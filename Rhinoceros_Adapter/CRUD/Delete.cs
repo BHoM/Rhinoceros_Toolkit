@@ -1,4 +1,4 @@
-﻿using BH.Adapter.Queries;
+﻿using BH.oM.Queries;
 using System;
 using System.Collections.Generic;
 
