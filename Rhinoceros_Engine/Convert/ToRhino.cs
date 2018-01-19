@@ -92,8 +92,29 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.NurbsCurve ToRhino(this BHG.NurbCurve bCurve)
         {
-            IEnumerable<RHG.Point3d> rPoints = bCurve.ControlPoints.Select(x => x.ToRhino());
-            return RHG.Curve.CreateControlPointCurve(rPoints, bCurve.Degree()) as RHG.NurbsCurve;
+            List<double> knots = bCurve.Knots;
+            List<double> weights = bCurve.Weights;
+            List<RHG.Point3d> ctrlPts = bCurve.ControlPoints.Select(x => x.ToRhino()).ToList();
+            bool isClosed = false;
+            int ptCount = ctrlPts.Count;
+            int knotCount = knots.Count;
+
+            if (weights.Count != ptCount || ptCount < 2) throw new ArgumentException("Insufficient amount of control points. Must be >2 and the same as the number of weights.");
+            if (knotCount == 5 && knots[0] == -knots[2] && knots[1] == 0) isClosed = false;
+            else if (knotCount > 5 && knots[0] == -knots[4] && knots[1] == -knots[3] && knots[2] == 0) isClosed = false;
+
+            int degree = bCurve.Degree() + 2; //TODO: Change the sign in the Degree() method in engine         
+            
+
+
+            RHG.NurbsCurve.Create()
+            RHG.Curve rCrv = RHG.NurbsCurve.CreateControlPointCurve(rPoints, degree);
+            
+            
+            
+           
+
+            return rCrv as RHG.NurbsCurve;
         }
 
         /***************************************************/
