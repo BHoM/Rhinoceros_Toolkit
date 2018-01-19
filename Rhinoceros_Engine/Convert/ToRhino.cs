@@ -100,8 +100,8 @@ namespace BH.Engine.Rhinoceros
             int knotCount = knots.Count;
 
             if (weights.Count != ptCount || ptCount < 2) throw new ArgumentException("Insufficient amount of control points. Must be >2 and the same as the number of weights.");
-            if (knotCount == 5 && knots[0] == -knots[2] && knots[1] == 0) isClosed = false;
-            else if (knotCount > 5 && knots[0] == -knots[4] && knots[1] == -knots[3] && knots[2] == 0) isClosed = false;
+            if (knotCount == 5 && knots[0] == -knots[2] && knots[1] == 0) { isClosed = true; ctrlPts = ctrlPts.GetRange(2, ptCount - 2); }
+            else if (knotCount > 5 && knots[0] == -knots[4] && knots[1] == -knots[3] && knots[2] == 0) { isClosed = true; ctrlPts = ctrlPts.GetRange(1, ptCount - 1); }
 
             int degree = bCurve.Degree() + 2; //TODO: Change the sign in the Degree() method in engine     
 
