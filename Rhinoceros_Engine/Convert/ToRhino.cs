@@ -103,20 +103,10 @@ namespace BH.Engine.Rhinoceros
             if (knotCount == 5 && knots[0] == -knots[2] && knots[1] == 0) isClosed = false;
             else if (knotCount > 5 && knots[0] == -knots[4] && knots[1] == -knots[3] && knots[2] == 0) isClosed = false;
 
-            int degree = bCurve.Degree() + 2; //TODO: Change the sign in the Degree() method in engine         
-            
+            int degree = bCurve.Degree() + 2; //TODO: Change the sign in the Degree() method in engine     
 
-
-            RHG.NurbsCurve.Create()
-            RHG.Curve rCrv = RHG.NurbsCurve.CreateControlPointCurve(rPoints, degree);
-            
-            
-            
-           
-
-            return rCrv as RHG.NurbsCurve;
+            return RHG.NurbsCurve.Create(isClosed, degree, ctrlPts);
         }
-
         /***************************************************/
 
         public static RHG.PolyCurve ToRhino(this BHG.PolyCurve bPolyCurve)
