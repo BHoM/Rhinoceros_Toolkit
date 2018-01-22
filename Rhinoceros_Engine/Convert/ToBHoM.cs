@@ -131,11 +131,11 @@ namespace BH.Engine.Rhinoceros
         {
             IEnumerable<RHG.ControlPoint> rPoints = rCurve.Points;
             List<double> knots = rCurve.Knots.ToList();
-            if (!rCurve.IsClosed)
-            {
-                knots.Insert(0, knots.First());
-                knots.Add(knots.Last());
-            }
+            //if (!rCurve.IsClosed)
+            //{
+            //    knots.Insert(0, knots.First());
+            //    knots.Add(knots.Last());
+            //}
             return new BHG.NurbCurve
             {
                 ControlPoints = rPoints.Select(x => x.ToBHoM()).ToList(),
