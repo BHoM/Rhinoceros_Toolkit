@@ -11,7 +11,7 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static IEnumerable<ICurve> IApplyBooleanIntersection(this ICurve curveA, ICurve curveB)
+        public static List<ICurve> IApplyBooleanIntersection(this ICurve curveA, ICurve curveB)
         {           
             RG.Curve[] rCurves = RG.Curve.CreateBooleanIntersection(curveA.IToRhino(), curveB.IToRhino());
             return rCurves.Select(x => x.ToBHoM()).ToList();
