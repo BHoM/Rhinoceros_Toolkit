@@ -57,7 +57,7 @@
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToRhino.cs" />
     <Compile Include="Modify\BooleanUnion.cs" />
-    <Compile Include="Modify\BooleanIntersection.cs" />
+    <Compile Include="Query\BooleanIntersection.cs" />
     <Compile Include="Query\ExternalEdges.cs" />
     <Compile Include="Modify\Join.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
