@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BH.Engine.Rhinoceros
 {
-    public static partial class Modify
+    public static partial class Query
     {
         /***************************************************/
         /**** Public Methods  - Interfaces              ****/
