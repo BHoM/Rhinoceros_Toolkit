@@ -94,18 +94,20 @@ namespace BH.Engine.Rhinoceros
         {
             List<double> knots = bCurve.Knots;
             List<double> weights = bCurve.Weights;
-            List<RHG.Point3d> ctrlPts = bCurve.ControlPoints.Select(x => x.ToRhino()).ToList();
-            bool isClosed = false;
-            int ptCount = ctrlPts.Count;
-            int knotCount = knots.Count;
+            List<BHG.Point> ctrlPts = bCurve.ControlPoints;
 
-            if (weights.Count != ptCount || ptCount < 2) throw new ArgumentException("Insufficient amount of control points. Must be >2 and the same as the number of weights.");
-            if (knotCount == 5 && knots[0] == -knots[2] && knots[1] == 0) { isClosed = true; ctrlPts = ctrlPts.GetRange(1, ptCount-2); }
-            else if (knotCount > 5 && knots[0] == -knots[4] && knots[1] == -knots[3] && knots[2] == 0) { isClosed = true; ctrlPts = ctrlPts.GetRange(1, ptCount - 3); }
+            RHG.NurbsCurve rCurve = new RHG.NurbsCurve(3, false, bCurve.Degree() + 1, ctrlPts.Count);
 
-            int degree = bCurve.Degree() + 2; //TODO: Change the sign in the Degree() method in engine     
-
-            return RHG.NurbsCurve.Create(isClosed, degree, ctrlPts);
+            int kLen = knots.Count;
+            rCurve.Knots[0] = knots[0];
+            rCurve.Knots[kLen-1] = knots[kLen-1];
+            for (int i =0; i < ctrlPts.Count; i++)
+            {
+                BHG.Point pt = ctrlPts[i];
+                rCurve.Points.SetPoint(i, pt.X, pt.Y, pt.Z, weights[i]);
+                rCurve.Knots[i + 1] = knots[i + 1];
+            }
+            return rCurve;
         }
         /***************************************************/
 

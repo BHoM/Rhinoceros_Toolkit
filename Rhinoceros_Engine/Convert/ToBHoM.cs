@@ -168,6 +168,10 @@ namespace BH.Engine.Rhinoceros
                 rCurve.TryGetEllipse(out ellipse);
                 return ellipse.ToBHoM();
             }
+            else if (rCurve is RHG.NurbsCurve)
+            {
+                return ((RHG.NurbsCurve)rCurve).ToBHoM();
+            }
             else if (rCurve is RHG.PolyCurve)
             {
                 return ((RHG.PolyCurve)rCurve).ToBHoM();
