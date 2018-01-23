@@ -109,6 +109,7 @@ namespace BH.Engine.Rhinoceros
             }
             return rCurve;
         }
+
         /***************************************************/
 
         public static RHG.PolyCurve ToRhino(this BHG.PolyCurve bPolyCurve)
