@@ -10,11 +10,6 @@ namespace BH.Adapter.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
-        public IEnumerable<object> Pull(IEnumerable<IQuery> query, Dictionary<string, string> config = null)
-        {
-            throw new NotImplementedException();
-        }
-
 
         /***************************************************/
     }

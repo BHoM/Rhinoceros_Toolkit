@@ -9,11 +9,6 @@ namespace BH.Adapter.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
-        public bool Push(IEnumerable<object> objects, string tag = "", Dictionary<string, string> config = null)
-        {
-            throw new NotImplementedException();
-        }
-
 
         /***************************************************/
     }
