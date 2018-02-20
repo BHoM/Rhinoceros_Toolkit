@@ -144,24 +144,11 @@ namespace BH.Engine.Rhinoceros
         public static BHG.ICurve ToBHoM(this RHG.Curve rCurve)
         {
             Type curveType = rCurve.GetType();
-            if (rCurve.IsPolyline() || typeof(RHG.PolylineCurve).IsAssignableFrom(curveType))
-            {
-                RHG.Polyline polyline = new RHG.Polyline();
-                rCurve.TryGetPolyline(out polyline);
-                return polyline.ToBHoM();
-            }
-            else if (rCurve.IsLinear())
+            if (rCurve.IsLinear())
             {
                 return new BHG.Line { Start = rCurve.PointAtStart.ToBHoM(), End = rCurve.PointAtEnd.ToBHoM(), Infinite = false };
             }
-
-            if (rCurve.IsEllipse())
-            {
-                RHG.Ellipse ellipse = new RHG.Ellipse();
-                rCurve.TryGetEllipse(out ellipse);
-                return ellipse.ToBHoM();
-            }
-            else if (rCurve.IsCircle())
+            if (rCurve.IsCircle())
             {
                 RHG.Circle circle = new RHG.Circle();
                 rCurve.TryGetCircle(out circle);
@@ -173,8 +160,19 @@ namespace BH.Engine.Rhinoceros
                 rCurve.TryGetArc(out arc);
                 return arc.ToBHoM();
             }
-
-            if (rCurve is RHG.NurbsCurve)
+            else if (rCurve.IsPolyline() || typeof(RHG.PolylineCurve).IsAssignableFrom(curveType))
+            {
+                RHG.Polyline polyline = new RHG.Polyline();
+                rCurve.TryGetPolyline(out polyline);
+                return polyline.ToBHoM();
+            }
+            else if (rCurve.IsEllipse())
+            {
+                RHG.Ellipse ellipse = new RHG.Ellipse();
+                rCurve.TryGetEllipse(out ellipse);
+                return ellipse.ToBHoM();
+            }
+            else if (rCurve is RHG.NurbsCurve)
             {
                 return ((RHG.NurbsCurve)rCurve).ToBHoM();
             }
