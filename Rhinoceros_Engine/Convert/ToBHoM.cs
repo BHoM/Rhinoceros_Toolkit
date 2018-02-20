@@ -144,7 +144,7 @@ namespace BH.Engine.Rhinoceros
         public static BHG.ICurve ToBHoM(this RHG.Curve rCurve)
         {
             Type curveType = rCurve.GetType();
-            if (rCurve.IsLinear())
+            if (rCurve.IsLinear() && rCurve.SpanCount < 2)
             {
                 return new BHG.Line { Start = rCurve.PointAtStart.ToBHoM(), End = rCurve.PointAtEnd.ToBHoM(), Infinite = false };
             }
