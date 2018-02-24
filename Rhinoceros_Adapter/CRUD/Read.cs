@@ -11,7 +11,7 @@ namespace BH.Adapter.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected override IEnumerable<IObject> Read(Type type, IList ids)
+        protected override IEnumerable<IBHoMObject> Read(Type type, IList ids)
         {
             throw new NotImplementedException();
         }
