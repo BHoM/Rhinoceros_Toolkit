@@ -12,14 +12,14 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static BHG.IBHoMGeometry IToBHoM(this RHG.GeometryBase geometry)
+        public static BHG.IGeometry IToBHoM(this RHG.GeometryBase geometry)
         {
             return Convert.ToBHoM(geometry as dynamic);
         }
 
         /***************************************************/
 
-        public static BHG.IBHoMGeometry IToBHoM<T>(this Rhino.IEpsilonComparable<T> geometry)
+        public static BHG.IGeometry IToBHoM<T>(this Rhino.IEpsilonComparable<T> geometry)
         {
             return Convert.ToBHoM(geometry as dynamic);
         }

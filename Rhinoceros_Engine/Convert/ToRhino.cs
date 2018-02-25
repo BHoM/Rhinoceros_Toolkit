@@ -13,7 +13,7 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static object IToRhino(this BHG.IBHoMGeometry geometry)
+        public static object IToRhino(this BHG.IGeometry geometry)
         {
             return Convert.ToRhino(geometry as dynamic);
         }
