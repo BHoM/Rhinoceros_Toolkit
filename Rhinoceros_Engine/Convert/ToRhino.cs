@@ -15,21 +15,21 @@ namespace BH.Engine.Rhinoceros
 
         public static object IToRhino(this BHG.IGeometry geometry)
         {
-            return Convert.ToRhino(geometry as dynamic);
+            return (geometry == default(BHG.IGeometry)) ? null : Convert.ToRhino(geometry as dynamic);
         }
 
         /***************************************************/
 
-        public static RHG.Curve IToRhino(this BHG.ICurve geometry)
+        public static RHG.Curve IToRhino(this BHG.ICurve curve)
         {
-            return Convert.ToRhino(geometry as dynamic);
+            return (curve == null) ? null : Convert.ToRhino(curve as dynamic);
         }
 
         /***************************************************/
 
-        public static RHG.Surface IToRhino(this BHG.ISurface geometry)
+        public static RHG.Surface IToRhino(this BHG.ISurface surface)
         {
-            return Convert.ToRhino(geometry as dynamic);
+            return (surface == null) ? null : Convert.ToRhino(surface as dynamic);
         }
 
 
@@ -100,8 +100,8 @@ namespace BH.Engine.Rhinoceros
 
             int kLen = knots.Count;
             rCurve.Knots[0] = knots[0];
-            rCurve.Knots[kLen-1] = knots[kLen-1];
-            for (int i =0; i < ctrlPts.Count; i++)
+            rCurve.Knots[kLen - 1] = knots[kLen - 1];
+            for (int i = 0; i < ctrlPts.Count; i++)
             {
                 BHG.Point pt = ctrlPts[i];
                 rCurve.Points.SetPoint(i, pt.X, pt.Y, pt.Z, weights[i]);
