@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhinoceros_Adapter", "Rhino
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhinoceros_Engine", "Rhinoceros_Engine\Rhinoceros_Engine.csproj", "{93CEDC69-F9C0-4E08-9E94-07F120D811DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhinoceros_Test", "Rhinoceros_Test\Rhinoceros_Test.csproj", "{1087D873-FF6B-4002-8222-99D4F38AB509}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1087D873-FF6B-4002-8222-99D4F38AB509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1087D873-FF6B-4002-8222-99D4F38AB509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1087D873-FF6B-4002-8222-99D4F38AB509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1087D873-FF6B-4002-8222-99D4F38AB509}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
