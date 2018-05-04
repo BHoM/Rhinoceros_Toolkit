@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToRhino.cs" />
+    <Compile Include="Create\RandomGeometry.cs" />
     <Compile Include="Modify\BooleanUnion.cs" />
     <Compile Include="Query\BooleanIntersection.cs" />
     <Compile Include="Query\ExternalEdges.cs" />
