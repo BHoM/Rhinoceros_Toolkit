@@ -71,9 +71,16 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.Plane ToBHoM(this RHG.Plane plane)
+        //public static BHG.Plane ToBHoM(this RHG.Plane plane)
+        //{
+        //    return new BHG.Plane { Origin = plane.Origin.ToBHoM(), Normal = plane.Normal.ToBHoM() };
+        //}
+
+        /***************************************************/
+
+        public static BHG.CoordinateSystem ToBHoM(this RHG.Plane plane)
         {
-            return new BHG.Plane { Origin = plane.Origin.ToBHoM(), Normal = plane.Normal.ToBHoM() };
+            return new BHG.CoordinateSystem(plane.XAxis.ToBHoM(), plane.YAxis.ToBHoM(), plane.ZAxis.ToBHoM(), plane.Origin.ToBHoM());
         }
 
         /***************************************************/
@@ -110,14 +117,14 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Arc ToBHoM(this RHG.Arc arc)
         {
-            return new BHG.Arc { Start = arc.StartPoint.ToBHoM(), Middle = arc.MidPoint.ToBHoM(), End = arc.EndPoint.ToBHoM() };
+            return new BHG.Arc { CoordinateSystem = arc.Plane.ToBHoM(), Angle = arc.Angle, Radius = arc.Radius };
         }
 
         /***************************************************/
 
         public static BHG.Arc ToBHoM(this RHG.ArcCurve arcCurve)
         {
-            return new BHG.Arc { Start = arcCurve.Arc.StartPoint.ToBHoM(), Middle = arcCurve.Arc.MidPoint.ToBHoM(), End = arcCurve.Arc.EndPoint.ToBHoM() };
+            return arcCurve.Arc.ToBHoM();
         }
 
         /***************************************************/

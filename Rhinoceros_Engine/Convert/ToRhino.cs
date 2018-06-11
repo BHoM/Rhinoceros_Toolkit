@@ -58,6 +58,13 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static RHG.Plane ToRhino(this BHG.CoordinateSystem coordinateSystem)
+        {
+            return new RHG.Plane(coordinateSystem.Origin.ToRhino(), coordinateSystem.X.ToRhino(), coordinateSystem.Y.ToRhino());
+        }
+
+        /***************************************************/
+
         public static RHG.Transform ToRhino(this BHG.TransformMatrix bhTrans)
         {
             RHG.Transform rhTrans = new RHG.Transform();
@@ -90,7 +97,7 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.ArcCurve ToRhino(this BHG.Arc arc)
         {
-            return new RHG.ArcCurve(new RHG.Arc(arc.Start.ToRhino(), arc.Middle.ToRhino(), arc.End.ToRhino()));
+            return new RHG.ArcCurve(new RHG.Arc(arc.CoordinateSystem.ToRhino(), arc.Radius, arc.Angle));
         }
 
         /***************************************************/
