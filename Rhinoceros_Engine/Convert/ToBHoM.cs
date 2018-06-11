@@ -77,6 +77,34 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
+
+        public static BHG.TransformMatrix ToBHoM(this RHG.Transform rhTrans)
+        {
+            BHG.TransformMatrix bhTrans = new BHG.TransformMatrix();
+            bhTrans.Matrix[0, 0] = rhTrans[0, 0];
+            bhTrans.Matrix[0, 1] = rhTrans[0, 1];
+            bhTrans.Matrix[0, 2] = rhTrans[0, 2];
+            bhTrans.Matrix[0, 3] = rhTrans[0, 3];
+
+            bhTrans.Matrix[1, 0] = rhTrans[1, 0];
+            bhTrans.Matrix[1, 1] = rhTrans[1, 1];
+            bhTrans.Matrix[1, 2] = rhTrans[1, 2];
+            bhTrans.Matrix[1, 3] = rhTrans[1, 3];
+
+            bhTrans.Matrix[2, 0] = rhTrans[2, 0];
+            bhTrans.Matrix[2, 1] = rhTrans[2, 1];
+            bhTrans.Matrix[2, 2] = rhTrans[2, 2];
+            bhTrans.Matrix[2, 3] = rhTrans[2, 3];
+
+            bhTrans.Matrix[3, 0] = rhTrans[3, 0];
+            bhTrans.Matrix[3, 1] = rhTrans[3, 1];
+            bhTrans.Matrix[3, 2] = rhTrans[3, 2];
+            bhTrans.Matrix[3, 3] = rhTrans[3, 3];
+
+            return bhTrans;
+        }
+
+        /***************************************************/
         /**** Public Methods  - Curves                  ****/
         /***************************************************/
 
