@@ -117,7 +117,11 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Arc ToBHoM(this RHG.Arc arc)
         {
-            return new BHG.Arc { CoordinateSystem = arc.Plane.ToBHoM(), Angle = arc.Angle, Radius = arc.Radius };
+            BHG.Vector x = Geometry.Modify.Normalise((arc.StartPoint - arc.Center).ToBHoM());
+            BHG.Vector z = arc.Plane.Normal.ToBHoM();
+            BHG.Vector y = Geometry.Query.CrossProduct(z, x);
+
+            return new BHG.Arc { CoordinateSystem = new BHG.CoordinateSystem(x,y,z,arc.Center.ToBHoM()), Angle = arc.Angle, Radius = arc.Radius };
         }
 
         /***************************************************/
