@@ -14,7 +14,7 @@ namespace BH.Engine.Rhinoceros
         public static bool IsRhinoEquivalent(Type type)     
         {
             if (typeof(IGeometry).IsAssignableFrom(type))
-                return (type != typeof(Extrusion) && type != typeof(Pipe) && type != typeof(Loft));
+                return (type != typeof(Extrusion) && type != typeof(Pipe) && type != typeof(Loft) && type != typeof(CompositeGeometry));
             else
                 return false;
         }
