@@ -97,7 +97,12 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.ArcCurve ToRhino(this BHG.Arc arc)
         {
-            return new RHG.ArcCurve(new RHG.Arc(arc.CoordinateSystem.ToRhino(), arc.Radius, arc.Angle));
+            return new RHG.ArcCurve(new RHG.Arc()
+            {
+                Plane = arc.CoordinateSystem.ToRhino(),
+                AngleDomain = new RHG.Interval(arc.StartAngle, arc.EndAngle),
+                Radius = arc.Radius
+            });
         }
 
         /***************************************************/
