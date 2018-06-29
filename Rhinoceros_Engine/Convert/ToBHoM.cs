@@ -69,12 +69,6 @@ namespace BH.Engine.Rhinoceros
             return new BHG.Vector { X = vector.X, Y = vector.Y, Z = vector.Z };
         }
 
-        /***************************************************/
-
-        //public static BHG.Plane ToBHoM(this RHG.Plane plane)
-        //{
-        //    return new BHG.Plane { Origin = plane.Origin.ToBHoM(), Normal = plane.Normal.ToBHoM() };
-        //}
 
         /***************************************************/
 
@@ -131,9 +125,16 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.Arc ToBHoM(this RHG.ArcCurve arcCurve)
+        public static BHG.ICurve ToBHoM(this RHG.ArcCurve arcCurve)
         {
-            return arcCurve.Arc.ToBHoM();
+            if (arcCurve.IsCompleteCircle)
+            {
+                RHG.Circle circle;
+                arcCurve.TryGetCircle(out circle);
+                return circle.ToBHoM();
+            }
+            else
+                return arcCurve.Arc.ToBHoM();
         }
 
         /***************************************************/
