@@ -95,14 +95,14 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Curves                  ****/
         /***************************************************/
 
-        public static RHG.ArcCurve ToRhino(this BHG.Arc arc)
+        public static RHG.Arc ToRhino(this BHG.Arc arc)
         {
-            return new RHG.ArcCurve(new RHG.Arc()
+            return new RHG.Arc()
             {
                 Plane = arc.CoordinateSystem.ToRhino(),
                 AngleDomain = new RHG.Interval(arc.StartAngle, arc.EndAngle),
                 Radius = arc.Radius
-            });
+            };
         }
 
         /***************************************************/
@@ -122,9 +122,9 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.LineCurve ToRhino(this BHG.Line line)
+        public static RHG.Line ToRhino(this BHG.Line line)
         {
-            return new RHG.LineCurve(line.Start.ToRhino(), line.End.ToRhino());
+            return new RHG.Line(line.Start.ToRhino(), line.End.ToRhino());
         }
 
         /***************************************************/
