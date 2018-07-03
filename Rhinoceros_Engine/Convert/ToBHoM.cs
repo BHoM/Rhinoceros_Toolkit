@@ -223,7 +223,7 @@ namespace BH.Engine.Rhinoceros
             }
             else if (rCurve is RHG.PolyCurve)
             {
-                return ((RHG.PolyCurve)rCurve).ToBHoM();
+                return ((RHG.PolyCurve)rCurve).ToBHoM();  //The test of IsPolyline above is very important to make sure we can cast to PolyCurve here
             }
             else
             {
@@ -233,10 +233,17 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.PolyCurve ToBHoM(this RHG.PolyCurve polyCurve)
+        public static BHG.ICurve ToBHoM(this RHG.PolyCurve polyCurve)
         {
             polyCurve.RemoveNesting();
-            return new BHG.PolyCurve { Curves = polyCurve.Explode().Select(x => x.ToBHoM()).ToList() };
+            if (polyCurve.IsPolyline())
+            {
+                RHG.Polyline polyline;
+                polyCurve.TryGetPolyline(out polyline);
+                return polyline.ToBHoM();
+            }
+            else
+                return new BHG.PolyCurve { Curves = polyCurve.Explode().Select(x => x.ToBHoM()).ToList() };
         }
 
         /***************************************************/
