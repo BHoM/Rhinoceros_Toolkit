@@ -22,6 +22,19 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Curve IToRhino(this BHG.ICurve curve)
         {
+            object result = Convert.ToRhino(curve as dynamic);
+            if (result is RHG.Curve)
+                return (RHG.Curve)result;
+            else if (result is RHG.Arc)
+                return new RHG.ArcCurve((RHG.Arc)result);
+            else if (result is RHG.Circle)
+                return new RHG.ArcCurve((RHG.Circle)result);
+            else if (result is RHG.Ellipse)
+                return ((RHG.Ellipse)result).ToNurbsCurve();
+            else if (result is RHG.Line)
+                return new RHG.LineCurve((RHG.Line)result);
+
+
             return (curve == null) ? null : Convert.ToRhino(curve as dynamic);
         }
 
