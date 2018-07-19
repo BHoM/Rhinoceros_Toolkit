@@ -73,7 +73,6 @@
     <Compile Include="Create\Vector.cs" />
     <Compile Include="Query\IsEqual.cs" />
     <Compile Include="Query\IsRhinoEquivalent.cs" />
-    <Compile Include="Query\ExternalEdges.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
