@@ -15,7 +15,7 @@ namespace BH.Engine.Rhinoceros
 
         public static object IToRhino(this BHG.IGeometry geometry)
         {
-            return (geometry == default(BHG.IGeometry)) ? null : Convert.ToRhino(geometry as dynamic);
+            return Convert.ToRhino(geometry as dynamic);
         }
 
         /***************************************************/
@@ -35,14 +35,14 @@ namespace BH.Engine.Rhinoceros
                 return new RHG.LineCurve((RHG.Line)result);
 
 
-            return (curve == null) ? null : Convert.ToRhino(curve as dynamic);
+            return Convert.ToRhino(curve as dynamic);
         }
 
         /***************************************************/
 
         public static RHG.Surface IToRhino(this BHG.ISurface surface)
         {
-            return (surface == null) ? null : Convert.ToRhino(surface as dynamic);
+            return Convert.ToRhino(surface as dynamic);
         }
 
 
@@ -52,6 +52,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Point3d ToRhino(this BHG.Point point)
         {
+            if (point == null) return default(RHG.Point3d);
+
             return new RHG.Point3d(point.X, point.Y, point.Z);
         }
 
@@ -59,6 +61,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Vector3d ToRhino(this BHG.Vector vector)
         {
+            if (vector == null) return default(RHG.Vector3d);
+
             return new RHG.Vector3d(vector.X, vector.Y, vector.Z);
         }
 
@@ -66,6 +70,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Plane ToRhino(this BHG.Plane plane)
         {
+            if (plane == null) return default(RHG.Plane);
+
             return new RHG.Plane(plane.Origin.ToRhino(), plane.Normal.ToRhino());
         }
 
@@ -73,6 +79,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Plane ToRhino(this BHG.CoordinateSystem coordinateSystem)
         {
+            if (coordinateSystem == null) return default(RHG.Plane);
+
             return new RHG.Plane(coordinateSystem.Origin.ToRhino(), coordinateSystem.X.ToRhino(), coordinateSystem.Y.ToRhino());
         }
 
@@ -80,6 +88,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Transform ToRhino(this BHG.TransformMatrix bhTrans)
         {
+            if (bhTrans == null) return default(RHG.Transform);
+
             RHG.Transform rhTrans = new RHG.Transform();
             rhTrans[0, 0] = bhTrans.Matrix[0, 0];
             rhTrans[0, 1] = bhTrans.Matrix[0, 1];
@@ -104,12 +114,15 @@ namespace BH.Engine.Rhinoceros
             return rhTrans;
         }
 
+
         /***************************************************/
         /**** Public Methods  - Curves                  ****/
         /***************************************************/
 
         public static RHG.Arc ToRhino(this BHG.Arc arc)
         {
+            if (arc == null) return default(RHG.Arc);
+
             return new RHG.Arc()
             {
                 Plane = arc.CoordinateSystem.ToRhino(),
@@ -122,6 +135,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Circle ToRhino(this BHG.Circle circle)
         {
+            if (circle == null) return default(RHG.Circle);
+
             return new RHG.Circle(new RHG.Plane(circle.Centre.ToRhino(), circle.Normal.ToRhino()), circle.Radius);
         }
 
@@ -129,6 +144,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Ellipse ToRhino(this BHG.Ellipse ellipse)
         {
+            if (ellipse == null) return default(RHG.Ellipse);
+
             RHG.Plane plane = new RHG.Plane(ellipse.Centre.ToRhino(), ellipse.Axis1.ToRhino(), ellipse.Axis2.ToRhino());
             return new RHG.Ellipse(plane, ellipse.Radius1, ellipse.Radius2);
         }
@@ -137,6 +154,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Line ToRhino(this BHG.Line line)
         {
+            if (line == null) return default(RHG.Line);
+
             return new RHG.Line(line.Start.ToRhino(), line.End.ToRhino());
         }
 
@@ -144,6 +163,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.NurbsCurve ToRhino(this BHG.NurbCurve bCurve)
         {
+            if (bCurve == null) return null;
+
             List<double> knots = bCurve.Knots;
             List<double> weights = bCurve.Weights;
             List<BHG.Point> ctrlPts = bCurve.ControlPoints;
@@ -166,6 +187,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.PolyCurve ToRhino(this BHG.PolyCurve bPolyCurve)
         {
+            if (bPolyCurve == null) return null;
+
             RHG.PolyCurve rPolycurve = new RHG.PolyCurve();
             bPolyCurve.Curves.ForEach(curve => rPolycurve.Append(curve.IToRhino()));
             return rPolycurve;
@@ -175,6 +198,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.PolylineCurve ToRhino(this BHG.Polyline polyline)
         {
+            if (polyline == null) return null;
+
             return new RHG.PolylineCurve(polyline.ControlPoints.Select(x => x.ToRhino()));
         }
 
@@ -185,6 +210,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.BoundingBox ToRhino(this BHG.BoundingBox boundingBox)
         {
+            if (boundingBox == null) return default(RHG.BoundingBox);
+
             return new RHG.BoundingBox(boundingBox.Min.ToRhino(), boundingBox.Max.ToRhino());
         }
 
@@ -219,6 +246,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Mesh ToRhino(this BHG.Mesh mesh)
         {
+            if (mesh == null) return null;
+
             List<RHG.Point3d> rVertices = mesh.Vertices.Select(x => x.ToRhino()).ToList();
             List<BHG.Face> faces = mesh.Faces;
             List<RHG.MeshFace> rFaces = new List<RHG.MeshFace>();
@@ -243,6 +272,8 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.MeshFace ToBHoM(this BHG.Face rFace)
         {
+            if (rFace == null) return default(RHG.MeshFace);
+
             return new RHG.MeshFace(rFace.A, rFace.B, rFace.C, rFace.D);
         }
 
@@ -253,6 +284,8 @@ namespace BH.Engine.Rhinoceros
 
         public static List<object> ToRhino(this BHG.CompositeGeometry geometries)
         {
+            if (geometries == null) return new List<object>();
+
             return geometries.Elements.Select(x => x.IToRhino()).ToList();
         }
 
