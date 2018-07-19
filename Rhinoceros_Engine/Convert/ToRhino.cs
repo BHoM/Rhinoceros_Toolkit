@@ -239,6 +239,13 @@ namespace BH.Engine.Rhinoceros
             return rMesh;
         }
 
+        /***************************************************/
+
+        public static RHG.MeshFace ToBHoM(this BHG.Face rFace)
+        {
+            return new RHG.MeshFace(rFace.A, rFace.B, rFace.C, rFace.D);
+        }
+
 
         /***************************************************/
         /**** Miscellanea                               ****/
