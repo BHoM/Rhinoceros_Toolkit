@@ -111,6 +111,7 @@ namespace BH.Engine.Rhinoceros
             return bhTrans;
         }
 
+
         /***************************************************/
         /**** Public Methods  - Curves                  ****/
         /***************************************************/
@@ -172,10 +173,18 @@ namespace BH.Engine.Rhinoceros
             return new BHG.Line { Start = line.PointAtStart.ToBHoM(), End = line.PointAtEnd.ToBHoM() };
         }
 
-        public static BHG.NurbCurve ToBHoM(this RHG.NurbsCurve rCurve)
+        /***************************************************/
+
+        public static BHG.ICurve ToBHoM(this RHG.NurbsCurve rCurve)
         {
+            if (rCurve.IsEllipse())
+            {
+                RHG.Ellipse ellipse = new RHG.Ellipse();
+                rCurve.TryGetEllipse(out ellipse);
+                return ellipse.ToBHoM();
+            }
             IEnumerable<RHG.ControlPoint> rPoints = rCurve.Points;
-            List<double> knots = rCurve.Knots.ToList();          
+            List<double> knots = rCurve.Knots.ToList();
             return new BHG.NurbCurve
             {
                 ControlPoints = rPoints.Select(x => x.ToBHoM()).ToList(),
@@ -262,6 +271,7 @@ namespace BH.Engine.Rhinoceros
             return rPolyline.ToBHoM();
         }
 
+
         /***************************************************/
         /**** Public Methods  - Surfaces                ****/
         /***************************************************/
@@ -314,6 +324,7 @@ namespace BH.Engine.Rhinoceros
             extrusion.PathLineCurve();
             throw new NotImplementedException(); // TODO Rhino_Adapter conversion from Extrusion
         }
+
 
         /***************************************************/
         /**** Public Methods  - Mesh                    ****/
