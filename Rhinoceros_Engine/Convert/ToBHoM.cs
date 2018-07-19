@@ -14,14 +14,14 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.IGeometry IToBHoM(this RHG.GeometryBase geometry)
         {
-            return (geometry == null) ? null : Convert.ToBHoM(geometry as dynamic);
+            return Convert.ToBHoM(geometry as dynamic);
         }
 
         /***************************************************/
 
         public static BHG.IGeometry IToBHoM<T>(this Rhino.IEpsilonComparable<T> geometry)
         {
-            return (geometry == null) ? null : Convert.ToBHoM(geometry as dynamic);
+            return Convert.ToBHoM(geometry as dynamic);
         }
 
 
@@ -45,6 +45,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Point ToBHoM(this RHG.Point rhinoPoint)
         {
+            if (rhinoPoint == null) return null;
+
             return new BHG.Point { X = rhinoPoint.Location.X, Y = rhinoPoint.Location.Y, Z = rhinoPoint.Location.Z };
         }
 
@@ -68,7 +70,6 @@ namespace BH.Engine.Rhinoceros
         {
             return new BHG.Vector { X = vector.X, Y = vector.Y, Z = vector.Z };
         }
-
 
         /***************************************************/
 
@@ -128,6 +129,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.ICurve ToBHoM(this RHG.ArcCurve arcCurve)
         {
+            if (arcCurve == null) return null;
+
             if (arcCurve.IsCompleteCircle)
             {
                 RHG.Circle circle;
@@ -170,6 +173,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Line ToBHoM(this RHG.LineCurve line)
         {
+            if (line == null) return null;
+
             return new BHG.Line { Start = line.PointAtStart.ToBHoM(), End = line.PointAtEnd.ToBHoM() };
         }
 
@@ -177,6 +182,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.ICurve ToBHoM(this RHG.NurbsCurve rCurve)
         {
+            if (rCurve == null) return null;
+
             if (rCurve.IsEllipse())
             {
                 RHG.Ellipse ellipse = new RHG.Ellipse();
@@ -197,6 +204,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.ICurve ToBHoM(this RHG.Curve rCurve)
         {
+            if (rCurve == null) return null;
+
             Type curveType = rCurve.GetType();
             if (rCurve.IsLinear() && rCurve.SpanCount < 2)
             {
@@ -244,6 +253,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.ICurve ToBHoM(this RHG.PolyCurve polyCurve)
         {
+            if (polyCurve == null) return null;
+
             polyCurve.RemoveNesting();
             if (polyCurve.IsPolyline())
             {
@@ -259,6 +270,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Polyline ToBHoM(this RHG.Polyline polyline)
         {
+            if (polyline == null) return null;
+
             return new BHG.Polyline { ControlPoints = polyline.Select(x => x.ToBHoM()).ToList() };
         }
 
@@ -266,6 +279,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Polyline ToBHoM(this RHG.PolylineCurve polyline)
         {
+            if (polyline == null) return null;
+
             if (!polyline.IsPolyline()) { return null; }
             RHG.Polyline rPolyline; polyline.TryGetPolyline(out rPolyline);
             return rPolyline.ToBHoM();
@@ -292,6 +307,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.NurbSurface ToBHoM(this RHG.Surface surface)
         {
+            if (surface == null) return null;
+
             return surface.ToNurbsSurface().ToBHoM();
         }
 
@@ -299,6 +316,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.NurbSurface ToBHoM(this RHG.NurbsSurface surface)
         {
+            if (surface == null) return null;
+
             return new BHG.NurbSurface
             {
                 ControlPoints = surface.Points.Select(x => x.Location.ToBHoM()).ToList(),
@@ -312,6 +331,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.ISurface ToBHoM(this RHG.Brep brep)
         {
+            if (brep == null) return null;
+
             if (brep.IsSurface)
                 return brep.Faces[0].ToBHoM();
             return null;
@@ -321,6 +342,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Extrusion ToBHoM(this RHG.Extrusion extrusion)
         {
+            if (extrusion == null) return null;
+
             extrusion.PathLineCurve();
             throw new NotImplementedException(); // TODO Rhino_Adapter conversion from Extrusion
         }
@@ -332,6 +355,8 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Mesh ToBHoM(this RHG.Mesh rMesh)
         {
+            if (rMesh == null) return null;
+
             List<BHG.Point> vertices = rMesh.Vertices.ToList().Select(x => x.ToBHoM()).ToList();
             List<RHG.MeshFace> rFaces = rMesh.Faces.ToList();
             List<BHG.Face> faces = new List<BHG.Face>();
