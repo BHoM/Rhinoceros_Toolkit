@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BHoM">
+    <Reference Include="BHoM, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
       <Private>False</Private>
     </Reference>
@@ -40,9 +41,13 @@
       <HintPath>..\..\BHoM_Engine\Build\Geometry_Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Reflection_Engine">
+      <HintPath>..\..\BHoM_Engine\Build\Reflection_Engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
       <HintPath>..\packages\RhinoCommon.5.12.50810.13095\lib\net35\RhinoCommon.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,9 +61,17 @@
   <ItemGroup>
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToRhino.cs" />
-    <Compile Include="Create\RandomGeometry.cs" />
-    <Compile Include="Modify\BooleanUnion.cs" />
-    <Compile Include="Query\BooleanIntersection.cs" />
+    <Compile Include="Create\Arc.cs" />
+    <Compile Include="Create\Circle.cs" />
+    <Compile Include="Create\Collections.cs" />
+    <Compile Include="Create\Geometry.cs" />
+    <Compile Include="Create\Line.cs" />
+    <Compile Include="Create\NurbsCurve.cs" />
+    <Compile Include="Create\Point.cs" />
+    <Compile Include="Create\PolyCurve.cs" />
+    <Compile Include="Create\Polyline.cs" />
+    <Compile Include="Create\Vector.cs" />
+    <Compile Include="Query\IsEqual.cs" />
     <Compile Include="Query\IsRhinoEquivalent.cs" />
     <Compile Include="Query\ExternalEdges.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +82,9 @@
       <Name>Rhinoceros_Adapter</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modify\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
