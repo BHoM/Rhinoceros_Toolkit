@@ -13,7 +13,7 @@ namespace BH.Engine.Rhinoceros
 
         public static bool IsEqual(this BHG.Point bhPoint, RHG.Point3d rhPoint)
         {
-            if (bhPoint == null & rhPoint == null)
+            if (bhPoint == null & rhPoint == default(RHG.Point3d))
                 return true;
             return (bhPoint.X == rhPoint.X && bhPoint.Y == rhPoint.Y && bhPoint.Z == rhPoint.Z);
         }
@@ -22,7 +22,7 @@ namespace BH.Engine.Rhinoceros
 
         public static bool IsEqual(this BHG.Point bhPoint, RHG.Point3f rhPoint)
         {
-            if (bhPoint == null & rhPoint == null)
+            if (bhPoint == null & rhPoint == default(RHG.Point3f))
                 return true;
             return (bhPoint.X == rhPoint.X && bhPoint.Y == rhPoint.Y && bhPoint.Z == rhPoint.Z);
         }
@@ -40,7 +40,7 @@ namespace BH.Engine.Rhinoceros
 
         public static bool IsEqual(this BHG.Vector bhVector, RHG.Vector3d rhVector)
         {
-            if (bhVector == null & rhVector == null)
+            if (bhVector == null & rhVector == default(RHG.Vector3d))
                 return true;
             return (bhVector.X == rhVector.X && bhVector.Y == rhVector.Y && bhVector.Z == rhVector.Z);
         }
@@ -49,7 +49,7 @@ namespace BH.Engine.Rhinoceros
 
         public static bool IsEqual(this BHG.Vector bhVector, RHG.Vector3f rhVector)
         {
-            if (bhVector == null & rhVector == null)
+            if (bhVector == null & rhVector == default(RHG.Vector3f))
                 return true;
             return (bhVector.X == rhVector.X && bhVector.Y == rhVector.Y && bhVector.Z == rhVector.Z);
         }
@@ -61,7 +61,7 @@ namespace BH.Engine.Rhinoceros
 
         public static bool IsEqual(this BHG.Arc bhArc, RHG.Arc rhArc)
         {
-            if (bhArc == null & rhArc == null)
+            if (bhArc == null & rhArc == default(RHG.Arc))
                 return true;
             return (bhArc.CoordinateSystem == rhArc.Plane.ToBHoM() & bhArc.Radius == rhArc.Radius &
                     bhArc.StartAngle == rhArc.StartAngle & bhArc.EndAngle == rhArc.EndAngle);
@@ -93,7 +93,7 @@ namespace BH.Engine.Rhinoceros
 
         public static bool IsEqual(this BHG.Line bhLine, RHG.Line rhLine)
         {
-            if (bhLine == null & rhLine == null)
+            if (bhLine == null & rhLine == default(RHG.Line))
                 return true;
             return (bhLine.Start.IsEqual(rhLine.PointAt(0)) && bhLine.End.IsEqual(rhLine.PointAt(1)));
         }
