@@ -15,13 +15,15 @@ namespace BH.Engine.Rhinoceros
 
         public static object IToRhino(this BHG.IGeometry geometry)
         {
-            return Convert.ToRhino(geometry as dynamic);
+            return (geometry == default(BHG.IGeometry)) ? null : Convert.ToRhino(geometry as dynamic);
         }
 
         /***************************************************/
 
         public static RHG.Curve IToRhino(this BHG.ICurve curve)
         {
+            if (curve == null) return null;
+
             object result = Convert.ToRhino(curve as dynamic);
             if (result is RHG.Curve)
                 return (RHG.Curve)result;
@@ -42,7 +44,7 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Surface IToRhino(this BHG.ISurface surface)
         {
-            return Convert.ToRhino(surface as dynamic);
+            return (surface == default(BHG.ISurface)) ? null : Convert.ToRhino(surface as dynamic);
         }
 
 
