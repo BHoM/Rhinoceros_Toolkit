@@ -40,8 +40,15 @@ namespace BH.Test.Rhinoceros
         {
             foreach (string file in m_RequiredFiles)
             {
-                string targetPath = System.IO.Path.Combine(Environment.CurrentDirectory, file);
-                System.IO.File.Delete(targetPath);
+                try
+                {
+                    string targetPath = System.IO.Path.Combine(Environment.CurrentDirectory, file);
+                    System.IO.File.Delete(targetPath);
+                }
+                catch
+                {
+
+                }
             }
         }
 
