@@ -88,6 +88,13 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static RHG.Quaternion ToRhino(this BHG.Quaternion quartenion)
+        {
+            return (quartenion == null) ? default(RHG.Quaternion) : new RHG.Quaternion(quartenion.X, quartenion.Y, quartenion.Z, quartenion.W);
+        }
+
+        /***************************************************/
+
         public static RHG.Transform ToRhino(this BHG.TransformMatrix bhTrans)
         {
             if (bhTrans == null) return default(RHG.Transform);
