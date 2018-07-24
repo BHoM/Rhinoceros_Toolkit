@@ -86,6 +86,19 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static BHG.Quaternion ToBHoM(this RHG.Quaternion quaternion)
+        {
+            return new BHG.Quaternion
+            {
+                X = quaternion.A,
+                Y = quaternion.B,
+                Z = quaternion.C,
+                W = quaternion.D
+            };
+        }
+
+        /***************************************************/
+
         public static BHG.TransformMatrix ToBHoM(this RHG.Transform rhTrans)
         {
             BHG.TransformMatrix bhTrans = new BHG.TransformMatrix();
