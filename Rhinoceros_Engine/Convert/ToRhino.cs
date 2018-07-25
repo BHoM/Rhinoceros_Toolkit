@@ -279,7 +279,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.MeshFace ToBHoM(this BHG.Face rFace)
+        public static RHG.MeshFace ToRhino(this BHG.Face rFace)
         {
             if (rFace == null) return default(RHG.MeshFace);
 
