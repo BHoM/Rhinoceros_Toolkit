@@ -391,13 +391,18 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Face ToBHoM(this RHG.MeshFace rFace)
         {
-            return new BHG.Face
+
+            BHG.Face face = new BHG.Face
             {
                 A = rFace.A,
                 B = rFace.B,
-                C = rFace.C,
-                D = rFace.D
+                C = rFace.C
             };
+
+            if (rFace.IsQuad)
+                face.D = rFace.D;
+
+            return face;
         }
 
 
