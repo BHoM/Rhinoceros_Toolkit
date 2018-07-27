@@ -283,7 +283,10 @@ namespace BH.Engine.Rhinoceros
         {
             if (rFace == null) return default(RHG.MeshFace);
 
-            return new RHG.MeshFace(rFace.A, rFace.B, rFace.C, rFace.D);
+            if (rFace.IsQuad())
+                return new RHG.MeshFace(rFace.A, rFace.B, rFace.C, rFace.D);
+            else
+                return new RHG.MeshFace(rFace.A, rFace.B, rFace.C);
         }
 
 
