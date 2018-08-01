@@ -238,13 +238,21 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Brep ToRhino(this BHG.PolySurface polySurface)
         {
-            throw new NotImplementedException();    // TODO Rhino_Adapter conversion to Brep. Problems with the Brep() access level
+            RHG.Brep brep = new RHG.Brep();
+
+            for (int i = 0; i < polySurface.Surfaces.Count; i++)
+            {
+                brep.AddSurface(polySurface.Surfaces[i].IToRhino());
+            }
+
+            return brep;
         }
 
         /***************************************************/
 
         public static RHG.Extrusion ToRhino(this BHG.Extrusion extrusion)
         {
+
             throw new NotImplementedException();    // TODO Rhino_Adapter conversion to Extrusion
         }
 

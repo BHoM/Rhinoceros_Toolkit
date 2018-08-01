@@ -318,7 +318,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.NurbSurface ToBHoM(this RHG.Surface surface)
+        public static BHG.ISurface ToBHoM(this RHG.Surface surface)
         {
             if (surface == null) return null;
 
@@ -342,13 +342,11 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.ISurface ToBHoM(this RHG.Brep brep)
+        public static BHG.PolySurface ToBHoM(this RHG.Brep brep)
         {
             if (brep == null) return null;
 
-            if (brep.IsSurface)
-                return brep.Faces[0].ToBHoM();
-            return null;
+            return new BHG.PolySurface() { Surfaces = brep.Surfaces.Select(s => s.ToBHoM()).ToList() };
         }
 
         /***************************************************/
