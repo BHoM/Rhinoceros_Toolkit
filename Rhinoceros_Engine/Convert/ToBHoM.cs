@@ -197,7 +197,7 @@ namespace BH.Engine.Rhinoceros
         {
             if (rCurve == null) return null;
 
-            if (rCurve.IsEllipse())
+            if (rCurve.IsClosed && rCurve.IsEllipse())
             {
                 RHG.Ellipse ellipse = new RHG.Ellipse();
                 rCurve.TryGetEllipse(out ellipse);
@@ -242,7 +242,7 @@ namespace BH.Engine.Rhinoceros
                 rCurve.TryGetPolyline(out polyline);
                 return polyline.ToBHoM();
             }
-            else if (rCurve.IsEllipse())
+            else if (rCurve.IsClosed && rCurve.IsEllipse())
             {
                 RHG.Ellipse ellipse = new RHG.Ellipse();
                 rCurve.TryGetEllipse(out ellipse);
