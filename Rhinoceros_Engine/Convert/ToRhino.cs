@@ -180,15 +180,15 @@ namespace BH.Engine.Rhinoceros
 
             RHG.NurbsCurve rCurve = new RHG.NurbsCurve(3, false, bCurve.Degree() + 1, ctrlPts.Count);
 
-            int kLen = knots.Count;
-            rCurve.Knots[0] = knots[0];
-            rCurve.Knots[kLen - 1] = knots[kLen - 1];
+            for (int i = 0; i < knots.Count; i++)
+                rCurve.Knots[i] = knots[i];
+
             for (int i = 0; i < ctrlPts.Count; i++)
             {
                 BHG.Point pt = ctrlPts[i];
                 rCurve.Points.SetPoint(i, pt.X, pt.Y, pt.Z, weights[i]);
-                rCurve.Knots[i + 1] = knots[i + 1];
             }
+
             return rCurve;
         }
 
