@@ -17,7 +17,6 @@ namespace BH.Engine.Rhinoceros
                 return (type != typeof(Extrusion)
                      && type != typeof(Pipe)
                      && type != typeof(Loft)
-                     && type != typeof(PolySurface)
                      && type != typeof(CompositeGeometry)
                      && type != typeof(Quaternion));
             else
