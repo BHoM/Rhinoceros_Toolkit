@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BH.Engine.Rhinoceros
 {
-    public static partial class Create
+    public static partial class Query
     {
         /***************************************************/
         /**** Public Methods  - Vectors                 ****/
