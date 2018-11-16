@@ -4,6 +4,7 @@ using System.Linq;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
+using BH.oM.Reflection.Attributes;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -226,12 +227,65 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static RHG.Surface ToRhino(this BHG.Loft loft)
+        {
+            if (loft == null)
+            {
+                return null;
+            }
+
+            List<BHG.ICurve> bCurves = loft.Curves;
+            if (bCurves.Count <= 1)
+            {
+                return null;
+            }
+
+            List<RHG.Curve> rCurves = new List<RHG.Curve>();
+            for (int i = 0; i < bCurves.Count; i++)
+            {
+                rCurves.Add(bCurves[i].IToRhino());
+            }
+            bool isClosed = bCurves[0].IIsEqual(bCurves[bCurves.Count - 1]);
+            RHG.Brep rloft = RHG.Brep.CreateFromLoft(rCurves, RHG.Point3d.Unset, RHG.Point3d.Unset, RHG.LoftType.Normal, isClosed).FirstOrDefault();
+
+            return rloft?.Surfaces.FirstOrDefault();
+        }
+
+        /***************************************************/
+
         public static RHG.NurbsSurface ToRhino(this BHG.NurbSurface surface)
         {
             List<int> uvCount = surface.UVCount();
             List<int> degrees = surface.Degrees();
             return RHG.NurbsSurface.CreateFromPoints(surface.ControlPoints.Select(x => x.ToRhino()),
                 uvCount[0], uvCount[1], degrees[0], degrees[1]);
+        }
+
+        /***************************************************/
+
+        public static RHG.Brep ToRhino(this BHG.Pipe pipe)
+        {
+            if (pipe == null)
+            {
+                return null;
+            }
+            else if (pipe.Centreline == null)
+            {
+                return null;
+            }
+
+            RHG.Curve rRail = pipe.Centreline.IToRhino();
+            if (rRail == null)
+            {
+                return null;
+            }
+
+            RHG.PipeCapMode cap = (RHG.PipeCapMode)(pipe.Capped ? 1 : 0);
+            bool fitRail = pipe.Centreline is BHG.PolyCurve;
+
+            RHG.Brep[] rPipes = RHG.Brep.CreatePipe(rRail, pipe.Radius, false, cap, fitRail, BHG.Tolerance.Distance, BHG.Tolerance.Angle);
+
+            return rPipes.FirstOrDefault();
         }
 
         /***************************************************/
@@ -250,10 +304,12 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        [NotImplemented]
         public static RHG.Extrusion ToRhino(this BHG.Extrusion extrusion)
         {
-
-            throw new NotImplementedException();    // TODO Rhino_Adapter conversion to Extrusion
+            // TODO Rhino_Adapter conversion to Extrusion
+            Engine.Reflection.Compute.RecordError("The operation is not implemented");
+            return null;
         }
 
 
