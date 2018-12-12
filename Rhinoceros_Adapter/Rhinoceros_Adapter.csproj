@@ -42,6 +42,9 @@
       <HintPath>..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DataManipulation_oM">
+      <HintPath>..\..\BHoM\Build\DataManipulation_oM.dll</HintPath>
+    </Reference>
     <Reference Include="Geometry_Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM_Engine\Build\Geometry_Engine.dll</HintPath>
