@@ -73,15 +73,9 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.CoordinateSystem ToBHoM(this RHG.Plane plane)
+        public static BHG.CoordinateSystem.Cartesian ToBHoM(this RHG.Plane plane)
         {
-            return new BHG.CoordinateSystem
-            {
-                X = plane.XAxis.ToBHoM(),
-                Y = plane.YAxis.ToBHoM(),
-                Z = plane.ZAxis.ToBHoM(),
-                Origin = plane.Origin.ToBHoM()
-            };
+            return Geometry.Create.CartesianCoordinateSystem(plane.Origin.ToBHoM(), plane.XAxis.ToBHoM(), plane.YAxis.ToBHoM());
         }
 
         /***************************************************/
@@ -132,8 +126,7 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Arc ToBHoM(this RHG.Arc arc)
         {
-
-            BHG.CoordinateSystem system = arc.Plane.ToBHoM();
+            BHG.CoordinateSystem.Cartesian system = arc.Plane.ToBHoM();
 
             return new BHG.Arc { CoordinateSystem = system, StartAngle = arc.StartAngle, EndAngle = arc.EndAngle, Radius = arc.Radius };
         }

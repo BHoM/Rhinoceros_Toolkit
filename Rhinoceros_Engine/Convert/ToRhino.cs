@@ -80,7 +80,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.Plane ToRhino(this BHG.CoordinateSystem coordinateSystem)
+        public static RHG.Plane ToRhino(this BHG.CoordinateSystem.Cartesian coordinateSystem)
         {
             if (coordinateSystem == null) return default(RHG.Plane);
 

@@ -22,7 +22,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static bool IsEqual(this BHG.CoordinateSystem bhCoordinates, RHG.Plane rhPlane, double tolerance = BHG.Tolerance.Distance)
+        public static bool IsEqual(this BHG.CoordinateSystem.Cartesian bhCoordinates, RHG.Plane rhPlane, double tolerance = BHG.Tolerance.Distance)
         {
             if (bhCoordinates == null & rhPlane == default(RHG.Plane))
                 return true;
