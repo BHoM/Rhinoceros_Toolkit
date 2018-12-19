@@ -95,7 +95,7 @@ namespace BH.Test.Rhinoceros
         [TestMethod]
         public void NurbCurveToRhino()
         {
-            BHG.NurbCurve bhCurve = Engine.Geometry.Create.RandomNurbCurve(m_random);
+            BHG.NurbsCurve bhCurve = Engine.Geometry.Create.RandomNurbsCurve(m_random);
             RHG.NurbsCurve rhCurve = bhCurve.ToRhino();
             Assert.IsTrue(bhCurve.IsEqual(rhCurve));
 

@@ -156,7 +156,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static bool IsEqual(this BHG.NurbCurve bhCurve, RHG.NurbsCurve rhCurve, double tolerance = BHG.Tolerance.Distance)
+        public static bool IsEqual(this BHG.NurbsCurve bhCurve, RHG.NurbsCurve rhCurve, double tolerance = BHG.Tolerance.Distance)
         {
             if (bhCurve == null & rhCurve == null)
                 return true;
