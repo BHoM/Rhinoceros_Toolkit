@@ -198,7 +198,7 @@ namespace BH.Engine.Rhinoceros
             }
             IEnumerable<RHG.ControlPoint> rPoints = rCurve.Points;
             List<double> knots = rCurve.Knots.ToList();
-            return new BHG.NurbCurve
+            return new BHG.NurbsCurve
             {
                 ControlPoints = rPoints.Select(x => x.ToBHoM()).ToList(),
                 Weights = rPoints.Select(x => x.Weight).ToList(),
@@ -320,11 +320,11 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.NurbSurface ToBHoM(this RHG.NurbsSurface surface)
+        public static BHG.NurbsSurface ToBHoM(this RHG.NurbsSurface surface)
         {
             if (surface == null) return null;
 
-            return new BHG.NurbSurface
+            return new BHG.NurbsSurface
             {
                 ControlPoints = surface.Points.Select(x => x.Location.ToBHoM()).ToList(),
                 Weights = surface.Points.Select(x => x.Weight).ToList(),

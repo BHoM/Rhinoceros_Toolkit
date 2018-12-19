@@ -171,7 +171,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.NurbsCurve ToRhino(this BHG.NurbCurve bCurve)
+        public static RHG.NurbsCurve ToRhino(this BHG.NurbsCurve bCurve)
         {
             if (bCurve == null) return null;
 
@@ -253,7 +253,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.NurbsSurface ToRhino(this BHG.NurbSurface surface)
+        public static RHG.NurbsSurface ToRhino(this BHG.NurbsSurface surface)
         {
             List<int> uvCount = surface.UVCount();
             List<int> degrees = surface.Degrees();

@@ -111,12 +111,12 @@ namespace BH.Test.Rhinoceros
         public void NurbCurveToBHoM()
         {
             RHG.NurbsCurve rhCurve = Create.RandomNurbsCurve(m_random);
-            BHG.NurbCurve bhCurve = rhCurve.ToBHoM() as BHG.NurbCurve;
+            BHG.NurbsCurve bhCurve = rhCurve.ToBHoM() as BHG.NurbsCurve;
             Assert.IsTrue(bhCurve.IsEqual(rhCurve));
 
             // Checking null return
             rhCurve = null;
-            bhCurve = rhCurve.ToBHoM() as BHG.NurbCurve;
+            bhCurve = rhCurve.ToBHoM() as BHG.NurbsCurve;
             Assert.IsTrue(bhCurve.IsEqual(rhCurve));
         }
 

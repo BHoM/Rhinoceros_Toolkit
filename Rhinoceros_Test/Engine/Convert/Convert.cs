@@ -24,7 +24,7 @@ namespace BH.Test.Rhinoceros
             { typeof(RHG.Circle), typeof(BHG.Circle) },
             { typeof(RHG.Line), typeof(BHG.Line) },
             { typeof(RHG.LineCurve), typeof(BHG.Line) },
-            { typeof(RHG.NurbsCurve), typeof(BHG.NurbCurve) },
+            { typeof(RHG.NurbsCurve), typeof(BHG.NurbsCurve) },
             { typeof(RHG.PolyCurve), typeof(BHG.PolyCurve) },
             { typeof(RHG.Polyline), typeof(BHG.Polyline) },
             { typeof(RHG.PolylineCurve), typeof(BHG.Polyline) },
