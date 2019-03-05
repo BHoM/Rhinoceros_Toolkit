@@ -312,6 +312,34 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static RHG.Brep ToRhino(this BHG.PlanarSurface planarSurface)
+        {
+            if (planarSurface == null || planarSurface.ExternalEdge == null || !planarSurface.ExternalEdge.IIsPlanar())
+                return null;
+
+            // Removing non-planar curves
+            List<BHG.ICurve> planar = planarSurface.InternalEdges.Where(c => c.IIsPlanar()).ToList();
+            if (planar.Count < planarSurface.InternalEdges.Count)
+            {
+                int skipped = planarSurface.InternalEdges.Count - planar.Count;
+                Reflection.Compute.RecordWarning($"{skipped} internal boundaries skipped due to a failed planarity test.");
+            }
+
+            List<RHG.Curve> rhCurves = planar.Select(c => c.IToRhino()).ToList();
+            rhCurves.Add(planarSurface.ExternalEdge.IToRhino());
+
+            RHG.Brep[] rhSurfaces = RHG.Brep.CreatePlanarBreps(rhCurves);
+            if (rhSurfaces.Length > 1)
+            {
+                Reflection.Compute.RecordWarning("Surface edges are not coplanar or their intersection is not empty." +
+                                                 "The conversion to Rhino results into multiple Breps. " +
+                                                 "Only the first brep will be returned.");
+            }
+            return rhSurfaces.FirstOrDefault();
+        }
+
+        /***************************************************/
+
         public static RHG.Brep ToRhino(this BHG.PolySurface polySurface)
         {
             RHG.Brep brep = new RHG.Brep();
