@@ -78,6 +78,7 @@
     <Compile Include="Create\Polyline.cs" />
     <Compile Include="Create\Vector.cs" />
     <Compile Include="Query\IsEqual.cs" />
+    <Compile Include="Query\IsPlanarSurface.cs" />
     <Compile Include="Query\IsRhinoEquivalent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

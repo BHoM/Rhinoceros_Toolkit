@@ -81,6 +81,13 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static BHG.Point ToBHoM(this RHG.BrepVertex vertex)
+        {
+            return new BHG.Point { X = vertex.Location.X, Y = vertex.Location.Y, Z = vertex.Location.Z };
+        }
+
+        /***************************************************/
+
         public static BHG.Vector ToBHoM(this RHG.Vector3d vector)
         {
             return new BHG.Vector { X = vector.X, Y = vector.Y, Z = vector.Z };
@@ -357,10 +364,21 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.PolySurface ToBHoM(this RHG.Brep brep)
+        public static BHG.ISurface ToBHoM(this RHG.Brep brep)
         {
             if (brep == null) return null;
 
+            if (brep.Surfaces.Count == 0) return null;
+
+            // PlanarSurface case
+            if (brep.IsPlanarSurface())
+            {
+                BHG.ICurve externalEdge = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().ToBHoM();
+                List<BHG.ICurve> internalEdges = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(false, true)).Select(c => c.ToBHoM()).ToList();
+                return Engine.Geometry.Create.PlanarSurface(externalEdge, internalEdges);
+            }
+
+            // Default case
             return new BHG.PolySurface() { Surfaces = brep.Surfaces.Select(s => s.ToBHoM()).ToList() };
         }
 
