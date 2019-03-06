@@ -314,18 +314,17 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Brep ToRhino(this BHG.PlanarSurface planarSurface)
         {
-            if (planarSurface == null || planarSurface.ExternalEdge == null || !planarSurface.ExternalEdge.IIsPlanar())
+            if (planarSurface == null || planarSurface.ExternalEdge == null || !planarSurface.ExternalEdge.IToRhino().IsPlanar())
                 return null;
 
             // Removing non-planar curves
-            List<BHG.ICurve> planar = planarSurface.InternalEdges.Where(c => c.IIsPlanar()).ToList();
-            if (planar.Count < planarSurface.InternalEdges.Count)
+            List<RHG.Curve> rhCurves = planarSurface.InternalEdges.Select(c => c.IToRhino()).Where(c => c.IsPlanar()).ToList();
+            if (rhCurves.Count < planarSurface.InternalEdges.Count)
             {
-                int skipped = planarSurface.InternalEdges.Count - planar.Count;
+                int skipped = planarSurface.InternalEdges.Count - rhCurves.Count;
                 Reflection.Compute.RecordWarning($"{skipped} internal boundaries skipped due to a failed planarity test.");
             }
 
-            List<RHG.Curve> rhCurves = planar.Select(c => c.IToRhino()).ToList();
             rhCurves.Add(planarSurface.ExternalEdge.IToRhino());
 
             RHG.Brep[] rhSurfaces = RHG.Brep.CreatePlanarBreps(rhCurves);
