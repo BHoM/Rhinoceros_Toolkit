@@ -375,7 +375,7 @@ namespace BH.Engine.Rhinoceros
             {
                 BHG.ICurve externalEdge = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().ToBHoM();
                 List<BHG.ICurve> internalEdges = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(false, true)).Select(c => c.ToBHoM()).ToList();
-                return new BHG.PlanarSurface { ExternalEdge = externalEdge, InternalEdges = internalEdges };
+                return new BHG.PlanarSurface { ExternalBoundary = externalEdge, InternalBoundaries = internalEdges };
             }
 
             // Default case
