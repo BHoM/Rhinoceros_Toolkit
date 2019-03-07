@@ -314,25 +314,31 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Brep ToRhino(this BHG.PlanarSurface planarSurface)
         {
-            if (planarSurface == null || planarSurface.ExternalBoundary == null || !planarSurface.ExternalBoundary.IToRhino().IsPlanar())
+            if (planarSurface == null || planarSurface.ExternalBoundary == null)
                 return null;
 
-            // Removing non-planar curves
-            List<RHG.Curve> rhCurves = planarSurface.InternalBoundaries.Select(c => c.IToRhino()).Where(c => c.IsPlanar()).ToList();
-            if (rhCurves.Count < planarSurface.InternalBoundaries.Count)
-            {
-                int skipped = planarSurface.InternalBoundaries.Count - rhCurves.Count;
-                Reflection.Compute.RecordWarning($"{skipped} internal boundaries skipped due to a failed planarity test.");
-            }
+            RHG.Curve externalCurve = planarSurface.ExternalBoundary.IToRhino();
 
-            rhCurves.Add(planarSurface.ExternalBoundary.IToRhino());
+            if (externalCurve == null || !externalCurve.IsPlanar())
+                return null;
+
+            List<RHG.Curve> rhCurves = new List<RHG.Curve>();
+            if (planarSurface.InternalBoundaries != null)
+            {
+                rhCurves.AddRange(planarSurface.InternalBoundaries.Select(c => c.IToRhino()).Where(c => c.IsPlanar()).ToList());
+                if (rhCurves.Count < planarSurface.InternalBoundaries.Count)
+                {
+                    int skipped = planarSurface.InternalBoundaries.Count - rhCurves.Count;
+                    Reflection.Compute.RecordWarning($"{skipped} internal boundaries skipped due to a failed planarity test.");
+                }
+            }
+            rhCurves.Add(externalCurve);
 
             RHG.Brep[] rhSurfaces = RHG.Brep.CreatePlanarBreps(rhCurves);
             if (rhSurfaces.Length > 1)
             {
                 Reflection.Compute.RecordWarning("Surface edges are not coplanar or their intersection is not empty." +
-                                                 "The conversion to Rhino results into multiple Breps. " +
-                                                 "Only the first brep will be returned.");
+                                                 "The conversion to Rhino results into multiple Breps and only the first brep will be returned.");
             }
             return rhSurfaces.FirstOrDefault();
         }
