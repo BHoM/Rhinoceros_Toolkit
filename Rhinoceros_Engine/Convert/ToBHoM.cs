@@ -219,12 +219,20 @@ namespace BH.Engine.Rhinoceros
         {
             if (rCurve == null) return null;
 
+            if (rCurve.IsPolyline())
+            {
+                RHG.Polyline polyline;
+                rCurve.TryGetPolyline(out polyline);
+                return polyline.ToBHoM();
+            }
+
             if (rCurve.IsClosed && rCurve.IsEllipse())
             {
                 RHG.Ellipse ellipse = new RHG.Ellipse();
                 rCurve.TryGetEllipse(out ellipse);
                 return ellipse.ToBHoM();
             }
+
             IEnumerable<RHG.ControlPoint> rPoints = rCurve.Points;
             List<double> knots = rCurve.Knots.ToList();
             return new BHG.NurbsCurve
