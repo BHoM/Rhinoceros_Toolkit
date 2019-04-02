@@ -337,8 +337,28 @@ namespace BH.Engine.Rhinoceros
             RHG.Brep[] rhSurfaces = RHG.Brep.CreatePlanarBreps(rhCurves);
             if (rhSurfaces.Length > 1)
             {
-                Reflection.Compute.RecordWarning("Surface edges are not coplanar or their intersection is not empty." +
-                                                 "The conversion to Rhino results into multiple Breps and only the first brep will be returned.");
+                //If more than one surface is extracted, try boolean difference of the curves to generate the geometry
+                List<RHG.Curve> inner = new List<RHG.Curve>(rhCurves);
+                inner.RemoveAt(inner.Count - 1);
+
+                RHG.Curve[] difference = RHG.Curve.CreateBooleanDifference(externalCurve, inner);
+
+                //Internal and external edges fully overlap -> 0 edges -> empty Brep
+                if (difference.Length == 0)
+                    return new RHG.Brep();
+
+                RHG.Brep[] rhSurfacesFromDifference = RHG.Brep.CreatePlanarBreps(difference);
+
+                if (rhSurfacesFromDifference.Length > 1)
+                {
+                    Reflection.Compute.RecordWarning("Surface edges are not coplanar or their intersection is not empty." +
+                                                     "The conversion to Rhino results into multiple Breps and only the first brep will be returned.");
+                }
+                else if(rhSurfacesFromDifference.Length == 1)
+                {
+                    Reflection.Compute.RecordWarning("The internal edges overlap with the external. Boolean intersection has been preformed to try to get out the correct geometry. Topology might have changed for the surface obejct");
+                    return rhSurfacesFromDifference.FirstOrDefault();
+                }
             }
             return rhSurfaces.FirstOrDefault();
         }
