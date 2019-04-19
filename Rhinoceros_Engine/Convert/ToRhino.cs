@@ -391,7 +391,7 @@ namespace BH.Engine.Rhinoceros
 
             }
 
-            brep.JoinNakedEdges(0.001);
+            brep.JoinNakedEdges(BHG.Tolerance.Distance);
 
             return brep;
         }
