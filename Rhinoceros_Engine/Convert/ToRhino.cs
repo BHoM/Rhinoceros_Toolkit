@@ -65,7 +65,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.Surface IToRhino(this BHG.ISurface surface)
+        public static RHG.GeometryBase IToRhino(this BHG.ISurface surface)
         {
             return (surface == default(BHG.ISurface)) ? null : Convert.ToRhino(surface as dynamic);
         }
