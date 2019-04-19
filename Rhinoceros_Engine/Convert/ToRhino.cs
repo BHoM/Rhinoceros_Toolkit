@@ -367,16 +367,24 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Brep ToRhino(this BHG.PolySurface polySurface)
         {
+            return polySurface.Surfaces.ToRhino();
+        }
+
+        /***************************************************/
+
+        public static RHG.Brep ToRhino(this List<BHG.ISurface> surfaces)
+        {
             RHG.Brep brep = new RHG.Brep();
 
-            for (int i = 0; i < polySurface.Surfaces.Count; i++)
+            for (int i = 0; i < surfaces.Count; i++)
             {
-                RHG.GeometryBase geo = polySurface.Surfaces[i].IToRhino();
+                RHG.GeometryBase geo = surfaces[i].IToRhino();
                 if (geo is RHG.Surface) brep.AddSurface((RHG.Surface)geo);
                 else if (geo is RHG.Brep) brep.Append((RHG.Brep)geo);
+
             }
 
-            brep.JoinNakedEdges(BHG.Tolerance.Distance);
+            brep.JoinNakedEdges(0.001);
 
             return brep;
         }
