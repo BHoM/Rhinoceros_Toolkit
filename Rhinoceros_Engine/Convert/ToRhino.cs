@@ -371,7 +371,9 @@ namespace BH.Engine.Rhinoceros
 
             for (int i = 0; i < polySurface.Surfaces.Count; i++)
             {
-                brep.AddSurface(polySurface.Surfaces[i].IToRhino());
+                RHG.GeometryBase geo = polySurface.Surfaces[i].IToRhino();
+                if (geo is RHG.Surface) brep.AddSurface((RHG.Surface)geo);
+                else if (geo is RHG.Brep) brep.Append((RHG.Brep)geo);
             }
 
             return brep;
