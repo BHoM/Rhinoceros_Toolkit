@@ -376,6 +376,8 @@ namespace BH.Engine.Rhinoceros
                 else if (geo is RHG.Brep) brep.Append((RHG.Brep)geo);
             }
 
+            brep.JoinNakedEdges(BHG.Tolerance.Distance);
+
             return brep;
         }
 
