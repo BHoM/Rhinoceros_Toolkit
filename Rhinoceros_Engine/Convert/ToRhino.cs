@@ -372,6 +372,13 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static RHG.Brep ToRhino(this BHG.BoundaryRepresentation boundaryRepresentation)
+        {
+            return boundaryRepresentation.Surfaces.ToList().ToRhino();
+        }
+
+        /***************************************************/
+
         public static RHG.Brep ToRhino(this List<BHG.ISurface> surfaces)
         {
             RHG.Brep brep = new RHG.Brep();
