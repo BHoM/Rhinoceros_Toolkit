@@ -449,6 +449,54 @@ namespace BH.Engine.Rhinoceros
 
 
         /***************************************************/
+        /**** Public Methods  - Solids                  ****/
+        /***************************************************/
+
+        public static RHG.Sphere ToRhino(this BHG.Sphere sphere)
+        {
+            if (sphere == null) return default(RHG.Sphere);
+
+            return new RHG.Sphere(sphere.Centre.ToRhino(), sphere.Radius);
+        }
+
+        /***************************************************/
+
+        public static RHG.Cylinder ToRhino(this BHG.Cylinder cylinder)
+        {
+            if (cylinder == null) return default(RHG.Cylinder);
+
+            RHG.Plane plane = new RHG.Plane(cylinder.Centre.ToRhino(), cylinder.Axis.ToRhino());
+            RHG.Circle circle = new RHG.Circle(plane, cylinder.Radius);
+
+            return new RHG.Cylinder(circle,cylinder.Height);
+        }
+
+        /***************************************************/
+
+        public static RHG.Cone ToRhino(this BHG.Cone cone)
+        {
+            if (cone == null) return default(RHG.Cone);
+
+            RHG.Plane plane = new RHG.Plane(cone.Centre.ToRhino(), cone.Axis.ToRhino());
+            
+            return new RHG.Cone(plane, cone.Height, cone.Radius);
+        }
+
+        /***************************************************/
+
+        public static RHG.Box ToRhino(this BHG.Cuboid cuboid)
+        {
+            if (cuboid == null) return default(RHG.Box);
+
+            RHG.Interval ix = new RHG.Interval((cuboid.Length / -2.0), (cuboid.Length / 2.0));
+            RHG.Interval iy = new RHG.Interval((cuboid.Depth / -2.0), (cuboid.Depth / 2.0));
+            RHG.Interval iz = new RHG.Interval((cuboid.Height / -2.0), (cuboid.Height / 2.0));
+
+            return new RHG.Box(cuboid.CoordinateSystem.ToRhino(),ix,iy,iz);
+        }
+
+
+        /***************************************************/
         /**** Miscellanea                               ****/
         /***************************************************/
 
