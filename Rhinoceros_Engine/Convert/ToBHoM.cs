@@ -444,6 +444,30 @@ namespace BH.Engine.Rhinoceros
             return face;
         }
 
+        /***************************************************/
+        /**** Public Methods  - Solids                  ****/
+        /***************************************************/
+
+        public static BHG.Sphere ToBHoM(this RHG.Sphere sphere)
+        {
+            return new BHG.Sphere { Centre = sphere.Center.ToBHoM(), Radius = sphere.Radius };
+        }
+
+        /***************************************************/
+
+        public static BHG.Cone ToBHoM(this RHG.Cone cone)
+        {
+            return new BHG.Cone { Centre = cone.BasePoint.ToBHoM(), Axis = cone.Axis.ToBHoM(), Radius = cone.Radius, Height = cone.Height };
+        }
+
+        /***************************************************/
+
+        public static BHG.Cylinder ToBHoM(this RHG.Cylinder cylinder)
+        {
+            BHG.Point centre = cylinder.Center.ToBHoM() + cylinder.Axis.ToBHoM() * cylinder.Height1;
+            return new BHG.Cylinder { Centre = centre, Axis = cylinder.Axis.ToBHoM(), Height = cylinder.TotalHeight, Radius = cylinder.CircleAt(0.0).Radius };
+        }
+
 
         /***************************************************/
         /**** Miscellanea                               ****/
