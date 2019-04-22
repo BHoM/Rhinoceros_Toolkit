@@ -461,6 +461,9 @@ namespace BH.Engine.Rhinoceros
                     RHG.Sphere sphere;
                     if (surface.TryGetSphere(out sphere))
                         return sphere.ToBHoM();
+                    RHG.Torus torus;
+                    if (surface.TryGetTorus(out torus))
+                        return torus.ToBHoM();
                     break;
                 case 2:
                     RHG.Cone cone;
