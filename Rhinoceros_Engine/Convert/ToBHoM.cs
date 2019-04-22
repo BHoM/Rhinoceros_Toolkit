@@ -486,6 +486,13 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static BHG.Torus ToBHoM(this RHG.Torus torus)
+        {
+            return new BHG.Torus { Centre = torus.Plane.Origin.ToBHoM(), Axis = torus.Plane.ZAxis.ToBHoM(), RadiusMajor = torus.MajorRadius, RadiusMinor = torus.MinorRadius };
+        }
+
+        /***************************************************/
+
         public static BHG.Cone ToBHoM(this RHG.Cone cone)
         {
             return new BHG.Cone { Centre = cone.BasePoint.ToBHoM(), Axis = cone.Axis.ToBHoM(), Radius = cone.Radius, Height = cone.Height };

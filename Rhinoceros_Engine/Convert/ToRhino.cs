@@ -461,6 +461,17 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static RHG.Torus ToRhino(this BHG.Torus torus)
+        {
+            if (torus == null) return default(RHG.Torus);
+
+            RHG.Plane plane = new RHG.Plane(torus.Centre.ToRhino(), torus.Axis.ToRhino());
+
+            return new RHG.Torus(plane, torus.RadiusMajor, torus.RadiusMinor);
+        }
+
+        /***************************************************/
+
         public static RHG.Cylinder ToRhino(this BHG.Cylinder cylinder)
         {
             if (cylinder == null) return default(RHG.Cylinder);
