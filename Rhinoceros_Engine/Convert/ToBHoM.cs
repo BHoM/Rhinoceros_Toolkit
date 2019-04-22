@@ -372,13 +372,16 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.ISurface ToBHoM(this RHG.Brep brep)
+        public static BHG.IGeometry ToBHoM(this RHG.Brep brep)
         {
             if (brep == null) return null;
 
             if (brep.Surfaces.Count == 0) return null;
 
-            // PlanarSurface case
+
+            if (brep.IsSolid) return brep.ToBHoM(true);
+        
+
             if (brep.IsPlanarSurface())
             {
                 BHG.ICurve externalEdge = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().ToBHoM();
@@ -386,7 +389,7 @@ namespace BH.Engine.Rhinoceros
                 return new BHG.PlanarSurface { ExternalBoundary = externalEdge, InternalBoundaries = internalEdges };
             }
 
-            // Default case
+            // Default case - return open Polysurface
             return new BHG.PolySurface() { Surfaces = brep.Surfaces.Select(s => s.ToBHoM()).ToList() };
         }
 
@@ -446,6 +449,34 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
         /**** Public Methods  - Solids                  ****/
+        /***************************************************/
+
+
+        private static BHG.ISolid ToBHoM(this RHG.Brep brep, bool isSolid)
+        {
+            RHG.Surface surface = brep.Surfaces.FirstOrDefault();
+            switch (brep.Surfaces.Count)
+            {
+                case 1:
+                    RHG.Sphere sphere;
+                    if (surface.TryGetSphere(out sphere))
+                        return sphere.ToBHoM();
+                    break;
+                case 2:
+                    RHG.Cone cone;
+                    if (surface.TryGetCone(out cone))
+                        return cone.ToBHoM();
+                    break;
+                case 3:
+                    RHG.Cylinder cylinder;
+                    if (surface.TryGetCylinder(out cylinder))
+                        return cylinder.ToBHoM();
+                    break;
+            }
+
+            return new BHG.BoundaryRepresentation(brep.Surfaces.Select(s => s.ToBHoM()).ToList());
+        }
+
         /***************************************************/
 
         public static BHG.Sphere ToBHoM(this RHG.Sphere sphere)
