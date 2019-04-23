@@ -352,6 +352,12 @@ namespace BH.Engine.Rhinoceros
         {
             if (surface == null) return null;
 
+            if (surface.IsPlanar())
+            {
+                BHG.ICurve externalEdge = RHG.Curve.JoinCurves(surface.ToBrep().DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().ToBHoM();
+                return new BHG.PlanarSurface { ExternalBoundary = externalEdge };
+            }
+                
             return surface.ToNurbsSurface().ToBHoM();
         }
 
