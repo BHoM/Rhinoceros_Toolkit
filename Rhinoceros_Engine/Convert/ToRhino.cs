@@ -388,9 +388,7 @@ namespace BH.Engine.Rhinoceros
                 RHG.GeometryBase geo = surfaces[i].IToRhino();
                 if (geo is RHG.Surface) brep.AddSurface((RHG.Surface)geo);
                 else if (geo is RHG.Brep) brep.Append((RHG.Brep)geo);
-
             }
-
             brep.JoinNakedEdges(BHG.Tolerance.Distance);
 
             return brep;
@@ -494,7 +492,8 @@ namespace BH.Engine.Rhinoceros
         {
             if (cone == null) return default(RHG.Cone);
 
-            RHG.Plane plane = new RHG.Plane(cone.Centre.ToRhino(), cone.Axis.ToRhino());
+            BHG.Vector axis = cone.Axis * -1.0;
+            RHG.Plane plane = new RHG.Plane((cone.Centre + cone.Axis*cone.Height).ToRhino(), axis.ToRhino());
             
             return new RHG.Cone(plane, cone.Height, cone.Radius);
         }
