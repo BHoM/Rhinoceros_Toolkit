@@ -498,7 +498,7 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Cone ToBHoM(this RHG.Cone cone)
         {
-            return new BHG.Cone { Centre = cone.BasePoint.ToBHoM(), Axis = cone.Axis.ToBHoM(), Radius = cone.Radius, Height = cone.Height };
+            return new BHG.Cone { Centre = cone.BasePoint.ToBHoM(), Axis = cone.Axis.ToBHoM()*-1.0, Radius = cone.Radius, Height = cone.Height };
         }
 
         /***************************************************/
