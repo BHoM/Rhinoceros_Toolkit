@@ -465,6 +465,12 @@ namespace BH.Engine.Rhinoceros
         {
             if (torus == null) return default(RHG.Torus);
 
+            if (torus.RadiusMajor <= torus.RadiusMinor)
+            {
+                Reflection.Compute.RecordError("Major Radius less than or equal to Minor Radius. Conversion to Rhino Torus failed.");
+                return RHG.Torus.Unset;
+            }
+
             RHG.Plane plane = new RHG.Plane(torus.Centre.ToRhino(), torus.Axis.ToRhino());
 
             return new RHG.Torus(plane, torus.RadiusMajor, torus.RadiusMinor);
