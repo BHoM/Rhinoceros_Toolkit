@@ -385,7 +385,7 @@ namespace BH.Engine.Rhinoceros
             if (brep.Surfaces.Count == 0) return null;
 
 
-            if (brep.IsSolid) return brep.ToBHoM(true);
+            if (brep.IsSolid) return brep.ToBHoMSolid();
         
 
             if (brep.IsPlanarSurface())
@@ -458,7 +458,7 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
 
-        private static BHG.ISolid ToBHoM(this RHG.Brep brep, bool isSolid)
+        private static BHG.ISolid ToBHoMSolid(this RHG.Brep brep)
         {
             RHG.Surface surface = brep.Surfaces.FirstOrDefault();
             switch (brep.Surfaces.Count)
