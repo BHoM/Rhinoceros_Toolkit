@@ -493,7 +493,7 @@ namespace BH.Engine.Rhinoceros
             if (cone == null) return default(RHG.Cone);
 
             BHG.Vector axis = cone.Axis * -1.0;
-            RHG.Plane plane = new RHG.Plane((cone.Centre + cone.Axis*cone.Height).ToRhino(), axis.ToRhino());
+            RHG.Plane plane = new RHG.Plane((cone.Centre + cone.Axis.Normalise()*cone.Height).ToRhino(), axis.ToRhino());
             
             return new RHG.Cone(plane, cone.Height, cone.Radius);
         }
