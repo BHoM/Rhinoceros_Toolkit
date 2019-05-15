@@ -111,6 +111,15 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static RHG.Plane ToRhino(this BHG.Basis basis)
+        {
+            if (basis == null) return default(RHG.Plane);
+
+            return new RHG.Plane(RHG.Point3d.Unset, basis.X.ToRhino(), basis.Y.ToRhino());
+        }
+
+        /***************************************************/
+
         public static RHG.Quaternion ToRhino(this BHG.Quaternion quartenion)
         {
             return (quartenion == null) ? default(RHG.Quaternion) : new RHG.Quaternion(quartenion.X, quartenion.Y, quartenion.Z, quartenion.W);
