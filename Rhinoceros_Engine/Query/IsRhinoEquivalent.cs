@@ -41,8 +41,7 @@ namespace BH.Engine.Rhinoceros
                      && type != typeof(Loft)
                      && type != typeof(PolySurface)
                      && type != typeof(CompositeGeometry)
-                     && type != typeof(Quaternion)
-                     && type != typeof(Basis));
+                     && type != typeof(Quaternion));
             else
                 return false;
         }
