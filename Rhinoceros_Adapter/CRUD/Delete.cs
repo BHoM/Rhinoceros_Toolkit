@@ -20,7 +20,7 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.DataManipulation.Queries;
+using BH.oM.Data.Requests;
 using System;
 using System.Collections.Generic;
 
@@ -32,7 +32,7 @@ namespace BH.Adapter.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
-        public override int Delete(FilterQuery filter, Dictionary<string, object> config = null)
+        public override int Delete(FilterRequest filter, Dictionary<string, object> config = null)
         {
             throw new NotImplementedException();
         }
