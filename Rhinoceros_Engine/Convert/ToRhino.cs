@@ -277,6 +277,9 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.NurbsSurface ToRhino(this BHG.NurbsSurface surface)
         {
+            if (surface == null)
+                return null;
+
             List<int> uvCount = surface.UVCount();
             List<int> degrees = surface.Degrees();
             List<BHG.Point> points = surface.ControlPoints;
@@ -291,8 +294,6 @@ namespace BH.Engine.Rhinoceros
                     rhSurface.Points.SetControlPoint(i, j, new RHG.ControlPoint(points[j + (uvCount[1] * i)].ToRhino(), weights[j + (uvCount[1] * i)]));
 
             return rhSurface.IsValid ? rhSurface : null;
-            return RHG.NurbsSurface.CreateFromPoints(surface.ControlPoints.Select(x => x.ToRhino()),
-                uvCount[0], uvCount[1], degrees[0], degrees[1]);
         }
 
         /***************************************************/
