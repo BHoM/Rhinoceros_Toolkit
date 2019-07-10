@@ -279,6 +279,18 @@ namespace BH.Engine.Rhinoceros
         {
             List<int> uvCount = surface.UVCount();
             List<int> degrees = surface.Degrees();
+            List<BHG.Point> points = surface.ControlPoints;
+            List<double> weights = surface.Weights;
+            RHG.NurbsSurface rhSurface = RHG.NurbsSurface.Create(3, true, degrees[0] + 1, degrees[1] + 1, uvCount[0], uvCount[1]);
+            for (int i = 0; i < rhSurface.KnotsU.Count; i++)
+                rhSurface.KnotsU[i] = surface.UKnots[i];
+            for (int i = 0; i < rhSurface.KnotsV.Count; i++)
+                rhSurface.KnotsV[i] = surface.VKnots[i];
+            for (int i = 0; i < uvCount[0]; i++)
+                for (int j = 0; j < uvCount[1]; j++)
+                    rhSurface.Points.SetControlPoint(i, j, new RHG.ControlPoint(points[j + (uvCount[1] * i)].ToRhino(), weights[j + (uvCount[1] * i)]));
+
+            return rhSurface.IsValid ? rhSurface : null;
             return RHG.NurbsSurface.CreateFromPoints(surface.ControlPoints.Select(x => x.ToRhino()),
                 uvCount[0], uvCount[1], degrees[0], degrees[1]);
         }
@@ -357,7 +369,7 @@ namespace BH.Engine.Rhinoceros
                     Reflection.Compute.RecordWarning("Surface edges are not coplanar or their intersection is not empty." +
                                                      "The conversion to Rhino results into multiple Breps and only the first brep will be returned.");
                 }
-                else if(rhSurfacesFromDifference.Length == 1)
+                else if (rhSurfacesFromDifference.Length == 1)
                 {
                     Reflection.Compute.RecordWarning("The internal edges overlap with the external." +
                         "Boolean intersection has been used to try to get out the correct geometry." +
@@ -488,7 +500,7 @@ namespace BH.Engine.Rhinoceros
             RHG.Plane plane = new RHG.Plane(cylinder.Centre.ToRhino(), cylinder.Axis.ToRhino());
             RHG.Circle circle = new RHG.Circle(plane, cylinder.Radius);
 
-            return new RHG.Cylinder(circle,cylinder.Height);
+            return new RHG.Cylinder(circle, cylinder.Height);
         }
 
         /***************************************************/
@@ -498,8 +510,8 @@ namespace BH.Engine.Rhinoceros
             if (cone == null) return default(RHG.Cone);
 
             BHG.Vector axis = cone.Axis * -1.0;
-            RHG.Plane plane = new RHG.Plane((cone.Centre + cone.Axis.Normalise()*cone.Height).ToRhino(), axis.ToRhino());
-            
+            RHG.Plane plane = new RHG.Plane((cone.Centre + cone.Axis.Normalise() * cone.Height).ToRhino(), axis.ToRhino());
+
             return new RHG.Cone(plane, cone.Height, cone.Radius);
         }
 
@@ -513,7 +525,7 @@ namespace BH.Engine.Rhinoceros
             RHG.Interval iy = new RHG.Interval((cuboid.Depth / -2.0), (cuboid.Depth / 2.0));
             RHG.Interval iz = new RHG.Interval((cuboid.Height / -2.0), (cuboid.Height / 2.0));
 
-            return new RHG.Box(cuboid.CoordinateSystem.ToRhino(),ix,iy,iz);
+            return new RHG.Box(cuboid.CoordinateSystem.ToRhino(), ix, iy, iz);
         }
 
 
