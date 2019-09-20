@@ -58,18 +58,19 @@
   <ItemGroup>
     <Reference Include="BHoM">
       <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="BHoM_Engine">
       <HintPath>..\..\BHoM_Engine\Build\BHoM_Engine.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Geometry_Engine">
       <HintPath>..\..\BHoM_Engine\Build\Geometry_Engine.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Geometry_oM">
       <HintPath>..\..\BHoM\Build\Geometry_oM.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
       <HintPath>..\packages\RhinoCommon.5.12.50810.13095\lib\net35\RhinoCommon.dll</HintPath>
@@ -111,12 +112,12 @@
     <ProjectReference Include="..\Rhinoceros_Adapter\Rhinoceros_Adapter.csproj">
       <Project>{28229169-253d-4578-a9d5-f6860bbca3cc}</Project>
       <Name>Rhinoceros_Adapter</Name>
-      <Private>True</Private>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Rhinoceros_Engine\Rhinoceros_Engine.csproj">
       <Project>{93cedc69-f9c0-4e08-9e94-07f120d811dc}</Project>
       <Name>Rhinoceros_Engine</Name>
-      <Private>True</Private>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
