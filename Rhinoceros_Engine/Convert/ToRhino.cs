@@ -222,9 +222,14 @@ namespace BH.Engine.Rhinoceros
             if (bPolyCurve == null)
                 return null;
 
-            if (!bPolyCurve.IsClosed())
+            // Check if bPolycurve is made of disconnected segments
+            IEnumerable<BHG.Point> endpoints = bPolyCurve.Curves.Select(x => x.IStartPoint());
+            endpoints = endpoints.Concat(bPolyCurve.Curves.Select(x => x.IEndPoint()));
+            endpoints = endpoints.ToList().CullDuplicates();
+            bool isDisconnected = endpoints.Count() != bPolyCurve.DiscontinuityPoints().Count;
+
+            if (isDisconnected)
             {
-                Engine.Reflection.Compute.RecordError("Cannot convert a list of disconnected curves to a Rhino.Geometry.PolyCurve");
                 return null;
             }
 
