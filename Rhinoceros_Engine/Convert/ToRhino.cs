@@ -219,7 +219,14 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.PolyCurve ToRhino(this BHG.PolyCurve bPolyCurve)
         {
-            if (bPolyCurve == null) return null;
+            if (bPolyCurve == null)
+                return null;
+
+            if (!bPolyCurve.IsClosed())
+            {
+                Engine.Reflection.Compute.RecordError("Cannot convert a list of disconnected curves to a Rhino.Geometry.PolyCurve");
+                return null;
+            }
 
             RHG.PolyCurve rPolycurve = new RHG.PolyCurve();
             bPolyCurve.Curves.ForEach(curve => rPolycurve.Append(curve.IToRhino()));
