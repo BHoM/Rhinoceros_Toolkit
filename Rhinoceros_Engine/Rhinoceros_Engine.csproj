@@ -85,13 +85,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rhinoceros_Adapter\Rhinoceros_Adapter.csproj">
-      <Project>{28229169-253d-4578-a9d5-f6860bbca3cc}</Project>
-      <Name>Rhinoceros_Adapter</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Modify\" />
   </ItemGroup>
   <ItemGroup>

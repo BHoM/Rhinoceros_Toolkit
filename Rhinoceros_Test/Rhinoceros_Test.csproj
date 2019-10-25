@@ -109,11 +109,6 @@
     <Folder Include="UI\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rhinoceros_Adapter\Rhinoceros_Adapter.csproj">
-      <Project>{28229169-253d-4578-a9d5-f6860bbca3cc}</Project>
-      <Name>Rhinoceros_Adapter</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Rhinoceros_Engine\Rhinoceros_Engine.csproj">
       <Project>{93cedc69-f9c0-4e08-9e94-07f120d811dc}</Project>
       <Name>Rhinoceros_Engine</Name>
