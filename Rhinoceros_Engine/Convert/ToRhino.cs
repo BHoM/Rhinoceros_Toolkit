@@ -323,7 +323,7 @@ namespace BH.Engine.Rhinoceros
             List<RHG.Curve> rhCurves = new List<RHG.Curve>();
             if (planarSurface.InternalBoundaries != null)
             {
-                rhCurves.AddRange(planarSurface.InternalBoundaries.Select(c => c.IToRhino()).Where(c => c.IsPlanar()).ToList());
+                rhCurves.AddRange(planarSurface.InternalBoundaries.Select(c => c.IToRhino()).Where(c => c.IsPlanar(BHG.Tolerance.Distance)).ToList());
                 if (rhCurves.Count < planarSurface.InternalBoundaries.Count)
                 {
                     int skipped = planarSurface.InternalBoundaries.Count - rhCurves.Count;

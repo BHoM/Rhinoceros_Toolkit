@@ -354,7 +354,7 @@ namespace BH.Engine.Rhinoceros
                 return null;
             
             RHG.Surface rhSurf = face.UnderlyingSurface();
-            if (face.IsPlanar())
+            if (face.IsPlanar(BHG.Tolerance.Distance))
             {
                 BHG.PlanarSurface bhs = rhSurf.ToBHoM() as BHG.PlanarSurface;
                 foreach (RHG.BrepLoop loop in face.Loops)
@@ -396,7 +396,7 @@ namespace BH.Engine.Rhinoceros
             if (surface == null)
                 return null;
 
-            if (surface.IsPlanar())
+            if (surface.IsPlanar(BHG.Tolerance.Distance))
             {
                 BHG.ICurve externalEdge = RHG.Curve.JoinCurves(surface.ToBrep().DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().ToBHoM();
                 return new BHG.PlanarSurface { ExternalBoundary = externalEdge };
@@ -431,7 +431,14 @@ namespace BH.Engine.Rhinoceros
             if (brep == null)
                 return null;
 
-            if (brep.Surfaces.Count == 0)
+            string log;
+            if (!brep.IsValidWithLog(out log))
+            {
+                Reflection.Compute.RecordError("Conversion failed, Rhino Brep is invalid: " + log);
+                return null;
+            }
+
+            if (brep.Faces.Count == 0)
                 return null;
             
             if (brep.IsSolid)
@@ -443,6 +450,9 @@ namespace BH.Engine.Rhinoceros
                 List<BHG.ICurve> internalEdges = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(false, true)).Select(c => c.ToBHoM()).ToList();
                 return new BHG.PlanarSurface { ExternalBoundary = externalEdge, InternalBoundaries = internalEdges };
             }
+
+            if (brep.Faces.Count == 1)
+                return brep.Faces[0].ToBHoM();
 
             // Default case - return open Polysurface
             return new BHG.PolySurface() { Surfaces = brep.Faces.Select(s => s.ToBHoM()).ToList() };
