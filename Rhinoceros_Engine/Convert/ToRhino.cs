@@ -375,10 +375,6 @@ namespace BH.Engine.Rhinoceros
                 return null;
 
             List<int> uvCount = surface.UVCount();
-            //List<int> degrees = surface.Degrees();
-            List<BHG.Point> points = surface.ControlPoints;
-            List<double> weights = surface.Weights;
-            //RHG.NurbsSurface rhSurface = RHG.NurbsSurface.Create(3, true, degrees[0] + 1, degrees[1] + 1, uvCount[0], uvCount[1]);
             RHG.NurbsSurface rhSurface = RHG.NurbsSurface.Create(3, true, surface.UDegree + 1, surface.VDegree + 1, uvCount[0], uvCount[1]);
             for (int i = 0; i < rhSurface.KnotsU.Count; i++)
                 rhSurface.KnotsU[i] = surface.UKnots[i];
@@ -386,7 +382,7 @@ namespace BH.Engine.Rhinoceros
                 rhSurface.KnotsV[i] = surface.VKnots[i];
             for (int i = 0; i < uvCount[0]; i++)
                 for (int j = 0; j < uvCount[1]; j++)
-                    rhSurface.Points.SetControlPoint(i, j, new RHG.ControlPoint(points[j + (uvCount[1] * i)].ToRhino(), weights[j + (uvCount[1] * i)]));
+                    rhSurface.Points.SetControlPoint(i, j, new RHG.ControlPoint(surface.ControlPoints[j + (uvCount[1] * i)].ToRhino(), surface.Weights[j + (uvCount[1] * i)]));
 
             if (!rhSurface.IsValid)
                 return null;
@@ -398,15 +394,15 @@ namespace BH.Engine.Rhinoceros
                 RHG.Brep brep = new RHG.Brep();
                 int srf = brep.AddSurface(rhSurface);
                 RHG.BrepFace face = brep.Faces.Add(srf);
-
+                
                 for (int i = 0; i < surface.ExternalBoundaries3d.Count; i++)
                 {
-                    brep.AddBrepOutline(rhSurface, face, surface.ExternalBoundaries3d[i], surface.ExternalBoundaries2d[i], RHG.BrepLoopType.Outer);
+                    brep.AddBrepOutline(face, surface.ExternalBoundaries3d[i], surface.ExternalBoundaries2d[i], RHG.BrepLoopType.Outer);
                 }
 
                 for (int i = 0; i < surface.InternalBoundaries3d.Count; i++)
                 {
-                    brep.AddBrepOutline(rhSurface, face, surface.InternalBoundaries3d[i], surface.InternalBoundaries2d[i], RHG.BrepLoopType.Inner);
+                    brep.AddBrepOutline(face, surface.InternalBoundaries3d[i], surface.InternalBoundaries2d[i], RHG.BrepLoopType.Inner);
                 }
 
                 return brep.IsValid ? brep : null;
@@ -578,7 +574,7 @@ namespace BH.Engine.Rhinoceros
         /**** Private methods                           ****/
         /***************************************************/
 
-        private static void AddBrepOutline(this RHG.Brep brep, RHG.NurbsSurface surface, RHG.BrepFace face, BHG.ICurve outline3d, BHG.ICurve outline2d, RHG.BrepLoopType loopType)
+        private static void AddBrepOutline(this RHG.Brep brep, RHG.BrepFace face, BHG.ICurve outline3d, BHG.ICurve outline2d, RHG.BrepLoopType loopType)
         {
             RHG.BrepLoop loop = brep.Loops.Add(loopType, face);
             List<BHG.ICurve> subParts3d = outline3d.ISubParts().ToList();
@@ -586,17 +582,11 @@ namespace BH.Engine.Rhinoceros
 
             for (int i = 0; i < subParts3d.Count; i++)
             {
-                BHG.ICurve c = subParts3d[i];
-                RHG.Curve rhc = c.IToRhino();
-                
-                if (!brep.Vertices.Any(x => x.Location.DistanceTo(rhc.PointAtStart) <= BHG.Tolerance.Distance))
-                    brep.Vertices.Add(rhc.PointAtStart, BH.oM.Geometry.Tolerance.Distance);
+                BHG.ICurve bhc = subParts3d[i];
+                RHG.Curve rhc = bhc.IToRhino();
 
-                if (!brep.Vertices.Any(x => x.Location.DistanceTo(rhc.PointAtEnd) <= BHG.Tolerance.Distance))
-                    brep.Vertices.Add(rhc.PointAtEnd, BH.oM.Geometry.Tolerance.Distance);
-
-                int startId = rhc.PointAtStart.VertexId(brep);
-                int endId = rhc.PointAtEnd.VertexId(brep);
+                int startId = brep.AddVertex(rhc.PointAtStart);
+                int endId = brep.AddVertex(rhc.PointAtEnd);
 
                 RHG.BrepTrim trim;
                 RHG.Curve rhc2d = subParts2d[i].IToRhino();
@@ -637,7 +627,7 @@ namespace BH.Engine.Rhinoceros
                 {
                     if (Math.Abs(start.X - end.X) <= BH.oM.Geometry.Tolerance.Distance)
                     {
-                        RHG.Interval domainU = surface.Domain(0);
+                        RHG.Interval domainU = brep.Surfaces[face.SurfaceIndex].Domain(0);
                         if (Math.Abs(start.X - domainU.Min) <= BH.oM.Geometry.Tolerance.Distance)
                             trim.IsoStatus = Rhino.Geometry.IsoStatus.West;
                         else if (Math.Abs(start.X - domainU.Max) <= BH.oM.Geometry.Tolerance.Distance)
@@ -647,7 +637,7 @@ namespace BH.Engine.Rhinoceros
                     }
                     else if (Math.Abs(start.Y - end.Y) <= BH.oM.Geometry.Tolerance.Distance)
                     {
-                        RHG.Interval domainV = surface.Domain(1);
+                        RHG.Interval domainV = brep.Surfaces[face.SurfaceIndex].Domain(1);
                         if (Math.Abs(start.Y - domainV.Min) <= BH.oM.Geometry.Tolerance.Distance)
                             trim.IsoStatus = Rhino.Geometry.IsoStatus.South;
                         else if (Math.Abs(start.Y - domainV.Max) <= BH.oM.Geometry.Tolerance.Distance)
@@ -660,8 +650,8 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
-
-        private static int VertexId(this RHG.Point3d point, RHG.Brep brep)
+        
+        private static int AddVertex(this RHG.Brep brep, RHG.Point3d point)
         {
             int id = -1;
             for (int j = 0; j < brep.Vertices.Count; j++)
@@ -673,32 +663,34 @@ namespace BH.Engine.Rhinoceros
                 }
             }
 
+            if (id == -1)
+            {
+                brep.Vertices.Add(point, BHG.Tolerance.Distance);
+                id = brep.Vertices.Count - 1;
+            }
+
             return id;
         }
 
         /***************************************************/
-
-        //TODO: this method is lame, could be improved?
+        
         private static bool IsSameEdge(this RHG.Curve curve, RHG.BrepEdge edge)
         {
+            double tolerance = BHG.Tolerance.Distance;
+            RHG.Curve edgeCurve = edge.DuplicateCurve();
+            edgeCurve.Reverse();
+
+            RHG.BoundingBox bb1 = curve.GetBoundingBox(false);
+            RHG.BoundingBox bb2 = edgeCurve.GetBoundingBox(false);
+            if (bb1.Min.DistanceTo(bb2.Min) > tolerance || bb1.Max.DistanceTo(bb2.Max) > tolerance)
+                return false;
+
+            int frameCount = 100;
             RHG.Point3d[] frames1, frames2;
-            curve.DivideByCount(100, false, out frames1);
-            edge.DivideByCount(100, false, out frames2);
-            frames1 = frames1.Reverse().ToArray();
+            curve.DivideByCount(frameCount, false, out frames1);
+            edgeCurve.DivideByCount(frameCount, false, out frames2);
 
-            bool same = true;
-            for (int j = 0; j < frames1.Length; j++)
-            {
-                //TODO: hardcoded tolerance
-                double tol = 1e-4;
-                if (frames1[j].DistanceTo(frames2[j]) > tol)
-                {
-                    same = false;
-                    break;
-                }
-            }
-
-            return same;
+            return Enumerable.Range(0, frameCount - 1).All(i => frames1[i].DistanceTo(frames2[i]) <= tolerance);
         }
 
         /***************************************************/
