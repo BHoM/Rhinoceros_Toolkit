@@ -245,7 +245,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.ICurve ToBHoM(this RHG.Curve rCurve)
+        public static BHG.ICurve ToBHoM(this RHG.Curve rCurve, bool allowClosingArcs = false)
         {
             if (rCurve == null) return null;
 
@@ -254,7 +254,7 @@ namespace BH.Engine.Rhinoceros
             {
                 return new BHG.Line { Start = rCurve.PointAtStart.ToBHoM(), End = rCurve.PointAtEnd.ToBHoM(), Infinite = false };
             }
-            if (rCurve.IsCircle())
+            if (rCurve.IsCircle() && !allowClosingArcs)
             {
                 RHG.Circle circle = new RHG.Circle();
                 rCurve.TryGetCircle(out circle);
@@ -348,16 +348,60 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        public static BHG.ISurface ToBHoM(this RHG.BrepFace face)
+        {
+            if (face == null)
+                return null;
+            
+            RHG.Surface rhSurf = face.UnderlyingSurface();
+            if (face.IsPlanar(BHG.Tolerance.Distance))
+            {
+                BHG.PlanarSurface bhs = rhSurf.ToBHoM() as BHG.PlanarSurface;
+                foreach (RHG.BrepLoop loop in face.Loops)
+                {
+                    if (loop.LoopType == RHG.BrepLoopType.Inner)
+                        bhs.InternalBoundaries.Add(new BHG.PolyCurve { Curves = loop.Trims.Select(x => rhSurf.Pushup(x, BHG.Tolerance.Distance).ToBHoM()).ToList() });
+                    else if (loop.LoopType == RHG.BrepLoopType.Outer)
+                        bhs.ExternalBoundary = new BHG.PolyCurve { Curves = loop.Trims.Select(x => rhSurf.Pushup(x, BHG.Tolerance.Distance).ToBHoM()).ToList() };
+                }
+
+                return bhs;
+            }
+            else
+            {
+                BHG.NurbsSurface bhs = rhSurf.ToNurbsSurface().ToBHoM();
+
+                foreach (RHG.BrepLoop loop in face.Loops)
+                {
+                    if (loop.LoopType == RHG.BrepLoopType.Outer)
+                    {
+                        bhs.ExternalBoundaries3d.Add(new BHG.PolyCurve { Curves = loop.Trims.Select(x => rhSurf.Pushup(x, BHG.Tolerance.Distance).ToBHoM(true)).ToList() });
+                        bhs.ExternalBoundaries2d.Add(new BHG.PolyCurve { Curves = loop.Trims.Select(x => x.ToBHoM(true)).ToList() });
+                    }
+                    else
+                    {
+                        bhs.InternalBoundaries3d.Add(new BHG.PolyCurve { Curves = loop.Trims.Select(x => rhSurf.Pushup(x, BHG.Tolerance.Distance).ToBHoM(true)).ToList() });
+                        bhs.InternalBoundaries2d.Add(new BHG.PolyCurve { Curves = loop.Trims.Select(x => x.ToBHoM(true)).ToList() });
+                    }
+                }
+
+                return bhs;
+            }
+        }
+
+        /***************************************************/
+
         public static BHG.ISurface ToBHoM(this RHG.Surface surface)
         {
-            if (surface == null) return null;
+            if (surface == null)
+                return null;
 
-            if (surface.IsPlanar())
+            if (surface.IsPlanar(BHG.Tolerance.Distance))
             {
                 BHG.ICurve externalEdge = RHG.Curve.JoinCurves(surface.ToBrep().DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().ToBHoM();
                 return new BHG.PlanarSurface { ExternalBoundary = externalEdge };
             }
-                
+
             return surface.ToNurbsSurface().ToBHoM();
         }
 
@@ -367,27 +411,39 @@ namespace BH.Engine.Rhinoceros
         {
             if (surface == null) return null;
 
-            return new BHG.NurbsSurface
+            BHG.NurbsSurface bhs = new BHG.NurbsSurface
             {
                 ControlPoints = surface.Points.Select(x => x.Location.ToBHoM()).ToList(),
                 Weights = surface.Points.Select(x => x.Weight).ToList(),
                 UKnots = surface.KnotsU.ToList(),
-                VKnots = surface.KnotsV.ToList()
+                VKnots = surface.KnotsV.ToList(),
+                UDegree = surface.Degree(0),
+                VDegree = surface.Degree(1)
             };
+
+            return bhs;
         }
 
         /***************************************************/
 
         public static BHG.IGeometry ToBHoM(this RHG.Brep brep)
         {
-            if (brep == null) return null;
+            if (brep == null)
+                return null;
 
-            if (brep.Surfaces.Count == 0) return null;
+            string log;
+            if (!brep.IsValidWithLog(out log))
+            {
+                Reflection.Compute.RecordError("Conversion failed, Rhino Brep is invalid: " + log);
+                return null;
+            }
 
-
-            if (brep.IsSolid) return brep.ToBHoMSolid();
+            if (brep.Faces.Count == 0)
+                return null;
+            
+            if (brep.IsSolid)
+                return brep.ToBHoMSolid();
         
-
             if (brep.IsPlanarSurface())
             {
                 BHG.ICurve externalEdge = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().ToBHoM();
@@ -395,8 +451,11 @@ namespace BH.Engine.Rhinoceros
                 return new BHG.PlanarSurface { ExternalBoundary = externalEdge, InternalBoundaries = internalEdges };
             }
 
+            if (brep.Faces.Count == 1)
+                return brep.Faces[0].ToBHoM();
+
             // Default case - return open Polysurface
-            return new BHG.PolySurface() { Surfaces = brep.Surfaces.Select(s => s.ToBHoM()).ToList() };
+            return new BHG.PolySurface() { Surfaces = brep.Faces.Select(s => s.ToBHoM()).ToList() };
         }
 
         /***************************************************/
@@ -483,7 +542,7 @@ namespace BH.Engine.Rhinoceros
                     break;
             }
 
-            return new BHG.BoundaryRepresentation(brep.Surfaces.Select(s => s.ToBHoM()).ToList());
+            return new BHG.BoundaryRepresentation(brep.Faces.Select(s => s.ToBHoM()).ToList());
         }
 
         /***************************************************/
