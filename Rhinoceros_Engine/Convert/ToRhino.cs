@@ -28,6 +28,7 @@ using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
 using BH.oM.Reflection.Attributes;
 using BH.Engine.Reflection;
+using System.Drawing;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -491,6 +492,27 @@ namespace BH.Engine.Rhinoceros
                 return new RHG.MeshFace(rFace.A, rFace.B, rFace.C);
         }
 
+        /***************************************************/
+        /**** Public Methods  - Mesh                    ****/
+        /***************************************************/
+
+        public static RHG.Mesh ToRhino(this BH.oM.Graphics.RenderMesh mesh)
+        {
+            RHG.Mesh rMesh = ToRhino(new BHG.Mesh() { Vertices = mesh.Vertices.Select(x => x.Point).ToList(), Faces = mesh.Faces });
+
+            Color[] colors = mesh.Vertices.Select(x => x.Color).ToArray();
+            rMesh.VertexColors.SetColors(colors);
+            return rMesh;
+        }
+
+        /***************************************************/
+
+        public static RHG.Point3d ToRhino(this BH.oM.Graphics.Vertex point)
+        {
+            if (point == null) return default(RHG.Point3d);
+
+            return new RHG.Point3d(point.Point.X, point.Point.Y, point.Point.Z);
+        }
 
         /***************************************************/
         /**** Public Methods  - Solids                  ****/
