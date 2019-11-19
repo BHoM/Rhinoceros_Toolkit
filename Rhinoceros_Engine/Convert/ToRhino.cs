@@ -147,7 +147,15 @@ namespace BH.Engine.Rhinoceros
 
             return rhTrans;
         }
+        
+        /***************************************************/
 
+        public static RHG.Point3d ToRhino(this BH.oM.Graphics.Vertex point)
+        {
+            if (point == null) return default(RHG.Point3d);
+
+            return new RHG.Point3d(point.Point.X, point.Point.Y, point.Point.Z);
+        }
 
         /***************************************************/
         /**** Public Methods  - Curves                  ****/
@@ -493,8 +501,6 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
-        /**** Public Methods  - Mesh                    ****/
-        /***************************************************/
 
         public static RHG.Mesh ToRhino(this BH.oM.Graphics.RenderMesh mesh)
         {
@@ -503,15 +509,6 @@ namespace BH.Engine.Rhinoceros
             Color[] colors = mesh.Vertices.Select(x => x.Color).ToArray();
             rMesh.VertexColors.SetColors(colors);
             return rMesh;
-        }
-
-        /***************************************************/
-
-        public static RHG.Point3d ToRhino(this BH.oM.Graphics.Vertex point)
-        {
-            if (point == null) return default(RHG.Point3d);
-
-            return new RHG.Point3d(point.Point.X, point.Point.Y, point.Point.Z);
         }
 
         /***************************************************/
