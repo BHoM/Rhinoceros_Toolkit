@@ -504,8 +504,25 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.Mesh ToRhino(this BH.oM.Graphics.RenderMesh mesh)
         {
-            RHG.Mesh rMesh = ToRhino(new BHG.Mesh() { Vertices = mesh.Vertices.Select(x => x.Point).ToList(), Faces = mesh.Faces });
+            if (mesh == null) return null;
 
+            List<RHG.Point3d> rVertices = mesh.Vertices.Select(x => x.ToRhino()).ToList();
+            List<BHG.Face> faces = mesh.Faces;
+            List<RHG.MeshFace> rFaces = new List<RHG.MeshFace>();
+            for (int i = 0; i < faces.Count; i++)
+            {
+                if (faces[i].IsQuad())
+                {
+                    rFaces.Add(new RHG.MeshFace(faces[i].A, faces[i].B, faces[i].C, faces[i].D));
+                }
+                else
+                {
+                    rFaces.Add(new RHG.MeshFace(faces[i].A, faces[i].B, faces[i].C));
+                }
+            }
+            RHG.Mesh rMesh = new RHG.Mesh();
+            rMesh.Faces.AddFaces(rFaces);
+            rMesh.Vertices.AddVertices(rVertices);
             Color[] colors = mesh.Vertices.Select(x => x.Color).ToArray();
             rMesh.VertexColors.SetColors(colors);
             return rMesh;
