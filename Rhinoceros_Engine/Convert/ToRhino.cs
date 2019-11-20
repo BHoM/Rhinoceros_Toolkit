@@ -150,7 +150,7 @@ namespace BH.Engine.Rhinoceros
         
         /***************************************************/
 
-        public static RHG.Point3d ToRhino(this BH.oM.Graphics.Vertex point)
+        private static RHG.Point3d ToRhino(this BH.oM.Graphics.Vertex point)
         {
             if (point == null) return default(RHG.Point3d);
 
