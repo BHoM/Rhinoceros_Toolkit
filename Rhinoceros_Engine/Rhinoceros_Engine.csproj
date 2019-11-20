@@ -45,8 +45,9 @@
       <HintPath>..\..\BHoM\Build\Geometry_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Graphics_oM">
-      <HintPath>..\..\BHoM\Graphics_oM\obj\Debug\Graphics_oM.dll</HintPath>
+    <Reference Include="Graphics_oM, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM\Build\Graphics_oM.dll</HintPath>
     </Reference>
     <Reference Include="Reflection_Engine">
       <HintPath>..\..\BHoM_Engine\Build\Reflection_Engine.dll</HintPath>
