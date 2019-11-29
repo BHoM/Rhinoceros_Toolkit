@@ -147,15 +147,6 @@ namespace BH.Engine.Rhinoceros
 
             return rhTrans;
         }
-        
-        /***************************************************/
-
-        private static RHG.Point3d ToRhino(this BH.oM.Graphics.Vertex point)
-        {
-            if (point == null) return default(RHG.Point3d);
-
-            return new RHG.Point3d(point.Point.X, point.Point.Y, point.Point.Z);
-        }
 
         /***************************************************/
         /**** Public Methods  - Curves                  ****/
@@ -730,5 +721,16 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
+
+        private static RHG.Point3d ToRhino(this BH.oM.Graphics.Vertex point)
+        {
+            if (point == null)
+                return default(RHG.Point3d);
+
+            return new RHG.Point3d(point.Point.X, point.Point.Y, point.Point.Z);
+        }
+
+        /***************************************************/
+
     }
 }
