@@ -364,11 +364,17 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.NurbsSurface ToBHoM(this RHG.NurbsSurface surface)
+        public static BHG.ISurface ToBHoM(this RHG.NurbsSurface surface)
         {
             if (surface == null)
                 return null;
-            
+
+            if (surface.IsPlanar(BH.oM.Geometry.Tolerance.Distance))
+            {
+                BHG.ICurve externalEdge = RHG.Curve.JoinCurves(surface.ToBrep().DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().ToBHoM();
+                return new BHG.PlanarSurface { ExternalBoundary = externalEdge };
+            }
+
             BHG.NurbsSurface bhs = new BHG.NurbsSurface
             (
                 surface.Points.Select(x => x.Location.ToBHoM()).ToList(),
