@@ -209,7 +209,7 @@ namespace BH.Engine.Rhinoceros
 
             for (int i = 0; i < ctrlPts.Count; i++)
             {
-                BHG.Point pt = ctrlPts[i];
+                BHG.Point pt = ctrlPts[i] * weights[i];
                 rCurve.Points.SetPoint(i, pt.X, pt.Y, pt.Z, weights[i]);
             }
 
