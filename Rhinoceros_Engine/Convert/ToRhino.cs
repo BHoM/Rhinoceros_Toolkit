@@ -209,8 +209,27 @@ namespace BH.Engine.Rhinoceros
 
             for (int i = 0; i < ctrlPts.Count; i++)
             {
-                BHG.Point pt = ctrlPts[i] * weights[i];
+                BHG.Point pt = ctrlPts[i];
                 rCurve.Points.SetPoint(i, pt.X, pt.Y, pt.Z, weights[i]);
+            }
+
+            if (weights.Any(x => Math.Abs(x - 1) > oM.Geometry.Tolerance.Distance)) // if the solution could be wrong
+            {
+                List<RHG.ControlPoint> cPtList = rCurve.Points.ToList();
+                for (int i = 0; i < cPtList.Count; i++)
+                {
+                    if (Math.Abs(cPtList[i].Location.X - ctrlPts[i].X) > oM.Geometry.Tolerance.Distance ||  // check if it is wrong
+                        Math.Abs(cPtList[i].Location.Y - ctrlPts[i].Y) > oM.Geometry.Tolerance.Distance ||  // and hence is in Rhino6
+                        Math.Abs(cPtList[i].Location.Z - ctrlPts[i].Z) > oM.Geometry.Tolerance.Distance)
+                    {
+                        for (int j = 0; j < ctrlPts.Count; j++) // Redo it like Rhino6 likes it
+                        {
+                            BHG.Point pt = ctrlPts[j] * weights[j];
+                            rCurve.Points.SetPoint(j, pt.X, pt.Y, pt.Z, weights[j]);
+                        }
+                        break;
+                    }
+                }
             }
 
             return rCurve;
