@@ -92,8 +92,10 @@
     <Compile Include="Create\Point3d.cs" />
     <Compile Include="Create\Point3f.cs" />
     <Compile Include="Create\PolyCurve.cs" />
+    <Compile Include="Create\PolylineCurve.cs" />
     <Compile Include="Create\Polyline.cs" />
-    <Compile Include="Create\Vector.cs" />
+    <Compile Include="Create\Vector3d.cs" />
+    <Compile Include="Create\Vector3f.cs" />
     <Compile Include="Query\IsEqual.cs" />
     <Compile Include="Query\IsPlanarSurface.cs" />
     <Compile Include="Query\IsRhinoEquivalent.cs" />

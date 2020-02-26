@@ -31,16 +31,16 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
-        public static Polyline RandomPolyline(Random random)
+        public static Vector3d RandomVector3d(Random random)
         {
-            return new Polyline(RandomPoint3dList(random));
+            return new Vector3d(random.NextDouble(), random.NextDouble(), random.NextDouble());
         }
 
         /***************************************************/
 
-        public static Polyline RandomPolyline(int seed = 0)
+        public static Vector3d RandomVector3d(int seed = 0)
         {
-            return RandomPolyline(new Random(seed));
+            return RandomVector3d(new Random(seed));
         }
 
         /***************************************************/
