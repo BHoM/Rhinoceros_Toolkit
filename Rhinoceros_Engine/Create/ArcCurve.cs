@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -35,16 +35,16 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
-        public static Arc RandomArc(Random random)
+        public static ArcCurve RandomArcCurve(Random random)
         {
-            return new Arc(RandomPoint3d(random), random.NextDouble(), random.NextDouble());
+            return new ArcCurve(RandomArc(random));
         }
 
         /***************************************************/
 
-        public static Arc RandomArc(int seed = 0)
+        public static ArcCurve RandomArcCurve(int seed = 0)
         {
-            return RandomArc(new Random(seed));
+            return RandomArcCurve(new Random(seed));
         }
 
         /***************************************************/
