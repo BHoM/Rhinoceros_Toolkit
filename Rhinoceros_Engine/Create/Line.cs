@@ -44,20 +44,6 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
-
-        public static LineCurve RandomLineCurve(Random random)
-        {
-            return new LineCurve(RandomPoint3d(random), RandomPoint3d(random));
-        }
-
-        /***************************************************/
-
-        public static LineCurve RandomLineCurve(int seed = 0)
-        {
-            return RandomLineCurve(new Random(seed));
-        }
-
-        /***************************************************/
     }
 }
 
