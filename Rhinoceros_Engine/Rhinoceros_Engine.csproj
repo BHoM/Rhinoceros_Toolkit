@@ -82,12 +82,15 @@
     <Compile Include="Create\Arc.cs" />
     <Compile Include="Create\ArcCurve.cs" />
     <Compile Include="Create\Circle.cs" />
+    <Compile Include="Create\ControlPoint.cs" />
+    <Compile Include="Create\LineCurve.cs" />
     <Compile Include="Create\Point3dList.cs" />
-    <Compile Include="Create\Curves.cs" />
+    <Compile Include="Create\Curve.cs" />
     <Compile Include="Create\Geometry.cs" />
     <Compile Include="Create\Line.cs" />
     <Compile Include="Create\NurbsCurve.cs" />
-    <Compile Include="Create\Point.cs" />
+    <Compile Include="Create\Point3d.cs" />
+    <Compile Include="Create\Point3f.cs" />
     <Compile Include="Create\PolyCurve.cs" />
     <Compile Include="Create\Polyline.cs" />
     <Compile Include="Create\Vector.cs" />
