@@ -22,6 +22,7 @@
 
 using Rhino.Geometry;
 using System;
+using System.Collections.Generic;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -41,6 +42,23 @@ namespace BH.Engine.Rhinoceros
         public static Point3d RandomPoint3d(int seed = 0)
         {
             return RandomPoint3d(new Random(seed));
+        }
+
+        /***************************************************/
+
+        public static List<Point3d> RandomPoint3dList(Random random)
+        {
+            List<Point3d> points = new List<Point3d>();
+            for (int i = 0; i < 10; i++)
+                points.Add(RandomPoint3d(random));
+            return points;
+        }
+
+        /***************************************************/
+
+        public static List<Point3d> RandomPoint3dList(int seed = 0)
+        {
+            return RandomPoint3dList(new Random(seed));
         }
 
         /***************************************************/
