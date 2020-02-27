@@ -77,7 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Convert\ToBHoM.cs" />
+    <Compile Include="Convert\FromRhino.cs" />
     <Compile Include="Convert\ToRhino.cs" />
     <Compile Include="Create\Arc.cs" />
     <Compile Include="Create\ArcCurve.cs" />
