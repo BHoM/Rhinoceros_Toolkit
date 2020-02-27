@@ -39,7 +39,7 @@ namespace BH.Engine.Rhinoceros
         {
             bool isPlanarSurface = true;
             isPlanarSurface &= brep.Surfaces.All(s => s.IsPlanar(BHG.Tolerance.Distance));
-            isPlanarSurface &= brep.Vertices.Select(x => x.ToBHoM()).ToList().IsCoplanar();
+            isPlanarSurface &= brep.Vertices.Select(x => x.FromRhino()).ToList().IsCoplanar();
 
             return isPlanarSurface;
         }
