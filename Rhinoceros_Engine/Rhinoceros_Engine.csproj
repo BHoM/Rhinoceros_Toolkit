@@ -84,7 +84,6 @@
     <Compile Include="Create\Circle.cs" />
     <Compile Include="Create\ControlPoint.cs" />
     <Compile Include="Create\LineCurve.cs" />
-    <Compile Include="Create\Point3dList.cs" />
     <Compile Include="Create\Curve.cs" />
     <Compile Include="Create\Geometry.cs" />
     <Compile Include="Create\Line.cs" />
