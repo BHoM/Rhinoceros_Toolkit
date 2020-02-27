@@ -24,7 +24,7 @@ using System;
 
 namespace BH.Engine.Rhinoceros
 {
-    public static partial class Create
+    public static partial class Compute
     {
         /***************************************************/
         /**** Public Methods                            ****/
@@ -43,37 +43,37 @@ namespace BH.Engine.Rhinoceros
             switch (throwDice)
             {
                 case 0:
-                    return RandomArc(random);
+                    return Create.RandomArc(random);
                 case 1:
-                    return RandomArcCurve(random);
+                    return Create.RandomArcCurve(random);
                 case 2:
-                    return RandomCircle(random);
+                    return Create.RandomCircle(random);
                 case 3:
-                    return RandomLine(random);
+                    return Create.RandomLine(random);
                 case 4:
-                    return RandomLineCurve(random);
+                    return Create.RandomLineCurve(random);
                 case 5:
-                    return RandomNurbsCurve(random);
+                    return Create.RandomNurbsCurve(random);
                 case 6:
-                    return RandomPoint3d(random);
+                    return Create.RandomPoint3d(random);
                 case 7:
-                    return RandomPoint3f(random);
+                    return Create.RandomPoint3f(random);
                 case 8:
-                    return RandomControlPoint(random);
+                    return Create.RandomControlPoint(random);
                 case 9:
-                    return RandomPolyCurve(random);
+                    return Create.RandomPolyCurve(random);
                 case 10:
-                    return RandomPolyline(random);
+                    return Create.RandomPolyline(random);
                 case 11:
-                    return RandomPolylineCurve(random);
+                    return Create.RandomPolylineCurve(random);
                 case 12:
-                    return RandomVector3d(random);
+                    return Create.RandomVector3d(random);
                 case 13:
-                    return RandomPoint3f(random);
+                    return Create.RandomPoint3f(random);
                 case 14:
-                    return RandomCurves(random);
+                    return Create.RandomCurves(random);
                 case 15:
-                    return RandomPoint3dList(random);
+                    return Create.RandomPoint3dList(random);
                 default:
                     return null;
             }
@@ -86,43 +86,43 @@ namespace BH.Engine.Rhinoceros
             switch(type.Name.ToLower())
             {
                 case "arc":
-                    return RandomArc(random);
+                    return Create.RandomArc(random);
                 case "arccurve":
-                    return RandomArcCurve(random);
+                    return Create.RandomArcCurve(random);
                 case "circle":
-                    return RandomCircle(random);
+                    return Create.RandomCircle(random);
                 case "line":
-                    return RandomLine(random);
+                    return Create.RandomLine(random);
                 case "linecurve":
-                    return RandomLineCurve(random);
+                    return Create.RandomLineCurve(random);
                 case "nurbscurve":
                 case "nurbcurve":
-                    return RandomNurbsCurve(random);
+                    return Create.RandomNurbsCurve(random);
                 case "point":
                 case "point3d":
-                    return RandomPoint3d(random);
+                    return Create.RandomPoint3d(random);
                 case "point3f":
-                    return RandomPoint3f(random);
+                    return Create.RandomPoint3f(random);
                 case "controlpoint":
-                    return RandomControlPoint(random);
+                    return Create.RandomControlPoint(random);
                 case "polycurve":
-                    return RandomPolyCurve(random);
+                    return Create.RandomPolyCurve(random);
                 case "polyline":
-                    return RandomPolyline(random);
+                    return Create.RandomPolyline(random);
                 case "polylinecurve":
-                    return RandomPolylineCurve(random);
+                    return Create.RandomPolylineCurve(random);
                 case "vector":
                 case "vector3d":
-                    return RandomVector3d(random);
+                    return Create.RandomVector3d(random);
                 case "vector3f":
-                    return RandomPoint3f(random);
+                    return Create.RandomPoint3f(random);
                 case "curvelist":
                 case "curves":
-                    return RandomCurves(random);
+                    return Create.RandomCurves(random);
                 case "pointlist":
                 case "point3dlist":
                 case "points":
-                    return RandomPoint3dList(random);
+                    return Create.RandomPoint3dList(random);
                 default:
                     return null;
             }
@@ -131,4 +131,3 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
     }
 }
-
