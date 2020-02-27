@@ -88,7 +88,8 @@
     <Compile Include="Create\Geometry.cs" />
     <Compile Include="Create\Line.cs" />
     <Compile Include="Create\NurbsCurve.cs" />
-    <Compile Include="Create\Point3d.cs" />
+    <Compile Include="Create\Point3d\Point3dList.cs" />
+    <Compile Include="Create\Point3d\Point3d.cs" />
     <Compile Include="Create\Point3f.cs" />
     <Compile Include="Create\PolyCurve.cs" />
     <Compile Include="Create\PolylineCurve.cs" />

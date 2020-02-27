@@ -32,20 +32,6 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
-        public static Point3d RandomPoint3d(Random random)
-        {
-            return new Point3d(random.NextDouble(), random.NextDouble(), random.NextDouble());
-        }
-
-        /***************************************************/
-
-        public static Point3d RandomPoint3d(int seed = 0)
-        {
-            return RandomPoint3d(new Random(seed));
-        }
-
-        /***************************************************/
-
         public static List<Point3d> RandomPoint3dList(Random random)
         {
             List<Point3d> points = new List<Point3d>();
