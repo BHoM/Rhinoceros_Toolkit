@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="Convert\FromRhino.cs" />
     <Compile Include="Convert\ToRhino.cs" />
+    <Compile Include="Convert\ToRhino6.cs" />
+    <Compile Include="Convert\ToRhino5.cs" />
     <Compile Include="Create\Arc.cs" />
     <Compile Include="Create\ArcCurve.cs" />
     <Compile Include="Create\Circle.cs" />

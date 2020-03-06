@@ -196,24 +196,15 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.NurbsCurve ToRhino(this BHG.NurbsCurve bCurve)
         {
-            if (bCurve == null) return null;
-
-            List<double> knots = bCurve.Knots;
-            List<double> weights = bCurve.Weights;
-            List<BHG.Point> ctrlPts = bCurve.ControlPoints;
-
-            RHG.NurbsCurve rCurve = new RHG.NurbsCurve(3, false, bCurve.Degree() + 1, ctrlPts.Count);
-
-            for (int i = 0; i < knots.Count; i++)
-                rCurve.Knots[i] = knots[i];
-
-            for (int i = 0; i < ctrlPts.Count; i++)
+            switch (Rhino.RhinoApp.Version.Major)
             {
-                BHG.Point pt = ctrlPts[i];
-                rCurve.Points.SetPoint(i, pt.X, pt.Y, pt.Z, weights[i]);
+                case 5:
+                    return ToRhino5(bCurve);
+                case 6:
+                    return ToRhino6(bCurve);
+                default:
+                    throw new NotImplementedException($"Rhino {Rhino.RhinoApp.Version.ToString()} version not supported.");
             }
-
-            return rCurve;
         }
 
         /***************************************************/
