@@ -193,46 +193,17 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
-
         public static RHG.NurbsCurve ToRhino(this BHG.NurbsCurve bCurve)
         {
-            if (bCurve == null) return null;
-
-            List<double> knots = bCurve.Knots;
-            List<double> weights = bCurve.Weights;
-            List<BHG.Point> ctrlPts = bCurve.ControlPoints;
-
-            RHG.NurbsCurve rCurve = new RHG.NurbsCurve(3, false, bCurve.Degree() + 1, ctrlPts.Count);
-
-            for (int i = 0; i < knots.Count; i++)
-                rCurve.Knots[i] = knots[i];
-
-            for (int i = 0; i < ctrlPts.Count; i++)
+            switch (Rhino.RhinoApp.Version.Major)
             {
-                BHG.Point pt = ctrlPts[i];
-                rCurve.Points.SetPoint(i, pt.X, pt.Y, pt.Z, weights[i]);
+                case 5:
+                    return ToRhino5(bCurve);
+                case 6:
+                    return ToRhino6(bCurve);
+                default:
+                    throw new NotImplementedException($"Rhino {Rhino.RhinoApp.Version.ToString()} version not supported.");
             }
-
-            if (weights.Any(x => Math.Abs(x - 1) > oM.Geometry.Tolerance.Distance)) // if the solution could be wrong
-            {
-                List<RHG.ControlPoint> cPtList = rCurve.Points.ToList();
-                for (int i = 0; i < cPtList.Count; i++)
-                {
-                    if (Math.Abs(cPtList[i].Location.X - ctrlPts[i].X) > oM.Geometry.Tolerance.Distance ||  // check if it is wrong
-                        Math.Abs(cPtList[i].Location.Y - ctrlPts[i].Y) > oM.Geometry.Tolerance.Distance ||  // and hence is in Rhino6
-                        Math.Abs(cPtList[i].Location.Z - ctrlPts[i].Z) > oM.Geometry.Tolerance.Distance)
-                    {
-                        for (int j = 0; j < ctrlPts.Count; j++) // Redo it like Rhino6 likes it
-                        {
-                            BHG.Point pt = ctrlPts[j] * weights[j];
-                            rCurve.Points.SetPoint(j, pt.X, pt.Y, pt.Z, weights[j]);
-                        }
-                        break;
-                    }
-                }
-            }
-
-            return rCurve;
         }
 
         /***************************************************/
@@ -243,7 +214,7 @@ namespace BH.Engine.Rhinoceros
                 return null;
 
             IEnumerable<RHG.Curve> parts = bPolyCurve.Curves.Select(x => x.IToRhino());
-            
+
             // Check if bPolycurve is made of disconnected segments
             if (RHG.Curve.JoinCurves(parts).Length > 1)
                 return null;
@@ -413,8 +384,8 @@ namespace BH.Engine.Rhinoceros
                 RHG.Brep brep = new RHG.Brep();
                 int srf = brep.AddSurface(rhSurface);
                 RHG.BrepFace face = brep.Faces.Add(srf);
-                
-                foreach(BHG.SurfaceTrim trim in surface.OuterTrims)
+
+                foreach (BHG.SurfaceTrim trim in surface.OuterTrims)
                 {
                     brep.AddBrepTrim(face, trim, RHG.BrepLoopType.Outer);
                 }
@@ -696,7 +667,7 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
-        
+
         private static int AddVertex(this RHG.Brep brep, RHG.Point3d point)
         {
             int id = -1;
@@ -719,7 +690,7 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
-        
+
         private static bool IsSameEdge(this RHG.Curve curve, RHG.BrepEdge edge)
         {
             double tolerance = BHG.Tolerance.Distance;
