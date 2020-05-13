@@ -356,7 +356,7 @@ namespace BH.Engine.Rhinoceros
             if (surface.IsPlanar(BHG.Tolerance.Distance))
             {
                 BHG.ICurve externalEdge = RHG.Curve.JoinCurves(surface.ToBrep().DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().FromRhino();
-                return new BHG.PlanarSurface { ExternalBoundary = externalEdge };
+                return new BHG.PlanarSurface(externalEdge, new List<oM.Geometry.ICurve>());
             }
 
             return surface.ToNurbsSurface().FromRhino();
@@ -372,7 +372,7 @@ namespace BH.Engine.Rhinoceros
             if (surface.IsPlanar(BH.oM.Geometry.Tolerance.Distance))
             {
                 BHG.ICurve externalEdge = RHG.Curve.JoinCurves(surface.ToBrep().DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().FromRhino();
-                return new BHG.PlanarSurface { ExternalBoundary = externalEdge };
+                return new BHG.PlanarSurface(externalEdge, new List<BHG.ICurve>());
             }
 
             BHG.NurbsSurface bhs = new BHG.NurbsSurface
@@ -414,7 +414,7 @@ namespace BH.Engine.Rhinoceros
             {
                 BHG.ICurve externalEdge = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().FromRhino();
                 List<BHG.ICurve> internalEdges = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(false, true)).Select(c => c.FromRhino()).ToList();
-                return new BHG.PlanarSurface { ExternalBoundary = externalEdge, InternalBoundaries = internalEdges };
+                return new BHG.PlanarSurface(externalEdge, internalEdges);
             }
 
             if (brep.Faces.Count == 1)
@@ -591,15 +591,17 @@ namespace BH.Engine.Rhinoceros
                 return null;
 
             BHG.PlanarSurface bhs = rhSurf.FromRhino() as BHG.PlanarSurface;
+            List<BHG.ICurve> internalBoundaries = bhs.InternalBoundaries.ToList();
+            BHG.ICurve externalBoundary = bhs.ExternalBoundary;
             foreach (RHG.BrepLoop loop in face.Loops)
             {
                 if (loop.LoopType == RHG.BrepLoopType.Inner)
-                    bhs.InternalBoundaries.Add(new BHG.PolyCurve { Curves = loop.Trims.Select(x => rhSurf.Pushup(x, BHG.Tolerance.Distance).FromRhino()).ToList() });
+                    internalBoundaries.Add(new BHG.PolyCurve { Curves = loop.Trims.Select(x => rhSurf.Pushup(x, BHG.Tolerance.Distance).FromRhino()).ToList() });
                 else if (loop.LoopType == RHG.BrepLoopType.Outer)
-                    bhs.ExternalBoundary = new BHG.PolyCurve { Curves = loop.Trims.Select(x => rhSurf.Pushup(x, BHG.Tolerance.Distance).FromRhino()).ToList() };
+                    externalBoundary = new BHG.PolyCurve { Curves = loop.Trims.Select(x => rhSurf.Pushup(x, BHG.Tolerance.Distance).FromRhino()).ToList() };
             }
 
-            return bhs;
+            return BH.Engine.Geometry.Create.PlanarSurface(externalBoundary, internalBoundaries);
         }
 
         /***************************************************/
