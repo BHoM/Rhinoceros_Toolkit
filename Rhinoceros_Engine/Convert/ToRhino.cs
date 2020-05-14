@@ -453,15 +453,24 @@ namespace BH.Engine.Rhinoceros
             List<RHG.Point3d> rVertices = mesh.Vertices.Select(x => x.ToRhino()).ToList();
             List<BHG.Face> faces = mesh.Faces;
             List<RHG.MeshFace> rFaces = new List<RHG.MeshFace>();
+            int nbVertices = rVertices.Count;
             for (int i = 0; i < faces.Count; i++)
             {
-                if (faces[i].IsQuad())
+                BHG.Face face = faces[i];
+                if (face.IsQuad())
                 {
-                    rFaces.Add(new RHG.MeshFace(faces[i].A, faces[i].B, faces[i].C, faces[i].D));
+
+                    if (face.A < nbVertices && face.B < nbVertices && face.C < nbVertices && face.D < nbVertices)
+                        rFaces.Add(new RHG.MeshFace(face.A, face.B, face.C, face.D));
+                    else
+                        Reflection.Compute.RecordWarning("Mesh face [" + face.A + ", " + face.B + ", " + face.C + ", " + face.D + "] could not be created due to corresponding vertices missing");
                 }
                 else
                 {
-                    rFaces.Add(new RHG.MeshFace(faces[i].A, faces[i].B, faces[i].C));
+                    if (face.A < nbVertices && face.B < nbVertices && face.C < nbVertices)
+                        rFaces.Add(new RHG.MeshFace(face.A, face.B, face.C));
+                    else
+                        Reflection.Compute.RecordWarning("Mesh face [" + face.A + ", " + face.B + ", " + face.C + "] could not be created due to corresponding vertices missing");
                 }
             }
             RHG.Mesh rMesh = new RHG.Mesh();
