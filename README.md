@@ -1,4 +1,4 @@
-[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) [![Build status](https://ci.appveyor.com/api/projects/status/iwf799us8e4sjk4x/branch/master?svg=true)](https://ci.appveyor.com/api/projects/status/rhinoceros_toolkit/branch/master) [![Build Status](https://dev.azure.com/BHoMBot/BHoM/_apis/build/status/Rhinoceros_Toolkit/Rhinoceros_Toolkit.CheckCore?branchName=master)](https://dev.azure.com/BHoMBot/BHoM/_build/latest?definitionId=93&branchName=master)
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) [![Build status](https://ci.appveyor.com/api/projects/status/iwf799us8e4sjk4x/branch/master?svg=true)](https://ci.appveyor.com/api/projects/status/rhinoceros_toolkit/branch/master) [![Build Status](https://dev.azure.com/BHoMBot/BHoM/_apis/build/status/Rhinoceros_Toolkit/Rhinoceros_Toolkit.CheckCore?branchName=master)](https://dev.azure.com/BHoMBot/BHoM/_build/latest?definitionId=96&branchName=master)
 
 # Rhinoceros_Toolkit
 
@@ -11,7 +11,7 @@ https://www.rhino3d.com/
 - Rhinoceros v6
 
 ### Documentation
-For more information about functionality see https://github.com/BHoM/Rhinoceros_Toolkit/wiki/BHoM---Rhinoceros-conversion-table
+For more information about functionality see the [BHoM-Rhino conversion table](https://github.com/BHoM/Rhinoceros_Toolkit/wiki/BHoM---Rhinoceros-conversion-table) in the [local wiki](https://github.com/BHoM/Rhinoceros_Toolkit/wiki)
 
 ---
 This toolkit is part of the Buildings and Habitats object Model. Find out more on our [wiki](https://github.com/BHoM/documentation/wiki) or at [https://bhom.xyz](https://bhom.xyz/)
