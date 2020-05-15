@@ -591,7 +591,7 @@ namespace BH.Engine.Rhinoceros
                 return null;
 
             BHG.PlanarSurface bhs = rhSurf.FromRhino() as BHG.PlanarSurface;
-            List<BHG.ICurve> internalBoundaries = bhs.InternalBoundaries.ToList();
+            List<BHG.ICurve> internalBoundaries = new List<BHG.ICurve>();
             BHG.ICurve externalBoundary = bhs.ExternalBoundary;
             foreach (RHG.BrepLoop loop in face.Loops)
             {
@@ -654,4 +654,3 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
     }
 }
-
