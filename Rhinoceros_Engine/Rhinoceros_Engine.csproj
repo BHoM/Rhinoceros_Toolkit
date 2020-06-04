@@ -34,33 +34,33 @@
   <ItemGroup>
     <Reference Include="BHoM">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Dimensional_oM">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\BHoM\Build\Dimensional_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Dimensional_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Geometry_Engine">
-      <HintPath>..\..\BHoM_Engine\Build\Geometry_Engine.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Geometry_Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Geometry_oM">
-      <HintPath>..\..\BHoM\Build\Geometry_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Geometry_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Graphics_oM">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\BHoM\Build\Graphics_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Graphics_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Reflection_Engine">
-      <HintPath>..\..\BHoM_Engine\Build\Reflection_Engine.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Reflection_oM">
-      <HintPath>..\..\BHoM\Build\Reflection_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
@@ -117,6 +117,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)"  "C:\\ProgramData\\BHoM\\Assemblies" /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
