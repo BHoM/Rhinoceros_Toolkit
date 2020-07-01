@@ -520,6 +520,13 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
+
+        public static RHG.Mesh ToRhino(this BHG.Mesh3D mesh3d)
+        {
+            return mesh3d?.ToMesh().ToRhino();
+        }
+
+        /***************************************************/
         /**** Public Methods  - Solids                  ****/
         /***************************************************/
 
