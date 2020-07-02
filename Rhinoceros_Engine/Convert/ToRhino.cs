@@ -527,6 +527,14 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
+
+        public static RHG.GeometryBase ToRhino(this BHG.CellRelation cellrelation)
+        {
+            // No Rhino equivalant and nothing meaning full to convert to.
+            return null;
+        }
+
+        /***************************************************/
         /**** Public Methods  - Solids                  ****/
         /***************************************************/
 
