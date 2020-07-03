@@ -530,7 +530,7 @@ namespace BH.Engine.Rhinoceros
 
         public static RHG.GeometryBase ToRhino(this BHG.CellRelation cellrelation)
         {
-            // No Rhino equivalant and nothing meaning full to convert to.
+            // No Rhino equivalant and nothing meaningful to convert to.
             return null;
         }
 
