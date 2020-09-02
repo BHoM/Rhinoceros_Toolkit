@@ -38,8 +38,8 @@ namespace BH.Engine.Rhinoceros
                 return doc.ModelAbsoluteTolerance;
             else
             {
-                BH.Engine.Reflection.Compute.RecordError("Rhino document tolerance could not be retrieved because active document has not been found.");
-                return double.NaN;
+                BH.Engine.Reflection.Compute.RecordWarning("Rhino document tolerance could not be retrieved because active document has not been found - standard BHoM geometrical tolerance is returned instead.");
+                return BH.oM.Geometry.Tolerance.Distance;
             }
         }
 
