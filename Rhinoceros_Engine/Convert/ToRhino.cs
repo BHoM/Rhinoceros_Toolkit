@@ -395,7 +395,7 @@ namespace BH.Engine.Rhinoceros
                 {
                     brep.AddBrepTrim(face, trim, RHG.BrepLoopType.Inner);
                 }
-
+                
                 return brep.IsValid ? brep : null;
             }
         }
@@ -622,6 +622,8 @@ namespace BH.Engine.Rhinoceros
             List<BHG.ICurve> subParts3d = trim.Curve3d.ISubParts().ToList();
             List<BHG.ICurve> subParts2d = trim.Curve2d.ISubParts().ToList();
 
+            double rhinoTolerance = Query.DocumentTolerance();
+
             for (int i = 0; i < subParts3d.Count; i++)
             {
                 BHG.ICurve bhc = subParts3d[i];
@@ -650,7 +652,7 @@ namespace BH.Engine.Rhinoceros
                     if (edge == null)
                     {
                         int crv = brep.Curves3D.Add(rhc);
-                        edge = brep.Edges.Add(startId, endId, crv, BH.oM.Geometry.Tolerance.Distance);
+                        edge = brep.Edges.Add(startId, endId, crv, rhinoTolerance);
                         rev3d = false;
                     }
 
@@ -659,7 +661,7 @@ namespace BH.Engine.Rhinoceros
                 else
                     rhTrim = brep.Trims.AddSingularTrim(brep.Vertices[startId], loop, Rhino.Geometry.IsoStatus.None, crv2d);
 
-                rhTrim.SetTolerances(BH.oM.Geometry.Tolerance.Distance, BH.oM.Geometry.Tolerance.Distance);
+                rhTrim.SetTolerances(rhinoTolerance, rhinoTolerance);
 
                 //TODO: In Rhino 6 this could be replaced with Surface.IsIsoParametric(Curve)
                 RHG.Point3d start = rhc2d.PointAtStart;
@@ -667,22 +669,22 @@ namespace BH.Engine.Rhinoceros
 
                 if (rhc2d.IsLinear())
                 {
-                    if (Math.Abs(start.X - end.X) <= BH.oM.Geometry.Tolerance.Distance)
+                    if (Math.Abs(start.X - end.X) <= rhinoTolerance)
                     {
                         RHG.Interval domainU = brep.Surfaces[face.SurfaceIndex].Domain(0);
-                        if (Math.Abs(start.X - domainU.Min) <= BH.oM.Geometry.Tolerance.Distance)
+                        if (Math.Abs(start.X - domainU.Min) <= rhinoTolerance)
                             rhTrim.IsoStatus = Rhino.Geometry.IsoStatus.West;
-                        else if (Math.Abs(start.X - domainU.Max) <= BH.oM.Geometry.Tolerance.Distance)
+                        else if (Math.Abs(start.X - domainU.Max) <= rhinoTolerance)
                             rhTrim.IsoStatus = RHG.IsoStatus.East;
                         else
                             rhTrim.IsoStatus = RHG.IsoStatus.X;
                     }
-                    else if (Math.Abs(start.Y - end.Y) <= BH.oM.Geometry.Tolerance.Distance)
+                    else if (Math.Abs(start.Y - end.Y) <= rhinoTolerance)
                     {
                         RHG.Interval domainV = brep.Surfaces[face.SurfaceIndex].Domain(1);
-                        if (Math.Abs(start.Y - domainV.Min) <= BH.oM.Geometry.Tolerance.Distance)
+                        if (Math.Abs(start.Y - domainV.Min) <= rhinoTolerance)
                             rhTrim.IsoStatus = Rhino.Geometry.IsoStatus.South;
-                        else if (Math.Abs(start.Y - domainV.Max) <= BH.oM.Geometry.Tolerance.Distance)
+                        else if (Math.Abs(start.Y - domainV.Max) <= rhinoTolerance)
                             rhTrim.IsoStatus = RHG.IsoStatus.North;
                         else
                             rhTrim.IsoStatus = RHG.IsoStatus.Y;
