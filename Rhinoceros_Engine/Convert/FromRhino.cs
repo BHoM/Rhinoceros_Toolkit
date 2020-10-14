@@ -579,7 +579,7 @@ namespace BH.Engine.Rhinoceros
                     break;
             }
 
-            return new BHG.BoundaryRepresentation(brep.Faces.Select(s => s.FromRhino()).ToList());
+            return new BHG.BoundaryRepresentation(brep.Faces.Select(s => s.FromRhino()).ToList(), brep.GetVolume());
         }
 
         /***************************************************/
