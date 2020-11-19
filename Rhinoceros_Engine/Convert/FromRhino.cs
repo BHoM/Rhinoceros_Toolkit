@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
+using BH.Engine.Reflection;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -34,14 +35,21 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static BHG.IGeometry FromRhino(this RHG.GeometryBase geometry)
+        public static BHG.IGeometry IFromRhino(this RHG.GeometryBase geometry)
         {
             return (geometry == null) ? null : Convert.FromRhino(geometry as dynamic);
         }
 
         /***************************************************/
 
-        public static BHG.IGeometry FromRhino<T>(this Rhino.IEpsilonComparable<T> geometry)
+        public static BHG.IGeometry IFromRhino<T>(this Rhino.IEpsilonComparable<T> geometry)
+        {
+            return (geometry == null) ? null : Convert.FromRhino(geometry as dynamic);
+        }
+
+        /***************************************************/
+
+        public static BHG.IGeometry IFromRhino(this object geometry)
         {
             return (geometry == null) ? null : Convert.FromRhino(geometry as dynamic);
         }
@@ -529,7 +537,7 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.CompositeGeometry FromRhino(this List<RHG.GeometryBase> geometries)
         {
-            return new BHG.CompositeGeometry { Elements = geometries.Select(x => x.FromRhino()).ToList() };
+            return new BHG.CompositeGeometry { Elements = geometries.Select(x => x.IFromRhino()).ToList() };
         }
 
         /***************************************************/
@@ -649,6 +657,19 @@ namespace BH.Engine.Rhinoceros
             }
             else
                 return curve.FromRhino();
+        }
+
+
+        /***************************************************/
+        /**** Fallback Methods                          ****/
+        /***************************************************/
+
+        public static BHG.IGeometry FromRhino(this object obj)
+        {
+            if (obj != null)
+                Engine.Reflection.Compute.RecordError($"No conversion could be found between {obj.GetType().IToText()} and Rhino geometry.");
+
+            return null;
         }
 
         /***************************************************/
