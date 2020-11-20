@@ -337,6 +337,13 @@ namespace BH.Engine.Rhinoceros
             return rPolyline.FromRhino();
         }
 
+        /***************************************************/
+
+        private static BHG.Polyline FromRhino(this RHG.Rectangle3d rectangle)
+        {
+            return FromRhino(rectangle.ToPolyline());
+        }
+
 
         /***************************************************/
         /**** Public Methods  - Surfaces                ****/
