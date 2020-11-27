@@ -437,7 +437,6 @@ namespace BH.Engine.Rhinoceros
         public static RHG.Extrusion ToRhino(this BHG.Extrusion extrusion)
         {
             // TODO Rhino_Adapter conversion to Extrusion
-            Engine.Reflection.Compute.RecordError("The operation is not implemented");
             return null;
         }
 
