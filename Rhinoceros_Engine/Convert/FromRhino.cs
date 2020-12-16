@@ -674,7 +674,7 @@ namespace BH.Engine.Rhinoceros
         public static BHG.IGeometry FromRhino(this object obj)
         {
             BHG.IGeometry geom = obj as BHG.IGeometry;
-            if (geom == null)
+            if (geom == null && obj != null)
                 Engine.Reflection.Compute.RecordError($"No conversion could be found between {obj.GetType().IToText()} and Rhino geometry.");
             else
                 return geom;
