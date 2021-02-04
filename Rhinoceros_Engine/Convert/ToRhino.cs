@@ -46,15 +46,6 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static Rhino.Display.Text3d IToRhino(this BHG.TextRepresentation textRepr)
-        {
-            if (textRepr == null) return null;
-
-            return new Rhino.Display.Text3d(textRepr.Text); // add other parameters like text height etc here.
-        }
-
-        /***************************************************/
-
         public static RHG.Curve IToRhino(this BHG.ICurve curve)
         {
             if (curve == null) return null;
@@ -618,6 +609,15 @@ namespace BH.Engine.Rhinoceros
             if (geometries == null) return new List<object>();
 
             return geometries.Elements.Select(x => x.IToRhino()).ToList();
+        }
+
+        /***************************************************/
+
+        public static Rhino.Display.Text3d ToRhino(this BHG.TextRepresentation textRepr)
+        {
+            if (textRepr == null) return null;
+
+            return new Rhino.Display.Text3d(textRepr.Text, textRepr.BasePlane.ToRhino(), textRepr.TextHeight);
         }
 
 
