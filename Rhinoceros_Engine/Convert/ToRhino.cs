@@ -29,6 +29,7 @@ using BH.Engine.Geometry;
 using BH.oM.Reflection.Attributes;
 using BH.Engine.Reflection;
 using System.Drawing;
+using BH.oM.Base;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -38,9 +39,18 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static object IToRhino(this BHG.IGeometry geometry)
+        public static object IToRhino(this IObject iObj)
         {
-            return (geometry == default(BHG.IGeometry)) ? null : Convert.ToRhino(geometry as dynamic);
+            return (iObj is BHG.IGeometry && iObj == default(BHG.IGeometry)) ? null : Convert.ToRhino(iObj as dynamic);
+        }
+
+        /***************************************************/
+
+        public static Rhino.Display.Text3d IToRhino(this BHG.TextRepresentation textRepr)
+        {
+            if (textRepr == null) return null;
+
+            return new Rhino.Display.Text3d(textRepr.Text); // add other parameters like text height etc here.
         }
 
         /***************************************************/
