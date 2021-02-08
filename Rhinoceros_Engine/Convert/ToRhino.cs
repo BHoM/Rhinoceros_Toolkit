@@ -30,6 +30,7 @@ using BH.oM.Reflection.Attributes;
 using BH.Engine.Reflection;
 using System.Drawing;
 using BH.oM.Base;
+using Rhino.Display;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -613,11 +614,26 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static Rhino.Display.Text3d ToRhino(this BHG.TextRepresentation textRepr)
+        public static Text3d ToRhino(this BHG.TextRepresentation textRep)
         {
-            if (textRepr == null) return null;
+            if (textRep == null) return null;
 
-            return new Rhino.Display.Text3d(textRepr.Text, textRepr.BasePlane.ToRhino(), textRepr.TextHeight);
+            RHG.Vector3d xdir = (RHG.Vector3d)textRep.Cartesian.X.IToRhino();
+            RHG.Vector3d ydir = (RHG.Vector3d)textRep.Cartesian.Y.IToRhino();
+            RHG.Point3d pos = (RHG.Point3d)textRep.Cartesian.Origin.IToRhino();
+            RHG.Plane textPlane = new RHG.Plane(pos, xdir, ydir);
+            Text3d text3D = new Text3d(textRep.Text, textPlane, textRep.Height);
+            text3D.FontFace = textRep.Font;
+            return text3D;
+        }
+
+        /***************************************************/
+
+        public static object ToRhino(this BHG.GeometricalRepresentation geoRep)
+        {
+            if (geoRep.Geometry == null) return null;
+
+            return ToRhino(geoRep.Geometry as dynamic);
         }
 
 
@@ -668,7 +684,7 @@ namespace BH.Engine.Rhinoceros
                     rhTrim = brep.Trims.Add(edge, rev3d, loop, crv2d);
                 }
                 else
-                    rhTrim = brep.Trims.AddSingularTrim(brep.Vertices[startId], loop, Rhino.Geometry.IsoStatus.None, crv2d);
+                    rhTrim = brep.Trims.AddSingularTrim(brep.Vertices[startId], loop, RHG.IsoStatus.None, crv2d);
 
                 rhTrim.SetTolerances(rhinoTolerance, rhinoTolerance);
 
@@ -682,7 +698,7 @@ namespace BH.Engine.Rhinoceros
                     {
                         RHG.Interval domainU = brep.Surfaces[face.SurfaceIndex].Domain(0);
                         if (Math.Abs(start.X - domainU.Min) <= rhinoTolerance)
-                            rhTrim.IsoStatus = Rhino.Geometry.IsoStatus.West;
+                            rhTrim.IsoStatus = RHG.IsoStatus.West;
                         else if (Math.Abs(start.X - domainU.Max) <= rhinoTolerance)
                             rhTrim.IsoStatus = RHG.IsoStatus.East;
                         else
@@ -692,7 +708,7 @@ namespace BH.Engine.Rhinoceros
                     {
                         RHG.Interval domainV = brep.Surfaces[face.SurfaceIndex].Domain(1);
                         if (Math.Abs(start.Y - domainV.Min) <= rhinoTolerance)
-                            rhTrim.IsoStatus = Rhino.Geometry.IsoStatus.South;
+                            rhTrim.IsoStatus = RHG.IsoStatus.South;
                         else if (Math.Abs(start.Y - domainV.Max) <= rhinoTolerance)
                             rhTrim.IsoStatus = RHG.IsoStatus.North;
                         else
