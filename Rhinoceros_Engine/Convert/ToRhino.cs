@@ -623,7 +623,15 @@ namespace BH.Engine.Rhinoceros
             RHG.Point3d pos = (RHG.Point3d)textRep.Cartesian.Origin.IToRhino();
             RHG.Plane textPlane = new RHG.Plane(pos, xdir, ydir);
             Text3d text3D = new Text3d(textRep.Text, textPlane, textRep.Height);
-            text3D.FontFace = textRep.Font;
+
+            if (textRep.Font.Contains("Italic"))
+                text3D.Italic = true;
+
+            if(textRep.Font.Contains("Bold"))
+                text3D.Bold = true;
+
+            text3D.FontFace = textRep.Font.Replace("Italic", "").Replace("Bold", "").Trim();
+
             return text3D;
         }
 
