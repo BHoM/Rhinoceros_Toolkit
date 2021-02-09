@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 using BH.oM.Base;
+using Rhino.FileIO;
 using System.IO;
 using BH.oM.Reflection;
 using System.Drawing;
@@ -50,63 +51,33 @@ namespace BH.Engine.Rhinoceros
             if (!go)
                 return new Output<List<string>, List<Color>, List<GeometryBase>>();
 
-            //bool to stop the method from triggering multiple times at once
-            //Without this, the execution when called from GH end up calling the extraction and opening of the models multiple times in a strange fashion
-            //And the output gets duplicated and screwed up.
-            //TODO: find a better solution for this
-            if (m_isCollecting)
-                return new Output<List<string>, List<Color>, List<GeometryBase>>();
-            else
-                m_isCollecting = true;
+            List<string> layerNames = new List<string>();
+            List<Color> colours = new List<Color>();
+            List<GeometryBase> geometries = new List<GeometryBase>();
 
-            try
+            foreach (string fileName in fileNames)
             {
+                File3dm file3Dm = File3dm.Read(fileName);
+                string name = Path.GetFileName(fileName);
 
-                List<string> layerNames = new List<string>();
-                List<Color> colours = new List<Color>();
-                List<GeometryBase> geometries = new List<GeometryBase>();
-
-                foreach (string fileName in fileNames)
+                foreach (File3dmObject item in file3Dm.Objects)
                 {
-                    string name = Path.GetFileName(fileName);
-                    Rhino.RhinoDoc.OpenFile(fileName);
+                    Rhino.DocObjects.Layer layer = file3Dm.Layers[item.Attributes.LayerIndex];
+                    layerNames.Add(name + "::" + layer.Name);
+                    colours.Add(layer.Color);
+                    geometries.Add(item.Geometry.Duplicate());
 
-                    var doc = Rhino.RhinoDoc.ActiveDoc;
-
-                    foreach (Rhino.DocObjects.RhinoObject item in doc.Objects)
-                    {
-                        Rhino.DocObjects.Layer layer = doc.Layers[item.Attributes.LayerIndex];
-                        layerNames.Add(name + "::" + layer.Name);
-                        colours.Add(layer.Color);
-                        geometries.Add(item.Geometry.Duplicate());
-
-                    }
                 }
-
-                //if (createNewModel)
-                //{
-                //    //Create a new model. Not possible in rhino 5
-                //}
-
-                return new Output<List<string>, List<Color>, List<GeometryBase>>
-                {
-                    Item1 = layerNames,
-                    Item2 = colours,
-                    Item3 = geometries
-                };
             }
-            finally
+
+            return new Output<List<string>, List<Color>, List<GeometryBase>>
             {
-                m_isCollecting = false;
-            }
+                Item1 = layerNames,
+                Item2 = colours,
+                Item3 = geometries
+            };
+
         }
 
-        /***************************************************/
-        /**** Private fields                            ****/
-        /***************************************************/
-
-        private static bool m_isCollecting = false;
-
-        /***************************************************/
     }
 }
