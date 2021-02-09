@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Compute\CaptureNamedViews.cs" />
     <Compile Include="Compute\CaptureView.cs" />
+    <Compile Include="Compute\CollectAllModelData.cs" />
     <Compile Include="Convert\FromRhino.cs" />
     <Compile Include="Convert\ToRhino.cs" />
     <Compile Include="Convert\ToRhino5.cs" />
