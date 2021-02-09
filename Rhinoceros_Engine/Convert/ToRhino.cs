@@ -40,9 +40,16 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
-        public static object IToRhino(this IObject iObj)
+        public static object IToRhino(this BHG.IGeometry geometry)
         {
-            return (iObj is BHG.IGeometry && iObj == default(BHG.IGeometry)) ? null : Convert.ToRhino(iObj as dynamic);
+            return (geometry == default(BHG.IGeometry)) ? null : Convert.ToRhino(geometry as dynamic);
+        }
+
+        /***************************************************/
+
+        public static object IToRhino(this IRepresentation rep)
+        {
+            return (rep == default(IRepresentation)) ? null : Convert.ToRhino(rep as dynamic);
         }
 
         /***************************************************/
@@ -613,7 +620,15 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
+        /**** Representation  fallback                  ****/
+        /***************************************************/
 
+        public static object ToRhino(this IRepresentation rep)
+        {
+            return null;
+        }
+
+        /***************************************************/
         public static Text3d ToRhino(this BHG.TextRepresentation textRep)
         {
             if (textRep == null) return null;
