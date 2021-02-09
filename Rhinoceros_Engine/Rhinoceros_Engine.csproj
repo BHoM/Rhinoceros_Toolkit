@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compute\CollectAllModelData.cs" />
     <Compile Include="Convert\FromRhino.cs" />
     <Compile Include="Convert\ToRhino.cs" />
     <Compile Include="Convert\ToRhino6.cs" />
