@@ -31,6 +31,7 @@ using BH.Engine.Reflection;
 using System.Drawing;
 using BH.oM.Base;
 using Rhino.Display;
+using BH.oM.Graphics;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -47,9 +48,9 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static object IToRhino(this IRepresentation rep)
+        public static object IToRhino(this IRender render)
         {
-            return (rep == default(IRepresentation)) ? null : Convert.ToRhino(rep as dynamic);
+            return (render == default(IRender)) ? null : Convert.ToRhino(render as dynamic);
         }
 
         /***************************************************/
@@ -623,40 +624,40 @@ namespace BH.Engine.Rhinoceros
         /**** Representation  fallback                  ****/
         /***************************************************/
 
-        public static object ToRhino(this IRepresentation rep)
+        public static object ToRhino(this IRender rep)
         {
             return null;
         }
 
         /***************************************************/
-        public static Text3d ToRhino(this BHG.TextRepresentation textRep)
+        public static Text3d ToRhino(this RenderText renderText)
         {
-            if (textRep == null) return null;
+            if (renderText == null) return null;
 
-            RHG.Vector3d xdir = (RHG.Vector3d)textRep.Cartesian.X.IToRhino();
-            RHG.Vector3d ydir = (RHG.Vector3d)textRep.Cartesian.Y.IToRhino();
-            RHG.Point3d pos = (RHG.Point3d)textRep.Cartesian.Origin.IToRhino();
+            RHG.Vector3d xdir = (RHG.Vector3d)renderText.Cartesian.X.IToRhino();
+            RHG.Vector3d ydir = (RHG.Vector3d)renderText.Cartesian.Y.IToRhino();
+            RHG.Point3d pos = (RHG.Point3d)renderText.Cartesian.Origin.IToRhino();
             RHG.Plane textPlane = new RHG.Plane(pos, xdir, ydir);
-            Text3d text3D = new Text3d(textRep.Text, textPlane, textRep.Height);
+            Text3d text3D = new Text3d(renderText.Text, textPlane, renderText.Height);
 
-            if (textRep.Font.Contains("Italic"))
+            if (renderText.FontName.Contains("Italic"))
                 text3D.Italic = true;
 
-            if(textRep.Font.Contains("Bold"))
+            if(renderText.FontName.Contains("Bold"))
                 text3D.Bold = true;
 
-            text3D.FontFace = textRep.Font.Replace("Italic", "").Replace("Bold", "").Trim();
+            text3D.FontFace = renderText.FontName.Replace("Italic", "").Replace("Bold", "").Trim();
 
             return text3D;
         }
 
         /***************************************************/
 
-        public static object ToRhino(this BHG.GeometricalRepresentation geoRep)
+        public static object ToRhino(this RenderGeometry renderGeo)
         {
-            if (geoRep.Geometry == null) return null;
+            if (renderGeo.Geometry == null) return null;
 
-            return ToRhino(geoRep.Geometry as dynamic);
+            return ToRhino(renderGeo.Geometry as dynamic);
         }
 
 
