@@ -624,7 +624,7 @@ namespace BH.Engine.Rhinoceros
         /**** Representation  fallback                  ****/
         /***************************************************/
 
-        public static object ToRhino(this IRender rep)
+        public static object ToRhino(this IRender render)
         {
             return null;
         }
