@@ -443,11 +443,29 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        [NotImplemented]
         public static RHG.Extrusion ToRhino(this BHG.Extrusion extrusion)
         {
-            // TODO Rhino_Adapter conversion to Extrusion
-            return null;
+            if (!extrusion.Curve.IIsPlanar()) {
+                BH.Engine.Reflection.Compute.RecordError("The provided BHoM Extrusion has a base curve that is not planar.");
+                return null;
+            }
+
+            var planarCurve = extrusion.Curve.IToRhino();
+
+            RHG.Plane curvePlane;
+            planarCurve.TryGetPlane(out curvePlane);
+
+
+            double extrHeight = extrusion.Direction.Length();
+
+            double angle = RHG.Vector3d.VectorAngle(curvePlane.Normal, extrusion.Direction.ToRhino()) * (180 / Math.PI);
+
+            if (angle > 90)
+                extrHeight = -extrHeight; 
+
+            RHG.Extrusion extr = Rhino.Geometry.Extrusion.Create(planarCurve, extrHeight, extrusion.Capped);
+
+            return extr;
         }
 
 
