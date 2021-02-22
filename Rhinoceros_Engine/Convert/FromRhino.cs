@@ -51,6 +51,10 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.IGeometry IFromRhino(this object geometry)
         {
+            // Code to force testing of Extrusion: first convert toRhino, then fromRhino.
+            if (geometry is BH.oM.Geometry.Extrusion)
+                return Convert.FromRhino((geometry as BH.oM.Geometry.Extrusion).ToRhino());
+
             return (geometry == null) ? null : Convert.FromRhino(geometry as dynamic);
         }
 
@@ -421,10 +425,10 @@ namespace BH.Engine.Rhinoceros
 
             if (brep.Faces.Count == 0)
                 return null;
-            
+
             if (brep.IsSolid)
                 return brep.ToBHoMSolid();
-        
+
             if (brep.IsPlanarSurface())
             {
                 BHG.ICurve externalEdge = RHG.Curve.JoinCurves(brep.DuplicateNakedEdgeCurves(true, false)).FirstOrDefault().FromRhino();
@@ -454,12 +458,33 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static BHG.Extrusion FromRhino(this RHG.Extrusion extrusion)
+        public static BHG.IGeometry FromRhino(this RHG.Extrusion extrusion)
         {
             if (extrusion == null) return null;
 
-            extrusion.PathLineCurve();
-            throw new NotImplementedException(); // TODO Rhino_Adapter conversion from Extrusion
+            RHG.LineCurve line = extrusion.PathLineCurve();
+            BHG.Vector extrVec = BH.Engine.Geometry.Create.Vector(line.PointAtStart.FromRhino(), line.PointAtEnd.FromRhino());
+
+            List<BHG.Extrusion> extrs = new List<BHG.Extrusion>();
+
+            var profileCurves = extrusion.GetWireframe();
+            for (int i = 0; i < extrusion.ProfileCount; i++)
+            {
+                var profileConverted = profileCurves.ElementAt(i).FromRhino();
+                BHG.Extrusion extr = BH.Engine.Geometry.Create.Extrusion(profileConverted, extrVec, extrusion.IsCappedAtBottom && extrusion.IsCappedAtTop);
+
+                extrs.Add(extr);
+            }
+
+
+            if (extrs.Count == 1)
+                return extrs[0];
+
+            if (extrs.Count > 1)
+                return new BH.oM.Geometry.CompositeGeometry() { Elements = extrs.OfType<BH.oM.Geometry.IGeometry>().ToList() };
+
+            BH.Engine.Reflection.Compute.RecordError("Could not convert the extrusion.");
+            return null;
         }
 
 
@@ -526,7 +551,7 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.Cone FromRhino(this RHG.Cone cone)
         {
-            return new BHG.Cone { Centre = cone.BasePoint.FromRhino(), Axis = cone.Axis.FromRhino()*-1.0, Radius = cone.Radius, Height = cone.Height };
+            return new BHG.Cone { Centre = cone.BasePoint.FromRhino(), Axis = cone.Axis.FromRhino() * -1.0, Radius = cone.Radius, Height = cone.Height };
         }
 
         /***************************************************/
