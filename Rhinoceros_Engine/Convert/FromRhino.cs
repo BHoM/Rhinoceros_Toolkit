@@ -51,10 +51,6 @@ namespace BH.Engine.Rhinoceros
 
         public static BHG.IGeometry IFromRhino(this object geometry)
         {
-            // Code to force testing of Extrusion: first convert toRhino, then fromRhino.
-            if (geometry is BH.oM.Geometry.Extrusion)
-                return Convert.FromRhino((geometry as BH.oM.Geometry.Extrusion).ToRhino());
-
             return (geometry == null) ? null : Convert.FromRhino(geometry as dynamic);
         }
 
@@ -467,9 +463,11 @@ namespace BH.Engine.Rhinoceros
 
             List<BHG.Extrusion> extrs = new List<BHG.Extrusion>();
 
+            // Exploits the fact that GetWireframe returns first the "profile" curves of the extrusion.
             var profileCurves = extrusion.GetWireframe();
             for (int i = 0; i < extrusion.ProfileCount; i++)
             {
+
                 var profileConverted = profileCurves.ElementAt(i).FromRhino();
                 BHG.Extrusion extr = BH.Engine.Geometry.Create.Extrusion(profileConverted, extrVec, extrusion.IsCappedAtBottom && extrusion.IsCappedAtTop);
 
