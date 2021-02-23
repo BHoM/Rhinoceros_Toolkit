@@ -459,7 +459,8 @@ namespace BH.Engine.Rhinoceros
             double angle = RHG.Vector3d.VectorAngle(curvePlane.Normal, extrusion.Direction.ToRhino());
 
             double tolerance = 0.001;
-            if (angle > tolerance || (2 * Math.PI - tolerance < angle && angle < 2 * Math.PI + tolerance))
+
+            if (angle < tolerance || (2 * Math.PI - tolerance < angle && angle < 2 * Math.PI + tolerance))
             {
                 // It can be represented by a Rhino extrusion (which enforces perpendicularity btw Curve plane and Vector)
 
@@ -486,10 +487,10 @@ namespace BH.Engine.Rhinoceros
                 centrePoint = planarCurve.PointAt(0.5);
 
             RHG.Point3d endPoint = centrePoint + extrusion.Direction.ToRhino();
-            var rail = new RHG.Line(centrePoint, endPoint);
+            var rail = new RHG.LineCurve(centrePoint, endPoint);
 
             var joinedSweep = new RHG.SweepOneRail()
-                .PerformSweep(new RHG.LineCurve(rail), planarCurve)
+                .PerformSweep(rail, planarCurve)
                 .Aggregate((b1, b2) => { b1.Join(b2, tolerance, true); return b1; });
 
             return joinedSweep;
