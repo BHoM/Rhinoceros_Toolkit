@@ -225,7 +225,7 @@ namespace BH.Engine.Rhinoceros
                 return null;
 
             IEnumerable<RHG.Curve> parts = bPolyCurve.Curves.Select(x => x.IToRhino());
-            
+
             // Check if bPolycurve is made of disconnected segments
             if (RHG.Curve.JoinCurves(parts).Length > 1)
                 return null;
@@ -395,8 +395,8 @@ namespace BH.Engine.Rhinoceros
                 RHG.Brep brep = new RHG.Brep();
                 int srf = brep.AddSurface(rhSurface);
                 RHG.BrepFace face = brep.Faces.Add(srf);
-                
-                foreach(BHG.SurfaceTrim trim in surface.OuterTrims)
+
+                foreach (BHG.SurfaceTrim trim in surface.OuterTrims)
                 {
                     brep.AddBrepTrim(face, trim, RHG.BrepLoopType.Outer);
                 }
@@ -405,7 +405,7 @@ namespace BH.Engine.Rhinoceros
                 {
                     brep.AddBrepTrim(face, trim, RHG.BrepLoopType.Inner);
                 }
-                
+
                 return brep.IsValid ? brep : null;
             }
         }
@@ -443,9 +443,10 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.Extrusion ToRhino(this BHG.Extrusion extrusion)
+        public static RHG.GeometryBase ToRhino(this BHG.Extrusion extrusion)
         {
-            if (!extrusion.Curve.IIsPlanar()) {
+            if (!extrusion.Curve.IIsPlanar())
+            {
                 BH.Engine.Reflection.Compute.RecordError("The provided BHoM Extrusion has a base curve that is not planar.");
                 return null;
             }
@@ -455,17 +456,43 @@ namespace BH.Engine.Rhinoceros
             RHG.Plane curvePlane;
             planarCurve.TryGetPlane(out curvePlane);
 
+            double angle = RHG.Vector3d.VectorAngle(curvePlane.Normal, extrusion.Direction.ToRhino());
 
-            double extrHeight = extrusion.Direction.Length();
+            double tolerance = 0.001;
+            if (angle > tolerance || (2 * Math.PI - tolerance < angle && angle < 2 * Math.PI + tolerance))
+            {
+                // It can be represented by a Rhino extrusion (which enforces perpendicularity btw Curve plane and Vector)
 
-            double angle = RHG.Vector3d.VectorAngle(curvePlane.Normal, extrusion.Direction.ToRhino()) * (180 / Math.PI);
+                double extrHeight = extrusion.Direction.Length();
 
-            if (angle > 90)
-                extrHeight = -extrHeight; 
+                if (angle > Math.PI)
+                    extrHeight = -extrHeight;
 
-            RHG.Extrusion extr = Rhino.Geometry.Extrusion.Create(planarCurve, extrHeight, extrusion.Capped);
+                RHG.Extrusion extr = Rhino.Geometry.Extrusion.Create(planarCurve, extrHeight, extrusion.Capped);
 
-            return extr;
+                return extr;
+            }
+
+            // Otherwise, provide a Sweep to cover extrusion with a base curve that is not orthogonal to the extr direction
+
+            // Create a Line to be the sweep rail. Use centroid/mid-point of base curve as start point.
+            RHG.Point3d centrePoint;
+            if (planarCurve.IsClosed)
+            {
+                var areaProp = Rhino.Geometry.AreaMassProperties.Compute(planarCurve);
+                centrePoint = areaProp.Centroid;
+            }
+            else
+                centrePoint = planarCurve.PointAt(0.5);
+
+            RHG.Point3d endPoint = centrePoint + extrusion.Direction.ToRhino();
+            var rail = new RHG.Line(centrePoint, endPoint);
+
+            var joinedSweep = new RHG.SweepOneRail()
+                .PerformSweep(new RHG.LineCurve(rail), planarCurve)
+                .Aggregate((b1, b2) => { b1.Join(b2, tolerance, true); return b1; });
+
+            return joinedSweep;
         }
 
 
@@ -753,7 +780,7 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
-        
+
         private static int AddVertex(this RHG.Brep brep, RHG.Point3d point)
         {
             int id = -1;
@@ -776,7 +803,7 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
-        
+
         private static bool IsSameEdge(this RHG.Curve curve, RHG.BrepEdge edge)
         {
             double tolerance = BHG.Tolerance.Distance;
