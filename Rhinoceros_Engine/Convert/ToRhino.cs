@@ -433,7 +433,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        public static RHG.GeometryBase ToRhino(this BHG.Extrusion extrusion)
+        public static Rhino.Geometry.Surface ToRhino(this BHG.Extrusion extrusion)
         {
             if (!extrusion.Curve.IIsPlanar())
             {
@@ -483,7 +483,13 @@ namespace BH.Engine.Rhinoceros
                 .PerformSweep(rail, planarCurve)
                 .Aggregate((b1, b2) => { b1.Join(b2, tolerance, true); return b1; });
 
-            return joinedSweep;
+            if (joinedSweep.IsSurface)
+                return joinedSweep.Surfaces[0];
+
+            BH.Engine.Reflection.Compute.RecordError("Could not convert this BHoM Extrusion to a Rhino Surface. The extrusion direction is not perpendicular to the base curve, and the base curve is too complex for a Sweep to return a valid Surface.");
+            
+
+            return null;
         }
 
 
