@@ -35,7 +35,7 @@ namespace BH.Adapter.Rhinoceros
     public partial class RhinocerosAdapter : BHoMAdapter
     {
         [Description("Specify Rhinoceros file and properties for data transfer.")]
-        [Input("fileSettings", "Input the file settings to get the file name and directory the Rhinoceros Adapter should use.")]
+        [Input("_fileSettings", "Input the file settings to get the file name and directory the Rhinoceros Adapter should use.")]
         [Output("adapter", "Adapter to Rhinoceros.")]
         public RhinocerosAdapter(BH.oM.Adapter.FileSettings fileSettings = null)
         {
@@ -46,60 +46,7 @@ namespace BH.Adapter.Rhinoceros
                 return;
             }
 
-            if (fileSettings.FileName == "" && fileSettings.Directory == "")
-            {
-                BH.Engine.Reflection.Compute.RecordError("Either provide a file name and directory to pull a single .3dm file, or a directory to pull multiple .3dm files.");
-                return;
-            }
-
-            //no directory but full path provided in filename
-            if(fileSettings.FileName != "" && fileSettings.Directory == "")
-            {
-                if (!Path.HasExtension(fileSettings.FileName) || Path.GetExtension(fileSettings.FileName) != ".3dm")
-                {
-                    BH.Engine.Reflection.Compute.RecordError("File name must contain a file .3dm extension.");
-                    return;
-                }
-                else if(!File.Exists(fileSettings.FileName))
-                {
-                    BH.Engine.Reflection.Compute.RecordError("File does not exist.");
-                    return;
-                }
-                else
-                {
-                    m_FilePaths.Add(fileSettings.GetFullFileName());
-                }
-                    
-            }
-            //check the directory
-            else if (!Directory.Exists(fileSettings.Directory))
-            {
-                BH.Engine.Reflection.Compute.RecordError("Directory provided does not exist.");
-                return;
-            }
-            else
-            {
-                string[] files = Directory.GetFiles(fileSettings.Directory, "*.3dm");
-                if(files.Length == 0)
-                {
-                    BH.Engine.Reflection.Compute.RecordError("No .3dm files found in the directory.");
-                    return;
-                }
-                else
-                {
-                    if (fileSettings.FileName != "" && !files.Any(f => f.Contains(Path.GetFileName(fileSettings.FileName))))
-                    {
-                        BH.Engine.Reflection.Compute.RecordError("File specified was not found in the directory.");
-                        return;
-                    }
-
-                    else if (fileSettings.FileName != "" && files.Any(f => f.Contains(Path.GetFileName(fileSettings.FileName))))
-                        m_FilePaths.Add(fileSettings.GetFullFileName());
-
-                    else
-                        m_FilePaths = files.ToList();
-                }
-            }
+            
 
             _fileSettings = fileSettings;
 

@@ -21,5 +21,8 @@ namespace BH.oM.Adapters.Rhinoceros
         public virtual Color LayerColour { get; set; } = new Color();
 
         public virtual Color ObjectColour { get; set; } = new Color();
+
+        public virtual ColourSource ColourSource { get; set; } = ColourSource.ByLayer;
+            
     }
 }

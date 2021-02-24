@@ -34,6 +34,7 @@ using BH.oM.Reflection;
 using BH.Engine.Rhinoceros;
 using Rhino.FileIO;
 using Rhino.DocObjects;
+using BH.Engine.Adapter;
 
 namespace BH.Adapter.Rhinoceros
 {
@@ -44,35 +45,84 @@ namespace BH.Adapter.Rhinoceros
         {
 			bool success = true;
 
-            success = CreateRhinoceros(objects);
+            if (actionConfig == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please provide configuration settings to push to a Rhinoceros file.");
+                return false;
+            }
+
+            RhinocerosConfig config = actionConfig as RhinocerosConfig;
+            if (config == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please provide valid a RhinocerosConfig object for pushing to a Rhinoceros file.");
+                return false;
+            }
+
+            success = CreateRhinoceros(objects, config);
 
             return success;  
         }
 
-        private bool CreateRhinoceros<T>(IEnumerable<T> objects)
+        /***************************************************/
+
+        private bool CreateRhinoceros<T>(IEnumerable<T> objects, RhinocerosConfig config)
         {
             bool success = true;
             File3dm file3Dm = new File3dm();
+            List<Layer> layers = new List<Layer>();
+            Layer layer1 = new Layer();
+            layer1.Name = "default";
+            layers.Add(layer1);
+            Dictionary<object, ObjectAttributes> objectDict = new Dictionary<object, ObjectAttributes>();
+
             foreach (T obj in objects)
             {
                 ObjectAttributes attributes = new ObjectAttributes();
                 object rhinoGeometry = null;
+
                 if (obj is IGeometry)
                 {
+                    attributes.LayerIndex = 0;
                     rhinoGeometry = BH.Engine.Rhinoceros.Convert.ToRhino(obj as dynamic);
+                    objectDict.Add(rhinoGeometry, attributes);
                 }
+
                 else if(obj is BHoMRhinoObject)
                 {
                     BHoMRhinoObject bhomRhino = obj as BHoMRhinoObject;
+                    int layerIndex = layers.FindIndex(l => l.Name == bhomRhino.Layer);
+
+                    if(layerIndex == -1)
+                    {
+                        Layer layer = new Layer();
+                        layer.Name = bhomRhino.Layer;
+                        layer.Color = bhomRhino.LayerColour;
+                        layers.Add(layer);
+                        layerIndex = layers.Count - 1;
+                    }
+
+                    attributes.LayerIndex = layerIndex;
+
+                    if (bhomRhino.ColourSource == ColourSource.ByLayer)
+                        attributes.ColorSource = Rhino.DocObjects.ObjectColorSource.ColorFromLayer;
+                    else
+                        attributes.ColorSource = Rhino.DocObjects.ObjectColorSource.ColorFromObject;
+
                     rhinoGeometry = BH.Engine.Rhinoceros.Convert.ToRhino(bhomRhino.Geometry as dynamic);
+
+                    objectDict.Add(rhinoGeometry, attributes);
                 }
                 else
                 {
                     BH.Engine.Reflection.Compute.RecordError("Unable to write objects of type: " + obj.GetType().ToString());
                 }
             }
+
+            AddLayers(layers, file3Dm);
+            AddObjects(objectDict, file3Dm);
+
             file3Dm.Polish();
-            file3Dm.Write("", 6);
+            file3Dm.Write(_fileSettings.GetFullFileName() , config.Version);
 
             return success;
         }
@@ -80,9 +130,26 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        
+        private static void AddLayers(List<Layer> layers, File3dm file3Dm)
+        {
+            foreach(Layer layer in layers)
+            {
+                file3Dm.Layers.Add(layer);
+            }
+        }
 
-        // Fallback case. If no specific Create is found, here we should handle what happens then.
+        /***************************************************/
+
+        private static void AddObjects(Dictionary<object, ObjectAttributes> objectDict, File3dm file3Dm)
+        {
+            foreach(var objAtt in objectDict)
+            {
+
+
+            }
+        }
+
+        /***************************************************/
         protected bool Create(IBHoMObject obj)
         { 
 		   BH.Engine.Reflection.Compute.RecordError("No specific Create method found for {obj.GetType().Name}.");

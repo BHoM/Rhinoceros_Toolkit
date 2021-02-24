@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Adapter_oM">
+      <HintPath>..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\Adapter_oM.dll</HintPath>
+    </Reference>
     <Reference Include="BHoM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
     </Reference>
@@ -49,7 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BHoM_RhinoObject.cs" />
+    <Compile Include="ColourSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RhinocerosConfig.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
