@@ -72,14 +72,13 @@
   <ItemGroup>
     <Compile Include="AdapterActions\Pull.cs" />
     <Compile Include="AdapterActions\Push.cs" />
+    <Compile Include="Convert\AddObjectToFile.cs" />
     <Compile Include="CRUD\Create.cs" />
     <Compile Include="CRUD\Read.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RhinocerosAdapter.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Convert\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Rhinoceros_Engine\Rhinoceros_Engine.csproj">
       <Project>{93cedc69-f9c0-4e08-9e94-07f120d811dc}</Project>

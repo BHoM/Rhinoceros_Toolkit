@@ -45,13 +45,14 @@ namespace BH.Adapter.Rhinoceros
         protected override IEnumerable<IBHoMObject> IRead(Type type, IList ids = null, ActionConfig actionConfig = null)
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
+            FindFilesToRead();
             objects = Read3dm(m_FilePaths);
             return objects;
         }
 
         /***************************************************/
 
-        private List<IBHoMObject> Read3dm(string filePath)
+        private static List<IBHoMObject> Read3dm(string filePath)
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
             File3dm file3Dm = File3dm.Read(filePath);
@@ -63,11 +64,13 @@ namespace BH.Adapter.Rhinoceros
                 BHoMRhinoObject rhinoObject = new BHoMRhinoObject();
                 rhinoObject.Layer = name + "::" + layer.Name;
                 rhinoObject.LayerColour = layer.Color;
+                rhinoObject.ObjectColour = item.Attributes.ObjectColor;
 
-                if (item.Attributes.ColorSource == Rhino.DocObjects.ObjectColorSource.ColorFromObject)
-                    rhinoObject.ObjectColour = item.Attributes.ObjectColor;
+                if (item.Attributes.ColorSource == Rhino.DocObjects.ObjectColorSource.ColorFromLayer)
+                    rhinoObject.ColourSource = ColourSource.ByLayer;
+
                 else
-                    rhinoObject.ObjectColour = layer.Color;
+                    rhinoObject.ColourSource = ColourSource.ByObject;
 
                 rhinoObject.Geometry = BH.Engine.Rhinoceros.Convert.IFromRhino(item.Geometry);
                 objects.Add(rhinoObject);
@@ -85,6 +88,66 @@ namespace BH.Adapter.Rhinoceros
                 objects.AddRange(Read3dm(path));
 
             return objects;
+        }
+
+        /***************************************************/
+
+        private static void FindFilesToRead()
+        {
+            if (_fileSettings.FileName == "" && _fileSettings.Directory == "")
+            {
+                BH.Engine.Reflection.Compute.RecordError("Either provide a file name and directory to pull a single .3dm file, or a directory to pull multiple .3dm files.");
+                return;
+            }
+
+            //no directory but full path provided in filename
+            if (_fileSettings.FileName != "" && _fileSettings.Directory == "")
+            {
+                if (!Path.HasExtension(_fileSettings.FileName) || Path.GetExtension(_fileSettings.FileName) != ".3dm")
+                {
+                    BH.Engine.Reflection.Compute.RecordError("File name must contain a file .3dm extension.");
+                    return;
+                }
+                else if (!File.Exists(_fileSettings.FileName))
+                {
+                    BH.Engine.Reflection.Compute.RecordError("File does not exist.");
+                    return;
+                }
+                else
+                {
+                    m_FilePaths.Add(_fileSettings.GetFullFileName());
+                }
+
+            }
+            //check the directory
+            else if (!Directory.Exists(_fileSettings.Directory))
+            {
+                BH.Engine.Reflection.Compute.RecordError("Directory provided does not exist.");
+                return;
+            }
+            else
+            {
+                string[] files = Directory.GetFiles(_fileSettings.Directory, "*.3dm");
+                if (files.Length == 0)
+                {
+                    BH.Engine.Reflection.Compute.RecordError("No .3dm files found in the directory.");
+                    return;
+                }
+                else
+                {
+                    if (_fileSettings.FileName != "" && !files.Any(f => f.Contains(Path.GetFileName(_fileSettings.FileName))))
+                    {
+                        BH.Engine.Reflection.Compute.RecordError("File specified was not found in the directory.");
+                        return;
+                    }
+
+                    else if (_fileSettings.FileName != "" && files.Any(f => f.Contains(Path.GetFileName(_fileSettings.FileName))))
+                        m_FilePaths.Add(_fileSettings.GetFullFileName());
+
+                    else
+                        m_FilePaths = files.ToList();
+                }
+            }
         }
     }
 }
