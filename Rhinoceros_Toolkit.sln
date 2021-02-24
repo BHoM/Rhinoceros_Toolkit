@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhinoceros_Engine", "Rhinoceros_Engine\Rhinoceros_Engine.csproj", "{93CEDC69-F9C0-4E08-9E94-07F120D811DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhinoceros_Adapter", "Rhinoceros_Adapter\Rhinoceros_Adapter.csproj", "{015C51EA-3F57-4EBE-8028-731CE84CA797}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhinoceros_oM", "Rhinoceros_oM\Rhinoceros_oM.csproj", "{599D48C1-112F-4163-95E0-3494F51634BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{015C51EA-3F57-4EBE-8028-731CE84CA797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{015C51EA-3F57-4EBE-8028-731CE84CA797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{015C51EA-3F57-4EBE-8028-731CE84CA797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{015C51EA-3F57-4EBE-8028-731CE84CA797}.Release|Any CPU.Build.0 = Release|Any CPU
+		{599D48C1-112F-4163-95E0-3494F51634BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{599D48C1-112F-4163-95E0-3494F51634BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{599D48C1-112F-4163-95E0-3494F51634BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{599D48C1-112F-4163-95E0-3494F51634BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
