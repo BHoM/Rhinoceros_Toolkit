@@ -608,28 +608,10 @@ namespace BH.Engine.Rhinoceros
             return new RHG.Box(cuboid.CoordinateSystem.ToRhino(), ix, iy, iz);
         }
 
-
         /***************************************************/
-        /**** Miscellanea                               ****/
-        /***************************************************/
-
-        public static List<object> ToRhino(this BHG.CompositeGeometry geometries)
-        {
-            if (geometries == null) return new List<object>();
-
-            return geometries.Elements.Select(x => x.IToRhino()).ToList();
-        }
-
-        /***************************************************/
-        /**** Representation  fallback                  ****/
+        /**** Public Methods - IRender                  ****/
         /***************************************************/
 
-        public static object ToRhino(this IRender render)
-        {
-            return null;
-        }
-
-        /***************************************************/
         public static Text3d ToRhino(this RenderText renderText)
         {
             if (renderText == null) return null;
@@ -643,7 +625,7 @@ namespace BH.Engine.Rhinoceros
             if (renderText.FontName.Contains("Italic"))
                 text3D.Italic = true;
 
-            if(renderText.FontName.Contains("Bold"))
+            if (renderText.FontName.Contains("Bold"))
                 text3D.Bold = true;
 
             text3D.FontFace = renderText.FontName.Replace("Italic", "").Replace("Bold", "").Trim();
@@ -660,6 +642,16 @@ namespace BH.Engine.Rhinoceros
             return ToRhino(renderGeo.Geometry as dynamic);
         }
 
+        /***************************************************/
+        /**** Miscellanea                               ****/
+        /***************************************************/
+
+        public static List<object> ToRhino(this BHG.CompositeGeometry geometries)
+        {
+            if (geometries == null) return new List<object>();
+
+            return geometries.Elements.Select(x => x.IToRhino()).ToList();
+        }
 
         /***************************************************/
         /**** Private methods                           ****/
@@ -796,6 +788,13 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
+        /**** Private Methods - Fallback                ****/
+        /***************************************************/
+
+        private static object ToRhino(this IObject obj)
+        {
+            return null;
+        }
 
     }
 }
