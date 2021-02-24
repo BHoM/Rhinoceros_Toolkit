@@ -1,24 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{93CEDC69-F9C0-4E08-9E94-07F120D811DC}</ProjectGuid>
+    <ProjectGuid>{015C51EA-3F57-4EBE-8028-731CE84CA797}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BH.Engine.Rhinoceros</RootNamespace>
-    <AssemblyName>Rhinoceros_Engine</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>Rhinoceros_Adapter</RootNamespace>
+    <AssemblyName>Rhinoceros_Adapter</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Build\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,46 +25,39 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Build\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Adapter_Engine">
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Adapter_Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="Adapter_oM">
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Adapter_oM.dll</HintPath>
+    </Reference>
     <Reference Include="BHoM">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
-      <Private>False</Private>
     </Reference>
-    <Reference Include="Dimensional_oM">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\ProgramData\BHoM\Assemblies\Dimensional_oM.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="BHoM_Adapter">
+      <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM_Adapter.dll</HintPath>
     </Reference>
-    <Reference Include="Geometry_Engine">
-      <HintPath>C:\ProgramData\BHoM\Assemblies\Geometry_Engine.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Data_oM">
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Data_oM.dll</HintPath>
     </Reference>
     <Reference Include="Geometry_oM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Geometry_oM.dll</HintPath>
-      <Private>False</Private>
     </Reference>
-    <Reference Include="Graphics_oM">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\ProgramData\BHoM\Assemblies\Graphics_oM.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="Graphics_oM, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Reflection_Engine">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_Engine.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Reflection_oM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_oM.dll</HintPath>
-      <Private>False</Private>
     </Reference>
-    <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+    <Reference Include="RhinoCommon">
       <HintPath>..\packages\RhinoCommon.5.12.50810.13095\lib\net35\RhinoCommon.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -78,40 +70,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Convert\FromRhino.cs" />
-    <Compile Include="Convert\ToRhino.cs" />
-    <Compile Include="Convert\ToRhino6.cs" />
-    <Compile Include="Convert\ToRhino5.cs" />
-    <Compile Include="Create\Arc.cs" />
-    <Compile Include="Create\ArcCurve.cs" />
-    <Compile Include="Create\Circle.cs" />
-    <Compile Include="Create\ControlPoint.cs" />
-    <Compile Include="Create\LineCurve.cs" />
-    <Compile Include="Create\Curve.cs" />
-    <Compile Include="Compute\Geometry.cs" />
-    <Compile Include="Create\Line.cs" />
-    <Compile Include="Create\NurbsCurve.cs" />
-    <Compile Include="Create\Point3d.cs" />
-    <Compile Include="Create\Point3f.cs" />
-    <Compile Include="Create\PolyCurve.cs" />
-    <Compile Include="Create\PolylineCurve.cs" />
-    <Compile Include="Create\Polyline.cs" />
-    <Compile Include="Create\Vector3d.cs" />
-    <Compile Include="Create\Vector3f.cs" />
-    <Compile Include="Query\DocumentTolerance.cs" />
-    <Compile Include="Query\Geometry.cs" />
-    <Compile Include="Query\IsEqual.cs" />
-    <Compile Include="Query\IsPlanarSurface.cs" />
-    <Compile Include="Query\IsRhinoEquivalent.cs" />
+    <Compile Include="AdapterActions\Pull.cs" />
+    <Compile Include="AdapterActions\Push.cs" />
+    <Compile Include="CRUD\Create.cs" />
+    <Compile Include="CRUD\Read.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RhinocerosAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modify\" />
+    <Folder Include="Convert\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Rhinoceros_Engine\Rhinoceros_Engine.csproj">
+      <Project>{93cedc69-f9c0-4e08-9e94-07f120d811dc}</Project>
+      <Name>Rhinoceros_Engine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rhinoceros_oM\Rhinoceros_oM.csproj">
       <Project>{599d48c1-112f-4163-95e0-3494f51634ba}</Project>
       <Name>Rhinoceros_oM</Name>
@@ -128,11 +101,4 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)"  "C:\\ProgramData\\BHoM\\Assemblies" /Y</PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
