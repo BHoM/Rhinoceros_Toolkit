@@ -39,7 +39,7 @@ namespace BH.Engine.Rhinoceros
         [Description("Gets the geometry of a BHoMRhinoObject.")]
         [Input("rhinoObject", "BHoMRhinoObject to get the IGeometry from.")]
         [Output("geometry", "The geometry of the BHoMRhinoObject.")]
-        public static IGeometry Geometry(this BHoMRhinoObject rhinoObject)
+        public static IGeometry Geometry(this RhinoObject rhinoObject)
         {
             return rhinoObject.Geometry;
         }

@@ -83,6 +83,10 @@
     <Compile Include="AdapterActions\Pull.cs" />
     <Compile Include="AdapterActions\Push.cs" />
     <Compile Include="Convert\AddObjectToFile.cs" />
+    <Compile Include="Convert\FromRhino\ColourSource.cs" />
+    <Compile Include="Convert\FromRhino\Layer.cs" />
+    <Compile Include="Convert\ToRhino\ColourSource.cs" />
+    <Compile Include="Convert\ToRhino\Layer.cs" />
     <Compile Include="CRUD\Create.cs" />
     <Compile Include="CRUD\Read.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,7 +97,6 @@
     <ProjectReference Include="..\Rhinoceros_Engine\Rhinoceros_Engine.csproj">
       <Project>{93cedc69-f9c0-4e08-9e94-07f120d811dc}</Project>
       <Name>Rhinoceros_Engine</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Rhinoceros_oM\Rhinoceros_oM.csproj">
       <Project>{599d48c1-112f-4163-95e0-3494f51634ba}</Project>

@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
@@ -21,35 +20,25 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.Engine.Adapter;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Adapter.Rhinoceros
+namespace BH.oM.Adapters.Rhinoceros
 {
-    public partial class RhinocerosAdapter : BHoMAdapter
+    public class Layer : BHoMObject
     {
-        [Description("Specify Rhinoceros file and properties for data transfer.")]
-        [Input("fileSettings", "Input the file settings to get the file name and directory the Rhinoceros Adapter should use.")]
-        [Output("adapter", "Adapter to Rhinoceros.")]
-        public RhinocerosAdapter(BH.oM.Adapter.FileSettings fileSettings = null)
-        {
+        /***************************************************/
+        /****             Public Properties             ****/
+        /***************************************************/
 
-            if (fileSettings == null)
-            {
-                BH.Engine.Reflection.Compute.RecordError("Please set the File Settings correctly to enable the Rhinoceros Adapter to work correctly.");
-                return;
-            }
+        public virtual Color Colour { get; set; } = new Color();
 
-            m_RhinoceroSettings = fileSettings;
+        /***************************************************/
 
-        }
-
-        private BH.oM.Adapter.FileSettings m_RhinoceroSettings { get; set; } = null;
     }
 }

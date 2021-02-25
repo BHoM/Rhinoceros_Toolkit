@@ -50,9 +50,7 @@ namespace BH.Adapter.Rhinoceros
             {
                 MethodInfo mInfo = methodInfos.MakeGenericMethod(new[] { typeGroup.Key });
                 var list = mInfo.Invoke(typeGroup, new object[] { typeGroup });
-                //list as dynamic // cast as dynamic is failing here for unknown reason
-                //TODO fix it
-                success &= ICreate(objectsToPush, actionConfig);
+                success &= ICreate(list as dynamic, actionConfig);
             }
 
             return success ? objects.ToList() : new List<object>();

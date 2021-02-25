@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
@@ -21,35 +20,30 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.Engine.Adapter;
-using BH.oM.Reflection.Attributes;
+using Rhino.Display;
+using Rhino.DocObjects;
+using Rhino.FileIO;
+using Rhino.Geometry;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHR = BH.oM.Adapters.Rhinoceros;
 
 namespace BH.Adapter.Rhinoceros
 {
-    public partial class RhinocerosAdapter : BHoMAdapter
+    public static partial class Convert
     {
-        [Description("Specify Rhinoceros file and properties for data transfer.")]
-        [Input("fileSettings", "Input the file settings to get the file name and directory the Rhinoceros Adapter should use.")]
-        [Output("adapter", "Adapter to Rhinoceros.")]
-        public RhinocerosAdapter(BH.oM.Adapter.FileSettings fileSettings = null)
+        public static BHR.ColourSource FromRhino(this ObjectColorSource source)
         {
-
-            if (fileSettings == null)
-            {
-                BH.Engine.Reflection.Compute.RecordError("Please set the File Settings correctly to enable the Rhinoceros Adapter to work correctly.");
-                return;
-            }
-
-            m_RhinoceroSettings = fileSettings;
-
+            BHR.ColourSource colourSource = BHR.ColourSource.Default;
+            if (source == ObjectColorSource.ColorFromLayer)
+                colourSource = BHR.ColourSource.FromLayer;
+            if (source == ObjectColorSource.ColorFromObject)
+                colourSource = BHR.ColourSource.FromObject;
+            //not yet working with material and parent sources
+            return colourSource;
         }
-
-        private BH.oM.Adapter.FileSettings m_RhinoceroSettings { get; set; } = null;
     }
 }

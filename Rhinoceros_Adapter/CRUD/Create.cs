@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 using BH.oM.Base;
 using BH.oM.Adapter;
 using BH.oM.Geometry;
-using BH.oM.Adapters.Rhinoceros;
+using BHR = BH.oM.Adapters.Rhinoceros;
 using BH.Engine.Reflection;
 using BH.oM.Reflection;
 using BH.Engine.Rhinoceros;
@@ -52,7 +52,7 @@ namespace BH.Adapter.Rhinoceros
                 return false;
             }
 
-            RhinocerosConfig config = actionConfig as RhinocerosConfig;
+            BHR.RhinocerosConfig config = actionConfig as BHR.RhinocerosConfig;
             if (config == null)
             {
                 BH.Engine.Reflection.Compute.RecordError("Please provide valid a RhinocerosConfig object for pushing to a Rhinoceros file.");
@@ -69,60 +69,44 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        private bool CreateRhinoceros<T>(IEnumerable<T> objects, RhinocerosConfig config)
+        private bool CreateRhinoceros<T>(IEnumerable<T> objects, BHR.RhinocerosConfig config)
         {
             bool success = true;
             File3dm file3Dm = new File3dm();
             List<Layer> layers = new List<Layer>();
-            Layer layer1 = new Layer();
-            layer1.Name = "default";
-            layers.Add(layer1);
             Dictionary<object, ObjectAttributes> objectDict = new Dictionary<object, ObjectAttributes>();
+            ObjectAttributes attributes = new ObjectAttributes();
 
-            foreach (T obj in objects)
+            BHR.RhinocerosDocumentBuilder docBuilder = objects.ToList()[0] as BHR.RhinocerosDocumentBuilder;
+
+            //any geometry to default layer
+            if (docBuilder.Geometry.Count > 0)
             {
-                ObjectAttributes attributes = new ObjectAttributes();
+                layers.Add(new Layer() { Name = "Default" });
+                docBuilder.Geometry.ForEach(g => objectDict.Add(BH.Engine.Rhinoceros.Convert.ToRhino(g as dynamic), attributes));
+            }
+            
+            foreach (BHR.RhinoObject bhomRhino in docBuilder.RhinoObjects)
+            {
+                attributes = new ObjectAttributes();
                 object rhinoGeometry = null;
 
-                if (obj is IGeometry)
+                int layerIndex = layers.FindIndex(l => l.Name == bhomRhino.Layer.Name);
+
+                if (layerIndex == -1)
                 {
-                    attributes.LayerIndex = 0;
-                    rhinoGeometry = BH.Engine.Rhinoceros.Convert.ToRhino(obj as dynamic);
-                    objectDict.Add(rhinoGeometry, attributes);
+                    layers.Add(bhomRhino.Layer.ToRhino());
+                    layerIndex = layers.Count - 1;
                 }
 
-                else if(obj is BHoMRhinoObject)
-                {
-                    BHoMRhinoObject bhomRhino = obj as BHoMRhinoObject;
-                    int layerIndex = layers.FindIndex(l => l.Name == bhomRhino.Layer);
+                attributes.LayerIndex = layerIndex;
+                attributes.ObjectColor = bhomRhino.ObjectColour;
+                attributes.ColorSource = bhomRhino.ColourSource.ToRhino();
 
-                    if(layerIndex == -1)
-                    {
-                        Layer layer = new Layer();
-                        layer.Name = bhomRhino.Layer;
-                        layer.Color = bhomRhino.LayerColour;
-                        layers.Add(layer);
-                        layerIndex = layers.Count - 1;
-                    }
+                rhinoGeometry = BH.Engine.Rhinoceros.Convert.ToRhino(bhomRhino.Geometry as dynamic);
 
-                    attributes.LayerIndex = layerIndex;
+                objectDict.Add(rhinoGeometry, attributes);
 
-                    if (bhomRhino.ColourSource == ColourSource.ByLayer)
-                        attributes.ColorSource = Rhino.DocObjects.ObjectColorSource.ColorFromLayer;
-                    else
-                    {
-                        attributes.ColorSource = Rhino.DocObjects.ObjectColorSource.ColorFromObject;
-                        attributes.ObjectColor = bhomRhino.ObjectColour;
-                    }
-                        
-                    rhinoGeometry = BH.Engine.Rhinoceros.Convert.ToRhino(bhomRhino.Geometry as dynamic);
-
-                    objectDict.Add(rhinoGeometry, attributes);
-                }
-                else
-                {
-                    BH.Engine.Reflection.Compute.RecordError("Unable to write objects of type: " + obj.GetType().ToString());
-                }
             }
 
             AddLayers(layers, file3Dm);
@@ -137,7 +121,7 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        private static void AddLayers(List<Layer> layers, File3dm file3Dm)
+        private void AddLayers(List<Layer> layers, File3dm file3Dm)
         {
             foreach(Layer layer in layers)
             {
@@ -147,7 +131,7 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        private static void AddObjects(Dictionary<object, ObjectAttributes> objectDict, File3dm file3Dm)
+        private void AddObjects(Dictionary<object, ObjectAttributes> objectDict, File3dm file3Dm)
         {
             foreach(var objAtt in objectDict)
             {
@@ -157,7 +141,7 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        private static bool OKToCreateFile()
+        private bool OKToCreateFile()
         {
             if (File.Exists(m_RhinoceroSettings.GetFullFileName()))
             {
