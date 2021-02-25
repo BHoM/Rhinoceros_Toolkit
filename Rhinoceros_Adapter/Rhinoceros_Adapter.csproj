@@ -49,7 +49,9 @@
     <Reference Include="Geometry_oM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Geometry_oM.dll</HintPath>
     </Reference>
-    <Reference Include="Graphics_oM, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Graphics_oM">
+      <HintPath>..\..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\Graphics_oM.dll</HintPath>
+    </Reference>
     <Reference Include="Reflection_Engine">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_Engine.dll</HintPath>
     </Reference>
