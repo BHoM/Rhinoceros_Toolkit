@@ -7,7 +7,7 @@
     <ProjectGuid>{015C51EA-3F57-4EBE-8028-731CE84CA797}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rhinoceros_Adapter</RootNamespace>
+    <RootNamespace>BH.Adapter.Rhinoceros</RootNamespace>
     <AssemblyName>Rhinoceros_Adapter</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -20,7 +20,7 @@
     <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -56,7 +56,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Graphics_oM">
-      <HintPath>..\..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\Graphics_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Graphics_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Reflection_Engine">
