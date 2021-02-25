@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -30,7 +30,8 @@ using BH.oM.Base;
 using BH.oM.Adapter;
 using Rhino.FileIO;
 using System.IO;
-using BH.oM.Adapters.Rhinoceros;
+using Rhino.DocObjects;
+using BHR = BH.oM.Adapters.Rhinoceros;
 using BH.Engine.Rhinoceros;
 using BH.Engine.Adapter;
 
@@ -51,8 +52,10 @@ namespace BH.Adapter.Rhinoceros
         }
 
         /***************************************************/
+        /**** Private methods                           ****/
+        /***************************************************/
 
-        private static List<IBHoMObject> Read3dm(string filePath)
+        private List<IBHoMObject> Read3dm(string filePath, string layerNamePrefix = "")
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
             File3dm file3Dm = File3dm.Read(filePath);
@@ -60,19 +63,16 @@ namespace BH.Adapter.Rhinoceros
 
             foreach (File3dmObject item in file3Dm.Objects)
             {
-                Rhino.DocObjects.Layer layer = file3Dm.Layers[item.Attributes.LayerIndex];
-                BHoMRhinoObject rhinoObject = new BHoMRhinoObject();
-                rhinoObject.Layer = name + "::" + layer.Name;
-                rhinoObject.LayerColour = layer.Color;
+                BHR.RhinoObject rhinoObject = new BHR.RhinoObject();
+
+                rhinoObject.Layer = file3Dm.Layers[item.Attributes.LayerIndex].FromRhino(layerNamePrefix);
+
                 rhinoObject.ObjectColour = item.Attributes.ObjectColor;
 
-                if (item.Attributes.ColorSource == Rhino.DocObjects.ObjectColorSource.ColorFromLayer)
-                    rhinoObject.ColourSource = ColourSource.ByLayer;
-
-                else
-                    rhinoObject.ColourSource = ColourSource.ByObject;
+                rhinoObject.ColourSource = item.Attributes.ColorSource.FromRhino();
 
                 rhinoObject.Geometry = BH.Engine.Rhinoceros.Convert.IFromRhino(item.Geometry);
+
                 objects.Add(rhinoObject);
             }
             return objects;
@@ -83,17 +83,25 @@ namespace BH.Adapter.Rhinoceros
         private List<IBHoMObject> Read3dm(List<string> filePaths)
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
+            bool includePrefix = filePaths.Count > 1;
 
             foreach (string path in filePaths)
-                objects.AddRange(Read3dm(path));
+            {
+                string prefix = "";
+                if (includePrefix)
+                    prefix = Path.GetFileNameWithoutExtension(path) + "::";
 
+                objects.AddRange(Read3dm(path, prefix));
+            }
+                
             return objects;
         }
 
         /***************************************************/
 
-        private static void FindFilesToRead()
+        private void FindFilesToRead()
         {
+            m_FilePaths = new List<string>();
             //nothing set
             if (m_RhinoceroSettings.FileName == "" && m_RhinoceroSettings.Directory == "")
             {
@@ -154,5 +162,10 @@ namespace BH.Adapter.Rhinoceros
                 }
             }
         }
+
+        /***************************************************/
+        /**** Private fields                            ****/
+        /***************************************************/
+        private List<string> m_FilePaths { get; set; } = new List<string>();
     }
 }
