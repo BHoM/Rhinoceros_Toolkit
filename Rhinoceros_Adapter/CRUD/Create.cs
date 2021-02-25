@@ -35,6 +35,7 @@ using BH.Engine.Rhinoceros;
 using Rhino.FileIO;
 using Rhino.DocObjects;
 using BH.Engine.Adapter;
+using System.IO;
 
 namespace BH.Adapter.Rhinoceros
 {
@@ -57,6 +58,9 @@ namespace BH.Adapter.Rhinoceros
                 BH.Engine.Reflection.Compute.RecordError("Please provide valid a RhinocerosConfig object for pushing to a Rhinoceros file.");
                 return false;
             }
+
+            if(!OKToCreateFile())
+                return false;
 
             success = CreateRhinoceros(objects, config);
 
@@ -111,7 +115,6 @@ namespace BH.Adapter.Rhinoceros
                         attributes.ObjectColor = bhomRhino.ObjectColour;
                     }
                         
-
                     rhinoGeometry = BH.Engine.Rhinoceros.Convert.ToRhino(bhomRhino.Geometry as dynamic);
 
                     objectDict.Add(rhinoGeometry, attributes);
@@ -150,6 +153,24 @@ namespace BH.Adapter.Rhinoceros
             {
                 Convert.IAddObjectToFile(objAtt.Key, file3Dm, objAtt.Value);
             }
+        }
+
+        /***************************************************/
+
+        private static bool OKToCreateFile()
+        {
+            if (File.Exists(m_RhinoceroSettings.GetFullFileName()))
+            {
+                BH.Engine.Reflection.Compute.RecordError("File exists. Adding to file or overwriting not yet implemented. Specify a new file name.");
+                return false;
+            }
+            //check the directory
+            if (!Directory.Exists(m_RhinoceroSettings.Directory))
+            {
+                BH.Engine.Reflection.Compute.RecordError("Directory provided does not exist.");
+                return false;
+            }
+            return true;
         }
 
         /***************************************************/
