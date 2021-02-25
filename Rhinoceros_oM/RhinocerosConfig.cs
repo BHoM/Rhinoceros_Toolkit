@@ -1,11 +1,11 @@
-﻿using BH.oM.Adapter;
-using BH.oM.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BH.oM.Adapter;
+using BH.oM.Base;
 
 namespace BH.oM.Adapters.Rhinoceros
 {
