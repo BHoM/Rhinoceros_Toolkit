@@ -106,7 +106,11 @@ namespace BH.Adapter.Rhinoceros
                     if (bhomRhino.ColourSource == ColourSource.ByLayer)
                         attributes.ColorSource = Rhino.DocObjects.ObjectColorSource.ColorFromLayer;
                     else
+                    {
                         attributes.ColorSource = Rhino.DocObjects.ObjectColorSource.ColorFromObject;
+                        attributes.ObjectColor = bhomRhino.ObjectColour;
+                    }
+                        
 
                     rhinoGeometry = BH.Engine.Rhinoceros.Convert.ToRhino(bhomRhino.Geometry as dynamic);
 
@@ -122,7 +126,7 @@ namespace BH.Adapter.Rhinoceros
             AddObjects(objectDict, file3Dm);
 
             file3Dm.Polish();
-            file3Dm.Write(_fileSettings.GetFullFileName() , config.Version);
+            file3Dm.Write(m_RhinoceroSettings.GetFullFileName() , config.Version);
 
             return success;
         }
@@ -144,8 +148,7 @@ namespace BH.Adapter.Rhinoceros
         {
             foreach(var objAtt in objectDict)
             {
-
-
+                Convert.IAddObjectToFile(objAtt.Key, file3Dm, objAtt.Value);
             }
         }
 

@@ -35,7 +35,7 @@ namespace BH.Adapter.Rhinoceros
     public partial class RhinocerosAdapter : BHoMAdapter
     {
         [Description("Specify Rhinoceros file and properties for data transfer.")]
-        [Input("_fileSettings", "Input the file settings to get the file name and directory the Rhinoceros Adapter should use.")]
+        [Input("fileSettings", "Input the file settings to get the file name and directory the Rhinoceros Adapter should use.")]
         [Output("adapter", "Adapter to Rhinoceros.")]
         public RhinocerosAdapter(BH.oM.Adapter.FileSettings fileSettings = null)
         {
@@ -46,13 +46,13 @@ namespace BH.Adapter.Rhinoceros
                 return;
             }
 
-            
 
-            _fileSettings = fileSettings;
+
+            m_RhinoceroSettings = fileSettings;
 
         }
 
-        private static BH.oM.Adapter.FileSettings _fileSettings { get; set; } = null;
+        private static BH.oM.Adapter.FileSettings m_RhinoceroSettings { get; set; } = null;
         private static List<string> m_FilePaths { get; set; } = new List<string>();
     }
 }

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rhinoceros_Adapter
+namespace BH.Adapter.Rhinoceros
 {
     public static partial class Convert 
     {
