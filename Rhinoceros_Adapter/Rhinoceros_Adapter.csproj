@@ -80,9 +80,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdapterActions\Pull.cs" />
     <Compile Include="AdapterActions\Push.cs" />
-    <Compile Include="Convert\AddObjectToFile.cs" />
+    <Compile Include="CRUD\AddObjectToFile.cs" />
     <Compile Include="Convert\FromRhino\ColourSource.cs" />
     <Compile Include="Convert\FromRhino\Layer.cs" />
     <Compile Include="Convert\ToRhino\ColourSource.cs" />

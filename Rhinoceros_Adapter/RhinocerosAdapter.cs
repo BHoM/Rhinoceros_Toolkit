@@ -23,6 +23,7 @@
 
 using BH.Engine.Adapter;
 using BH.oM.Reflection.Attributes;
+using Rhino.FileIO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -34,22 +35,54 @@ namespace BH.Adapter.Rhinoceros
 {
     public partial class RhinocerosAdapter : BHoMAdapter
     {
-        [Description("Specify Rhinoceros file and properties for data transfer.")]
-        [Input("fileSettings", "Input the file settings to get the file name and directory the Rhinoceros Adapter should use.")]
+        /***************************************************/
+        /**** Public constructors                       ****/
+        /***************************************************/
+
+        [Description("Specify Rhinoceros file(s) and properties for data transfer.")]
+        [Input("filepaths", "Collection of file paths the Rhinoceros Adapter should use.")]
         [Output("adapter", "Adapter to Rhinoceros.")]
-        public RhinocerosAdapter(BH.oM.Adapter.FileSettings fileSettings = null)
+        public RhinocerosAdapter(List<string> filepaths)
         {
-
-            if (fileSettings == null)
-            {
-                BH.Engine.Reflection.Compute.RecordError("Please set the File Settings correctly to enable the Rhinoceros Adapter to work correctly.");
-                return;
-            }
-
-            m_RhinoceroSettings = fileSettings;
+            
+            RhinoFilepaths(filepaths);
 
         }
 
-        private BH.oM.Adapter.FileSettings m_RhinoceroSettings { get; set; } = null;
+        /***************************************************/
+
+        [Description("Specify Rhinoceros file and properties for data transfer.")]
+        [Input("filepath", "Single file path the Rhinoceros Adapter should use.")]
+        [Output("adapter", "Adapter to Rhinoceros.")]
+        public RhinocerosAdapter(string filepath)
+        {
+            
+            RhinoFilepaths(new List<string>() { filepath });
+
+        }
+
+        /***************************************************/
+        /**** Private methods                           ****/
+        /***************************************************/
+        private void RhinoFilepaths(List<string> paths)
+        {
+            m_FilePaths = new List<string>();
+            foreach (string path in paths)
+            {
+                if (Path.GetExtension(path) == ".3dm")
+                    m_FilePaths.Add(path);
+                else
+                    Engine.Reflection.Compute.RecordWarning("Rhino adapter can only read from or write to files with the *.3dm extension. " + path + " will be ignored.");
+            }
+        }
+
+        /***************************************************/
+        /**** Private fields                            ****/
+        /***************************************************/
+
+        private List<string> m_FilePaths { get; set; } = new List<string>();
+
+        private File3dm m_File3dm { get; set; }
+        
     }
 }
