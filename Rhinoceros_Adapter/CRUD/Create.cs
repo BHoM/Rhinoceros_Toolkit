@@ -55,38 +55,25 @@ namespace BH.Adapter.Rhinoceros
             BHR.RhinocerosConfig config = actionConfig as BHR.RhinocerosConfig;
             if (config == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Please provide valid a RhinocerosConfig object for pushing to a Rhinoceros file.");
+                BH.Engine.Reflection.Compute.RecordError("Please provide a valid RhinocerosConfig object for pushing to a Rhinoceros file.");
                 return false;
             }
 
-            if(!OKToCreateFile())
-                return false;
-
-            success = CreateRhinoceros(objects, config);
+            success = Create(objects as dynamic, config);
 
             return success;  
         }
-
         /***************************************************/
 
-        private bool CreateRhinoceros<T>(IEnumerable<T> objects, BHR.RhinocerosConfig config)
+        public bool Create(List<BHR.RhinoObject> rhinoObjects, BHR.RhinocerosConfig config)
         {
             bool success = true;
-            File3dm file3Dm = new File3dm();
+            
             List<Layer> layers = new List<Layer>();
             Dictionary<object, ObjectAttributes> objectDict = new Dictionary<object, ObjectAttributes>();
             ObjectAttributes attributes = new ObjectAttributes();
 
-            BHR.RhinocerosDocumentBuilder docBuilder = objects.ToList()[0] as BHR.RhinocerosDocumentBuilder;
-
-            //any geometry to default layer
-            if (docBuilder.Geometry.Count > 0)
-            {
-                layers.Add(new Layer() { Name = "Default" });
-                docBuilder.Geometry.ForEach(g => objectDict.Add(BH.Engine.Rhinoceros.Convert.ToRhino(g as dynamic), attributes));
-            }
-            
-            foreach (BHR.RhinoObject bhomRhino in docBuilder.RhinoObjects)
+            foreach (BHR.RhinoObject bhomRhino in rhinoObjects)
             {
                 attributes = new ObjectAttributes();
                 object rhinoGeometry = null;
@@ -109,58 +96,55 @@ namespace BH.Adapter.Rhinoceros
 
             }
 
-            AddLayers(layers, file3Dm);
-            AddObjects(objectDict, file3Dm);
+            AddLayers(layers);
+            AddObjects(objectDict);
 
-            file3Dm.Polish();
-            file3Dm.Write(m_RhinoceroSettings.GetFullFileName() , config.Version);
+            m_File3dm.Polish();
 
-            return success;
+            return m_File3dm.Write(m_FilePaths[0], config.Version);
+        }
+        /***************************************************/
+
+        private bool Create(IEnumerable<oM.Adapter.ObjectWrapper> objects, BHR.RhinocerosConfig config)
+        {
+            ObjectAttributes attributes = new ObjectAttributes();
+            attributes.LayerIndex = 0;
+
+            foreach (ObjectWrapper wrapper in objects)
+            {
+                if(wrapper.WrappedObject is IGeometry)
+                    IAddObjectToFile(BH.Engine.Rhinoceros.Convert.ToRhino(wrapper.WrappedObject as dynamic), attributes);
+            }
+
+            m_File3dm.Polish();
+            return m_File3dm.Write(m_FilePaths[0], config.Version);
         }
 
 
         /***************************************************/
 
-        private void AddLayers(List<Layer> layers, File3dm file3Dm)
+        private void AddLayers(List<Layer> layers)
         {
             foreach(Layer layer in layers)
             {
-                file3Dm.Layers.Add(layer);
+                m_File3dm.Layers.Add(layer);
             }
         }
 
         /***************************************************/
 
-        private void AddObjects(Dictionary<object, ObjectAttributes> objectDict, File3dm file3Dm)
+        private void AddObjects(Dictionary<object, ObjectAttributes> objectDict)
         {
             foreach(var objAtt in objectDict)
             {
-                Convert.IAddObjectToFile(objAtt.Key, file3Dm, objAtt.Value);
+                IAddObjectToFile(objAtt.Key, objAtt.Value);
             }
-        }
-
-        /***************************************************/
-
-        private bool OKToCreateFile()
-        {
-            if (File.Exists(m_RhinoceroSettings.GetFullFileName()))
-            {
-                BH.Engine.Reflection.Compute.RecordError("File exists. Adding to file or overwriting not yet implemented. Specify a new file name.");
-                return false;
-            }
-            //check the directory
-            if (!Directory.Exists(m_RhinoceroSettings.Directory))
-            {
-                BH.Engine.Reflection.Compute.RecordError("Directory provided does not exist.");
-                return false;
-            }
-            return true;
         }
 
         /***************************************************/
         protected bool Create(IBHoMObject obj)
         { 
-		   BH.Engine.Reflection.Compute.RecordError("No specific Create method found for {obj.GetType().Name}.");
+		   BH.Engine.Reflection.Compute.RecordError($"No specific Create method found for {obj.GetType().Name}.");
 		   return false;
         }
     }

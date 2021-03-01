@@ -30,6 +30,8 @@ using BH.oM.Data.Requests;
 using BH.oM.Adapter;
 using BH.oM.Base;
 using System.Reflection;
+using System.IO;
+using Rhino.FileIO;
 
 namespace BH.Adapter.Rhinoceros
 {
@@ -37,23 +39,31 @@ namespace BH.Adapter.Rhinoceros
     {
         public override List<object> Push(IEnumerable<object> objects, String tag = "", PushType pushType = PushType.AdapterDefault, ActionConfig actionConfig = null)
         {
-            // If unset, set the pushType to AdapterSettings' value (base AdapterSettings default is FullCRUD).
-            if (pushType == PushType.AdapterDefault)
-                pushType = m_AdapterSettings.DefaultPushType;
-
-            IEnumerable<IBHoMObject> objectsToPush = ProcessObjectsForPush(objects, actionConfig); // Note: default Push only supports IBHoMObjects.
-
-            bool success = true;
-
-            MethodInfo methodInfos = typeof(Enumerable).GetMethod("Cast");
-            foreach (var typeGroup in objectsToPush.GroupBy(x => x.GetType()))
+            //overriding to ensure the creation of a single destination file in a valid location
+            if(m_FilePaths.Count == 0)
             {
-                MethodInfo mInfo = methodInfos.MakeGenericMethod(new[] { typeGroup.Key });
-                var list = mInfo.Invoke(typeGroup, new object[] { typeGroup });
-                success &= ICreate(list as dynamic, actionConfig);
+                BH.Engine.Reflection.Compute.RecordError("No file(s) has been specified.");
+                return new List<object>();
             }
 
-            return success ? objects.ToList() : new List<object>();
+            if (File.Exists(m_FilePaths[0]))
+            {
+                BH.Engine.Reflection.Compute.RecordError("File exists. Appending to a file or overwriting is not yet implemented. Specify a new file name.");
+                return new List<object>();
+            }
+
+            string dir = Path.GetDirectoryName(m_FilePaths[0]);
+
+            if (dir == "\\" || !Directory.Exists(dir))
+            {
+                BH.Engine.Reflection.Compute.RecordError("The directory cannot be found, check the path is correct.");
+                return new List<object>();
+            }
+
+            //create a new file
+            m_File3dm = new File3dm();
+
+            return base.Push(objects, tag, pushType, actionConfig);
         }
     }
 }

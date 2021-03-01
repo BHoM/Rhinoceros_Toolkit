@@ -32,105 +32,107 @@ using System.Threading.Tasks;
 
 namespace BH.Adapter.Rhinoceros
 {
-    public static partial class Convert 
+    public partial class RhinocerosAdapter : BHoMAdapter
     {
+
         /***************************************************/
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
-        public static void IAddObjectToFile(object objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void IAddObjectToFile(object objectToAdd, ObjectAttributes atttributes)
         {
-            AddObjectToFile(objectToAdd as dynamic, file3Dm, atttributes);
+            AddObjectToFile(objectToAdd as dynamic, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Curve objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Curve objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddCurve(objectToAdd, atttributes);
+            m_File3dm.Objects.AddCurve(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Arc objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Arc objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddArc(objectToAdd, atttributes);
+            m_File3dm.Objects.AddArc(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Brep objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Brep objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddBrep(objectToAdd, atttributes);
+            m_File3dm.Objects.AddBrep(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Circle objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Circle objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddCircle(objectToAdd, atttributes);
+            m_File3dm.Objects.AddCircle(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Ellipse objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Ellipse objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddEllipse(objectToAdd, atttributes);
+            m_File3dm.Objects.AddEllipse(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Extrusion objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Extrusion objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddExtrusion(objectToAdd, atttributes);
+            m_File3dm.Objects.AddExtrusion(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Line objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Line objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddLine(objectToAdd, atttributes);
+            m_File3dm.Objects.AddLine(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Mesh objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Mesh objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddMesh(objectToAdd, atttributes);
+            m_File3dm.Objects.AddMesh(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Point3d objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Point3d objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddPoint(objectToAdd, atttributes);
+            m_File3dm.Objects.AddPoint(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(PointCloud objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(PointCloud objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddPointCloud(objectToAdd, atttributes);
+            m_File3dm.Objects.AddPointCloud(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(IEnumerable<Point3d> objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(IEnumerable<Point3d> objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddPoints(objectToAdd, atttributes);
+            m_File3dm.Objects.AddPoints(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Sphere objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Sphere objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddSphere(objectToAdd, atttributes);
+            m_File3dm.Objects.AddSphere(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Surface objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Surface objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddSurface(objectToAdd, atttributes);
+            m_File3dm.Objects.AddSurface(objectToAdd, atttributes);
         }
 
         /***************************************************/
-        public static void AddObjectToFile(Text3d objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        public void AddObjectToFile(Text3d objectToAdd, ObjectAttributes atttributes)
         {
-            file3Dm.Objects.AddText(objectToAdd, atttributes);
+            m_File3dm.Objects.AddText(objectToAdd, atttributes);
         }
 
         /***************************************************/
         /**** Private Methods  - Fallback               ****/
         /***************************************************/
-        private static void AddObjectToFile(object objectToAdd, File3dm file3Dm, ObjectAttributes atttributes)
+        private void AddObjectToFile(object objectToAdd, ObjectAttributes atttributes)
         {
+            Engine.Reflection.Compute.RecordError("Could not add object of type : " + objectToAdd.GetType().ToString() + " to the Rhino file.");
             return;
         }
     }

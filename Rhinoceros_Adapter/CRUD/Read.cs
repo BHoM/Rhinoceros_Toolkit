@@ -46,7 +46,7 @@ namespace BH.Adapter.Rhinoceros
         protected override IEnumerable<IBHoMObject> IRead(Type type, IList ids = null, ActionConfig actionConfig = null)
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
-            FindFilesToRead();
+            //filtering by object / layer for future
             objects = Read3dm(m_FilePaths);
             return objects;
         }
@@ -96,76 +96,5 @@ namespace BH.Adapter.Rhinoceros
                 
             return objects;
         }
-
-        /***************************************************/
-
-        private void FindFilesToRead()
-        {
-            m_FilePaths = new List<string>();
-            //nothing set
-            if (m_RhinoceroSettings.FileName == "" && m_RhinoceroSettings.Directory == "")
-            {
-                BH.Engine.Reflection.Compute.RecordError("Either provide a file name and directory to pull a single .3dm file, or a directory to pull multiple .3dm files.");
-                return;
-            }
-
-            //no directory but full path provided in filename
-            if (m_RhinoceroSettings.FileName != "" && m_RhinoceroSettings.Directory == "")
-            {
-                if (!Path.HasExtension(m_RhinoceroSettings.FileName) || Path.GetExtension(m_RhinoceroSettings.FileName) != ".3dm")
-                {
-                    BH.Engine.Reflection.Compute.RecordError("File name must contain a file .3dm extension.");
-                    return;
-                }
-                else if (!File.Exists(m_RhinoceroSettings.FileName))
-                {
-                    BH.Engine.Reflection.Compute.RecordError("File does not exist.");
-                    return;
-                }
-                else
-                {
-                    m_FilePaths.Add(m_RhinoceroSettings.GetFullFileName());
-                }
-
-            }
-            //check the directory
-            else if (!Directory.Exists(m_RhinoceroSettings.Directory))
-            {
-                BH.Engine.Reflection.Compute.RecordError("Directory provided does not exist.");
-                return;
-            }
-            else
-            {
-                //try and get all the .3dm and ignore .3dmbak
-                IEnumerable<string> files = Directory.EnumerateFiles(m_RhinoceroSettings.Directory, "*.3dm", SearchOption.TopDirectoryOnly).Where(path => !path.Contains("3dmbak"));
-                
-                if (files.Count() == 0)
-                {
-                    BH.Engine.Reflection.Compute.RecordError("No .3dm files found in the directory.");
-                    return;
-                }
-                else
-                {
-                    //directory does not contain file
-                    if (m_RhinoceroSettings.FileName != "" && !files.Any(f => f.Contains(Path.GetFileName(m_RhinoceroSettings.FileName))))
-                    {
-                        BH.Engine.Reflection.Compute.RecordError("File specified was not found in the directory.");
-                        return;
-                    }
-
-                    //directory contains single specified file
-                    else if (m_RhinoceroSettings.FileName != "" && files.Any(f => f.Contains(Path.GetFileName(m_RhinoceroSettings.FileName))))
-                        m_FilePaths.Add(m_RhinoceroSettings.GetFullFileName());
-                    //use a
-                    else
-                        m_FilePaths = files.ToList();
-                }
-            }
-        }
-
-        /***************************************************/
-        /**** Private fields                            ****/
-        /***************************************************/
-        private List<string> m_FilePaths { get; set; } = new List<string>();
     }
 }
