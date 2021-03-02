@@ -80,7 +80,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdapterActions\Push.cs" />
     <Compile Include="CRUD\AddObjectToFile.cs" />
     <Compile Include="Convert\FromRhino\ColourSource.cs" />
     <Compile Include="Convert\FromRhino\Layer.cs" />
@@ -91,7 +90,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RhinocerosAdapter.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AdapterActions\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rhinoceros_Engine\Rhinoceros_Engine.csproj">
       <Project>{93cedc69-f9c0-4e08-9e94-07f120d811dc}</Project>
