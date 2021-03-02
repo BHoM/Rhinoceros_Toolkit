@@ -40,49 +40,26 @@ namespace BH.Adapter.Rhinoceros
         /***************************************************/
 
         [Description("Specify Rhinoceros file(s) and properties for data transfer.")]
-        [Input("filepaths", "Collection of file paths the Rhinoceros Adapter should use.")]
+        [Input("fileSettings", "File settings the Rhinoceros Adapter should use.")]
         [Output("adapter", "Adapter to Rhinoceros.")]
-        public RhinocerosAdapter(List<string> filepaths)
+        public RhinocerosAdapter(BH.oM.Adapter.FileSettings fileSettings)
         {
-            
-            RhinoFilepaths(filepaths);
+            m_Filepath = fileSettings.GetFullFileName();
 
-        }
+            if (Path.GetExtension(m_Filepath) != ".3dm")
+                BH.Engine.Reflection.Compute.RecordWarning("Rhinoceros Adapter can only operate on files with extension *.3dm.");
 
-        /***************************************************/
-
-        [Description("Specify Rhinoceros file and properties for data transfer.")]
-        [Input("filepath", "Single file path the Rhinoceros Adapter should use.")]
-        [Output("adapter", "Adapter to Rhinoceros.")]
-        public RhinocerosAdapter(string filepath)
-        {
-            
-            RhinoFilepaths(new List<string>() { filepath });
-
-        }
-
-        /***************************************************/
-        /**** Private methods                           ****/
-        /***************************************************/
-        private void RhinoFilepaths(List<string> paths)
-        {
-            m_FilePaths = new List<string>();
-            foreach (string path in paths)
-            {
-                if (Path.GetExtension(path) == ".3dm")
-                    m_FilePaths.Add(path);
-                else
-                    Engine.Reflection.Compute.RecordWarning("Rhino adapter can only read from or write to files with the *.3dm extension. " + path + " will be ignored.");
-            }
+            if (File.Exists(m_Filepath))
+                m_File3dm = File3dm.Read(m_Filepath);
+            else
+                m_File3dm = new File3dm();
         }
 
         /***************************************************/
         /**** Private fields                            ****/
         /***************************************************/
-
-        private List<string> m_FilePaths { get; set; } = new List<string>();
-
         private File3dm m_File3dm { get; set; }
-        
+
+        private string m_Filepath { get; set; }
     }
 }

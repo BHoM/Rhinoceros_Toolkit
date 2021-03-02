@@ -47,7 +47,7 @@ namespace BH.Adapter.Rhinoceros
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
             //filtering by object / layer for future
-            objects = Read3dm(m_FilePaths);
+            objects = Read3dm();
             return objects;
         }
 
@@ -55,17 +55,15 @@ namespace BH.Adapter.Rhinoceros
         /**** Private methods                           ****/
         /***************************************************/
 
-        private List<IBHoMObject> Read3dm(string filePath, string layerNamePrefix = "")
+        private List<IBHoMObject> Read3dm()
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
-            File3dm file3Dm = File3dm.Read(filePath);
-            string name = Path.GetFileName(filePath);
 
-            foreach (File3dmObject item in file3Dm.Objects)
+            foreach (File3dmObject item in m_File3dm.Objects)
             {
                 BHR.RhinoObject rhinoObject = new BHR.RhinoObject();
 
-                rhinoObject.Layer = file3Dm.Layers[item.Attributes.LayerIndex].FromRhino(layerNamePrefix);
+                rhinoObject.Layer = m_File3dm.Layers[item.Attributes.LayerIndex].FromRhino();
 
                 rhinoObject.ObjectColour = item.Attributes.ObjectColor;
 
@@ -80,21 +78,21 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        private List<IBHoMObject> Read3dm(List<string> filePaths)
-        {
-            List<IBHoMObject> objects = new List<IBHoMObject>();
-            bool includePrefix = filePaths.Count > 1;
+        //private List<IBHoMObject> Read3dm(List<string> filePaths)
+        //{
+        //    List<IBHoMObject> objects = new List<IBHoMObject>();
+        //    bool includePrefix = filePaths.Count > 1;
 
-            foreach (string path in filePaths)
-            {
-                string prefix = "";
-                if (includePrefix)
-                    prefix = Path.GetFileNameWithoutExtension(path) + "::";
+        //    foreach (string path in filePaths)
+        //    {
+        //        string prefix = "";
+        //        if (includePrefix)
+        //            prefix = Path.GetFileNameWithoutExtension(path) + "::";
 
-                objects.AddRange(Read3dm(path, prefix));
-            }
+        //        objects.AddRange(Read3dm(path, prefix));
+        //    }
                 
-            return objects;
-        }
+        //    return objects;
+        //}
     }
 }

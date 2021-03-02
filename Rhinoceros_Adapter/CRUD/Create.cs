@@ -63,6 +63,7 @@ namespace BH.Adapter.Rhinoceros
 
             return success;  
         }
+
         /***************************************************/
 
         public bool Create(List<BHR.RhinoObject> rhinoObjects, BHR.RhinocerosConfig config)
@@ -101,7 +102,7 @@ namespace BH.Adapter.Rhinoceros
 
             m_File3dm.Polish();
 
-            return m_File3dm.Write(m_FilePaths[0], config.Version);
+            return m_File3dm.Write(m_Filepath, config.Version);
         }
         /***************************************************/
 
@@ -117,7 +118,7 @@ namespace BH.Adapter.Rhinoceros
             }
 
             m_File3dm.Polish();
-            return m_File3dm.Write(m_FilePaths[0], config.Version);
+            return m_File3dm.Write(m_Filepath, config.Version);
         }
 
 
