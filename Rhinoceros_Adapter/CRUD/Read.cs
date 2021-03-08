@@ -34,6 +34,7 @@ using Rhino.DocObjects;
 using BHR = BH.oM.Adapters.Rhinoceros;
 using BH.Engine.Rhinoceros;
 using BH.Engine.Adapter;
+using BH.Engine.Reflection;
 
 namespace BH.Adapter.Rhinoceros
 {
@@ -46,7 +47,19 @@ namespace BH.Adapter.Rhinoceros
         protected override IEnumerable<IBHoMObject> IRead(Type type, IList ids = null, ActionConfig actionConfig = null)
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
-            //filtering by object / layer for future
+
+            if (!File.Exists(m_Filepath))
+            {
+                BH.Engine.Reflection.Compute.RecordError("File does not exist. Check filename and directory have been correctly specified.");
+                return objects;
+            }
+            if (Path.GetExtension(m_Filepath) != ".3dm")
+            {
+                BH.Engine.Reflection.Compute.RecordError("Rhinoceros Adapter can only operate on files with extension *.3dm.");
+                return objects;
+            }
+
+            //TODO handle object filtering     
             objects = Read3dm();
             return objects;
         }
@@ -57,6 +70,8 @@ namespace BH.Adapter.Rhinoceros
 
         private List<IBHoMObject> Read3dm()
         {
+            m_File3dm = File3dm.Read(m_Filepath);
+
             List<IBHoMObject> objects = new List<IBHoMObject>();
 
             foreach (File3dmObject item in m_File3dm.Objects)
@@ -76,23 +91,6 @@ namespace BH.Adapter.Rhinoceros
             return objects;
         }
 
-        /***************************************************/
-
-        //private List<IBHoMObject> Read3dm(List<string> filePaths)
-        //{
-        //    List<IBHoMObject> objects = new List<IBHoMObject>();
-        //    bool includePrefix = filePaths.Count > 1;
-
-        //    foreach (string path in filePaths)
-        //    {
-        //        string prefix = "";
-        //        if (includePrefix)
-        //            prefix = Path.GetFileNameWithoutExtension(path) + "::";
-
-        //        objects.AddRange(Read3dm(path, prefix));
-        //    }
-                
-        //    return objects;
-        //}
+        
     }
 }

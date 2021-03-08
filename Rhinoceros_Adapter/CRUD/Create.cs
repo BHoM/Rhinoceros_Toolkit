@@ -100,10 +100,9 @@ namespace BH.Adapter.Rhinoceros
             AddLayers(layers);
             AddObjects(objectDict);
 
-            m_File3dm.Polish();
-
-            return m_File3dm.Write(m_Filepath, config.Version);
+            return SaveFile(config.Version);
         }
+
         /***************************************************/
 
         private bool Create(IEnumerable<oM.Adapter.ObjectWrapper> objects, BHR.RhinocerosConfig config)
@@ -117,8 +116,7 @@ namespace BH.Adapter.Rhinoceros
                     IAddObjectToFile(BH.Engine.Rhinoceros.Convert.ToRhino(wrapper.WrappedObject as dynamic), attributes);
             }
 
-            m_File3dm.Polish();
-            return m_File3dm.Write(m_Filepath, config.Version);
+            return SaveFile(config.Version);
         }
 
 
@@ -143,10 +141,26 @@ namespace BH.Adapter.Rhinoceros
         }
 
         /***************************************************/
-        protected bool Create(IBHoMObject obj)
+
+        private bool SaveFile(int version)
+        {
+            m_File3dm.Polish();
+
+            if (!m_File3dm.Write(m_Filepath, version))
+            {
+                BH.Engine.Reflection.Compute.RecordError("File could not be written, check the file is not open and that you have permission to write to the specified location.");
+                return false;
+            }
+            return true;
+        }
+
+        /***************************************************/
+        /**** Private Methods  - Fallback               ****/
+        /***************************************************/
+        private bool Create(IBHoMObject obj)
         { 
-		   BH.Engine.Reflection.Compute.RecordError($"No specific Create method found for {obj.GetType().Name}.");
-		   return false;
+		    BH.Engine.Reflection.Compute.RecordError($"No specific Create method found for {obj.GetType().Name}.");
+		    return false;
         }
     }
 }
