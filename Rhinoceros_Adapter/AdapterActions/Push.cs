@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
@@ -21,50 +20,36 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.Engine.Adapter;
-using BH.oM.Reflection.Attributes;
-using Rhino.FileIO;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using BH.oM.Data.Requests;
+using BH.oM.Adapter;
+using BH.oM.Base;
+using BH.Engine.Reflection;
+using System.IO;
 
 namespace BH.Adapter.Rhinoceros
 {
     public partial class RhinocerosAdapter : BHoMAdapter
     {
-        /***************************************************/
-        /**** Public constructors                       ****/
-        /***************************************************/
-
-        [Description("Specify Rhinoceros file(s) and properties for data transfer.")]
-        [Input("fileSettings", "File settings the Rhinoceros Adapter should use.")]
-        [Output("adapter", "Adapter to Rhinoceros.")]
-        public RhinocerosAdapter(BH.oM.Adapter.FileSettings fileSettings)
+        public override List<object> Push(IEnumerable<object> objects, String tag = "", PushType pushType = PushType.AdapterDefault, ActionConfig actionConfig = null)
         {
-            m_Filepath = fileSettings.GetFullFileName();
+            //overriding Push to force PushType.CreateOnly and creation of new single Rhino.FileIO.File3dm where all objects will be written
+            if (pushType!= PushType.CreateOnly)
+                BH.Engine.Reflection.Compute.RecordWarning("RhinocerosAdapter is configured to as a PushType.CreateOnly adapter. All objects are pushed to a new file.");
+            
+            pushType = PushType.CreateOnly;
 
             if (Path.GetExtension(m_Filepath) != ".3dm")
-            {
-                BH.Engine.Reflection.Compute.RecordError("Rhinoceros Adapter can only operate on files with extension *.3dm.");
-                return;
-            }
-                
-            if (File.Exists(m_Filepath))
-            {
-                BH.Engine.Reflection.Compute.RecordWarning("If this RhinocerosAdapter is used with an Adapter Action Push operation the specified file will be overwritten.");
-                return;
-            }
-
+                return new List<object>();
+             
+            m_File3dm = new Rhino.FileIO.File3dm();
+            return base.Push(objects, tag, pushType, actionConfig);
         }
-
-        /***************************************************/
-        /**** Private fields                            ****/
-        /***************************************************/
-        private File3dm m_File3dm { get; set; }
-
-        private string m_Filepath { get; set; }
     }
 }
+
