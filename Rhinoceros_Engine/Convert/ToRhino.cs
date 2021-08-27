@@ -575,7 +575,7 @@ namespace BH.Engine.Rhinoceros
             RHG.Mesh rMesh = new RHG.Mesh();
             rMesh.Faces.AddFaces(rFaces);
             rMesh.Vertices.AddVertices(rVertices);
-            Color[] colors = mesh.Vertices.Select(x => x.Color).ToArray();
+            Color[] colors = mesh.Vertices.Select(x => x.Colour).ToArray();
             rMesh.VertexColors.SetColors(colors);
             return rMesh;
         }
@@ -832,7 +832,7 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        private static RHG.Point3d ToRhino(this BH.oM.Graphics.Vertex point)
+        private static RHG.Point3d ToRhino(this BH.oM.Graphics.RenderPoint point)
         {
             if (point == null) return default(RHG.Point3d);
 
