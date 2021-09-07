@@ -104,6 +104,11 @@ namespace BH.Adapter.Rhinoceros
         }
 
         /***************************************************/
+        public void AddObjectToFile(BoundingBox objectToAdd, ObjectAttributes atttributes)
+        {
+            AddObjectToFile(objectToAdd.ToBrep(), atttributes);
+        }
+        /***************************************************/
         public void AddObjectToFile(IEnumerable<Point3d> objectToAdd, ObjectAttributes atttributes)
         {
             m_File3dm.Objects.AddPoints(objectToAdd, atttributes);

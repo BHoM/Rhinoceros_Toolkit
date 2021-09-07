@@ -48,6 +48,7 @@ namespace BH.Adapter.Rhinoceros
                 return new List<object>();
              
             m_File3dm = new Rhino.FileIO.File3dm();
+            m_File3dm.Settings.ModelUnitSystem = Rhino.UnitSystem.Meters;
             return base.Push(objects, tag, pushType, actionConfig);
         }
     }
