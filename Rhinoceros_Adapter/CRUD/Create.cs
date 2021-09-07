@@ -71,7 +71,8 @@ namespace BH.Adapter.Rhinoceros
             bool success = true;
             
             List<Layer> layers = new List<Layer>();
-            Dictionary<object, ObjectAttributes> objectDict = new Dictionary<object, ObjectAttributes>();
+            List<object> objects = new List<object>();
+            List<ObjectAttributes> allAttributes = new List<ObjectAttributes>();
             ObjectAttributes attributes = new ObjectAttributes();
 
             foreach (BHR.RhinoObject bhomRhino in rhinoObjects)
@@ -90,15 +91,22 @@ namespace BH.Adapter.Rhinoceros
                 attributes.LayerIndex = layerIndex;
                 attributes.ObjectColor = bhomRhino.ObjectColour;
                 attributes.ColorSource = bhomRhino.ColourSource.ToRhino();
-
-                rhinoGeometry = BH.Engine.Rhinoceros.Convert.ToRhino(bhomRhino.Geometry as dynamic);
-
-                objectDict.Add(rhinoGeometry, attributes);
+                try
+                {
+                    rhinoGeometry = BH.Engine.Rhinoceros.Convert.ToRhino(bhomRhino.Geometry as dynamic);
+                }
+                catch
+                {
+                    int stop = 0;
+                }
+                
+                objects.Add(rhinoGeometry);
+                allAttributes.Add(attributes);
 
             }
 
             AddLayers(layers);
-            AddObjects(objectDict);
+            AddObjects(objects, allAttributes);
 
             return SaveFile(config.Version);
         }
@@ -132,11 +140,18 @@ namespace BH.Adapter.Rhinoceros
 
         /***************************************************/
 
-        private void AddObjects(Dictionary<object, ObjectAttributes> objectDict)
+        private void AddObjects(List<object> objects, List<ObjectAttributes> attributes)
         {
-            foreach(var objAtt in objectDict)
+            for(int i = 0;i < objects.Count; i++)
             {
-                IAddObjectToFile(objAtt.Key, objAtt.Value);
+                try
+                {
+                    IAddObjectToFile(objects[i], attributes[i]);
+                }
+                catch
+                {
+                    int stop = 0;
+                }
             }
         }
 
@@ -145,7 +160,7 @@ namespace BH.Adapter.Rhinoceros
         private bool SaveFile(int version)
         {
             m_File3dm.Polish();
-
+            
             if (!m_File3dm.Write(m_Filepath, version))
             {
                 BH.Engine.Reflection.Compute.RecordError("File could not be written, check the file is not open and that you have permission to write to the specified location.");
