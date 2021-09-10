@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29728.190
+VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhinoceros_Engine", "Rhinoceros_Engine\Rhinoceros_Engine.csproj", "{93CEDC69-F9C0-4E08-9E94-07F120D811DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhinoceros_Engine", "Rhinoceros_Engine\Rhinoceros_Engine.csproj", "{406A47EA-7D7B-4461-AD32-4D3E3087FAA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93CEDC69-F9C0-4E08-9E94-07F120D811DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{406A47EA-7D7B-4461-AD32-4D3E3087FAA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{406A47EA-7D7B-4461-AD32-4D3E3087FAA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{406A47EA-7D7B-4461-AD32-4D3E3087FAA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{406A47EA-7D7B-4461-AD32-4D3E3087FAA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5E8C326B-25EE-4785-8A1F-BB1C80E9E8BB}
+		SolutionGuid = {8C5A84D2-AB08-469E-BDD4-BA52AC32A986}
 	EndGlobalSection
 EndGlobal
