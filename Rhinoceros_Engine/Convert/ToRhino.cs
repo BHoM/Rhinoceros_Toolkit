@@ -43,8 +43,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the geometry.")]
-        [Input("geometry", "Input geometry")]
-        [Output("rhGeom", "Rhino object")]
+        [Input("geometry", "Input geometry.")]
+        [Output("rhGeom", "Rhino object.")]
         public static object IToRhino(this BHG.IGeometry geometry)
         {
             return (geometry == default(BHG.IGeometry)) ? null : Convert.ToRhino(geometry as dynamic);
@@ -53,8 +53,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the object.")]
-        [Input("render", "Input object")]
-        [Output("rhGeom", "Rhino object")]
+        [Input("render", "Input object.")]
+        [Output("rhGeom", "Rhino object.")]
         public static object IToRhino(this IRender render)
         {
             return (render == default(IRender)) ? null : Convert.ToRhino(render as dynamic);
@@ -63,8 +63,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the object.")]
-        [Input("curve", "Input curve")]
-        [Output("rhGeom", "Rhino object")]
+        [Input("curve", "Input curve.")]
+        [Output("rhGeom", "Rhino object.")]
         public static RHG.Curve IToRhino(this BHG.ICurve curve)
         {
             if (curve == null) return null;
@@ -88,8 +88,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the surface.")]
-        [Input("surface", "Input surface")]
-        [Output("rhGeom", "Rhino object")]
+        [Input("surface", "Input surface.")]
+        [Output("rhGeom", "Rhino object.")]
         public static RHG.GeometryBase IToRhino(this BHG.ISurface surface)
         {
             return (surface == default(BHG.ISurface)) ? null : Convert.ToRhino(surface as dynamic);
@@ -101,8 +101,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the point.")]
-        [Input("point", "Input point")]
-        [Output("rhGeom", "Rhino point")]
+        [Input("point", "Input point.")]
+        [Output("rhGeom", "Rhino point.")]
         public static RHG.Point3d ToRhino(this BHG.Point point)
         {
             if (point == null) return default(RHG.Point3d);
@@ -113,8 +113,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the vector.")]
-        [Input("vector", "Input vector")]
-        [Output("rhGeom", "Rhino vector")]
+        [Input("vector", "Input vector.")]
+        [Output("rhGeom", "Rhino vector.")]
         public static RHG.Vector3d ToRhino(this BHG.Vector vector)
         {
             if (vector == null) return default(RHG.Vector3d);
@@ -125,8 +125,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the plane.")]
-        [Input("plane", "Input plane")]
-        [Output("rhGeom", "Rhino plane")]
+        [Input("plane", "Input plane.")]
+        [Output("rhGeom", "Rhino plane.")]
         public static RHG.Plane ToRhino(this BHG.Plane plane)
         {
             if (plane == null) return default(RHG.Plane);
@@ -137,8 +137,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the coordinateSystem.")]
-        [Input("coordinateSystem", "Input coordinateSystem")]
-        [Output("rhGeom", "Rhino plane")]
+        [Input("coordinateSystem", "Input coordinateSystem.")]
+        [Output("rhGeom", "Rhino plane.")]
         public static RHG.Plane ToRhino(this BHG.CoordinateSystem.Cartesian coordinateSystem)
         {
             if (coordinateSystem == null) return default(RHG.Plane);
@@ -149,8 +149,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the quartenion.")]
-        [Input("quartenion", "Input quartenion")]
-        [Output("rhGeom", "Rhino quartenion")]
+        [Input("quartenion", "Input quartenion.")]
+        [Output("rhGeom", "Rhino quartenion.")]
         public static RHG.Quaternion ToRhino(this BHG.Quaternion quartenion)
         {
             return (quartenion == null) ? default(RHG.Quaternion) : new RHG.Quaternion(quartenion.X, quartenion.Y, quartenion.Z, quartenion.W);
@@ -159,8 +159,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the Transformation matrix.")]
-        [Input("quartenion", "Input TransformMatrix")]
-        [Output("rhGeom", "Rhino TransformMatrix")]
+        [Input("quartenion", "Input TransformMatrix.")]
+        [Output("rhGeom", "Rhino TransformMatrix.")]
         public static RHG.Transform ToRhino(this BHG.TransformMatrix bhTrans)
         {
             if (bhTrans == null) return default(RHG.Transform);
@@ -194,8 +194,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the arc.")]
-        [Input("arc", "Input arc")]
-        [Output("rhGeom", "Rhino arc")]
+        [Input("arc", "Input arc.")]
+        [Output("rhGeom", "Rhino arc.")]
         public static RHG.Arc ToRhino(this BHG.Arc arc)
         {
             if (arc == null) return default(RHG.Arc);
@@ -211,8 +211,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the circle.")]
-        [Input("circle", "Input circle")]
-        [Output("rhGeom", "Rhino circle")]
+        [Input("circle", "Input circle.")]
+        [Output("rhGeom", "Rhino circle.")]
         public static RHG.Circle ToRhino(this BHG.Circle circle)
         {
             if (circle == null) return default(RHG.Circle);
@@ -223,8 +223,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the ellipse.")]
-        [Input("ellipse", "Input ellipse")]
-        [Output("rhGeom", "Rhino ellipse")]
+        [Input("ellipse", "Input ellipse.")]
+        [Output("rhGeom", "Rhino ellipse.")]
         public static RHG.Ellipse ToRhino(this BHG.Ellipse ellipse)
         {
             if (ellipse == null) return default(RHG.Ellipse);
@@ -236,8 +236,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the line.")]
-        [Input("line", "Input line")]
-        [Output("rhGeom", "Rhino line")]
+        [Input("line", "Input line.")]
+        [Output("rhGeom", "Rhino line.")]
         public static RHG.Line ToRhino(this BHG.Line line)
         {
             if (line == null) return default(RHG.Line);
@@ -248,8 +248,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the NurbsCurve.")]
-        [Input("bCurve", "Input NurbsCurve")]
-        [Output("rhGeom", "Rhino NurbsCurve")]
+        [Input("bCurve", "Input NurbsCurve.")]
+        [Output("rhGeom", "Rhino NurbsCurve.")]
         public static RHG.NurbsCurve ToRhino(this BHG.NurbsCurve bCurve)
         {
             switch (Rhino.RhinoApp.Version.Major)
@@ -266,8 +266,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the PolyCurve.")]
-        [Input("bPolyCurve", "Input PolyCurve")]
-        [Output("rhGeom", "Rhino PolyCurve")]
+        [Input("bPolyCurve", "Input PolyCurve.")]
+        [Output("rhGeom", "Rhino PolyCurve.")]
         public static RHG.PolyCurve ToRhino(this BHG.PolyCurve bPolyCurve)
         {
             if (bPolyCurve == null)
@@ -288,8 +288,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the polyline.")]
-        [Input("polyline", "Input polyline")]
-        [Output("rhGeom", "Rhino polyline")]
+        [Input("polyline", "Input polyline.")]
+        [Output("rhGeom", "Rhino polyline.")]
         public static RHG.PolylineCurve ToRhino(this BHG.Polyline polyline)
         {
             if (polyline == null) return null;
@@ -303,8 +303,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the boundingBox.")]
-        [Input("boundingBox", "Input boundingBox")]
-        [Output("rhGeom", "Rhino boundingBox")]
+        [Input("boundingBox", "Input boundingBox.")]
+        [Output("rhGeom", "Rhino boundingBox.")]
         public static RHG.BoundingBox ToRhino(this BHG.BoundingBox boundingBox)
         {
             if (boundingBox == null) return default(RHG.BoundingBox);
@@ -315,8 +315,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the loft.")]
-        [Input("loft", "Input loft")]
-        [Output("rhGeom", "Rhino Surface")]
+        [Input("loft", "Input loft.")]
+        [Output("rhGeom", "Rhino Surface.")]
         public static RHG.Surface ToRhino(this BHG.Loft loft)
         {
             if (loft == null)
@@ -345,8 +345,8 @@ namespace BH.Engine.Rhinoceros
 
 
         [Description("Returns the Rhino version of the pipe.")]
-        [Input("pipe", "Input pipe")]
-        [Output("rhGeom", "Rhino Brep")]
+        [Input("pipe", "Input pipe.")]
+        [Output("rhGeom", "Rhino Brep.")]
         public static RHG.Brep ToRhino(this BHG.Pipe pipe)
         {
             if (pipe == null)
@@ -375,8 +375,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the planarSurface.")]
-        [Input("planarSurface", "Input planarSurface")]
-        [Output("rhGeom", "Rhino Brep")]
+        [Input("planarSurface", "Input planarSurface.")]
+        [Output("rhGeom", "Rhino Brep.")]
         public static RHG.Brep ToRhino(this BHG.PlanarSurface planarSurface)
         {
             if (planarSurface == null || planarSurface.ExternalBoundary == null)
@@ -436,8 +436,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the surface.")]
-        [Input("surface", "Input surface")]
-        [Output("rhGeom", "Rhino GeometryBase")]
+        [Input("surface", "Input surface.")]
+        [Output("rhGeom", "Rhino GeometryBase.")]
         public static RHG.GeometryBase ToRhino(this BHG.NurbsSurface surface)
         {
             if (surface == null)
@@ -481,8 +481,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the polySurface.")]
-        [Input("polySurface", "Input polySurface")]
-        [Output("rhGeom", "Rhino Brep")]
+        [Input("polySurface", "Input polySurface.")]
+        [Output("rhGeom", "Rhino Brep.")]
         public static RHG.Brep ToRhino(this BHG.PolySurface polySurface)
         {
             return polySurface.Surfaces.ToRhino();
@@ -491,8 +491,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the boundaryRepresentation.")]
-        [Input("boundaryRepresentation", "Input boundaryRepresentation")]
-        [Output("rhGeom", "Rhino Brep")]
+        [Input("boundaryRepresentation", "Input boundaryRepresentation.")]
+        [Output("rhGeom", "Rhino Brep.")]
         public static RHG.Brep ToRhino(this BHG.BoundaryRepresentation boundaryRepresentation)
         {
             return boundaryRepresentation.Surfaces.ToList().ToRhino();
@@ -501,8 +501,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the surfaces.")]
-        [Input("surfaces", "Input surfaces")]
-        [Output("rhGeom", "Rhino Brep")]
+        [Input("surfaces", "Input surfaces.")]
+        [Output("rhGeom", "Rhino Brep.")]
         public static RHG.Brep ToRhino(this List<BHG.ISurface> surfaces)
         {
             RHG.Brep brep = new RHG.Brep();
@@ -521,8 +521,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the extrusion.")]
-        [Input("extrusion", "Input extrusion")]
-        [Output("rhGeom", "Rhino Surface")]
+        [Input("extrusion", "Input extrusion.")]
+        [Output("rhGeom", "Rhino Surface.")]
         public static Rhino.Geometry.Surface ToRhino(this BHG.Extrusion extrusion)
         {
             if (!extrusion.Curve.IIsPlanar())
@@ -588,8 +588,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the mesh.")]
-        [Input("mesh", "Input mesh")]
-        [Output("rhGeom", "Rhino mesh")]
+        [Input("mesh", "Input mesh.")]
+        [Output("rhGeom", "Rhino mesh.")]
         public static RHG.Mesh ToRhino(this BHG.Mesh mesh)
         {
             if (mesh == null) return null;
@@ -626,8 +626,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the Mesh Face.")]
-        [Input("rFace", "Input mesh face")]
-        [Output("rhGeom", "Rhino MeshFace")]
+        [Input("rFace", "Input mesh face.")]
+        [Output("rhGeom", "Rhino MeshFace.")]
         public static RHG.MeshFace ToRhino(this BHG.Face rFace)
         {
             if (rFace == null) return default(RHG.MeshFace);
@@ -641,8 +641,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the RenderMesh.")]
-        [Input("mesh", "Input RenderMesh")]
-        [Output("rhGeom", "Rhino Mesh")]
+        [Input("mesh", "Input RenderMesh.")]
+        [Output("rhGeom", "Rhino Mesh.")]
         public static RHG.Mesh ToRhino(this BH.oM.Graphics.RenderMesh mesh)
         {
             if (mesh == null) return null;
@@ -672,8 +672,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the mesh3d.")]
-        [Input("mesh3d", "Input mesh3d")]
-        [Output("rhGeom", "Rhino Mesh")]
+        [Input("mesh3d", "Input mesh3d.")]
+        [Output("rhGeom", "Rhino Mesh.")]
         public static RHG.Mesh ToRhino(this BHG.Mesh3D mesh3d)
         {
             return mesh3d?.ToMesh().ToRhino();
@@ -682,8 +682,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the cellrelation.")]
-        [Input("cellrelation", "Input cellrelation")]
-        [Output("rhGeom", "Rhino GeometryBase")]
+        [Input("cellrelation", "Input cellrelation.")]
+        [Output("rhGeom", "Rhino GeometryBase.")]
         public static RHG.GeometryBase ToRhino(this BHG.CellRelation cellrelation)
         {
             // No Rhino equivalant and nothing meaningful to convert to.
@@ -695,8 +695,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the sphere.")]
-        [Input("sphere", "Input sphere")]
-        [Output("rhGeom", "Rhino sphere")]
+        [Input("sphere", "Input sphere.")]
+        [Output("rhGeom", "Rhino sphere.")]
         public static RHG.Sphere ToRhino(this BHG.Sphere sphere)
         {
             if (sphere == null) return default(RHG.Sphere);
@@ -707,8 +707,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the torus.")]
-        [Input("torus", "Input torus")]
-        [Output("rhGeom", "Rhino torus")]
+        [Input("torus", "Input torus.")]
+        [Output("rhGeom", "Rhino torus.")]
         public static RHG.Torus ToRhino(this BHG.Torus torus)
         {
             if (torus == null) return default(RHG.Torus);
@@ -727,8 +727,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the cylinder.")]
-        [Input("cylinder", "Input cylinder")]
-        [Output("rhGeom", "Rhino cylinder")]
+        [Input("cylinder", "Input cylinder.")]
+        [Output("rhGeom", "Rhino cylinder.")]
         public static RHG.Cylinder ToRhino(this BHG.Cylinder cylinder)
         {
             if (cylinder == null) return default(RHG.Cylinder);
@@ -742,8 +742,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the cone.")]
-        [Input("cone", "Input cone")]
-        [Output("rhGeom", "Rhino cone")]
+        [Input("cone", "Input cone.")]
+        [Output("rhGeom", "Rhino cone.")]
         public static RHG.Cone ToRhino(this BHG.Cone cone)
         {
             if (cone == null) return default(RHG.Cone);
@@ -757,8 +757,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the cuboid.")]
-        [Input("cuboid", "Input cuboid")]
-        [Output("rhGeom", "Rhino cuboid")]
+        [Input("cuboid", "Input cuboid.")]
+        [Output("rhGeom", "Rhino cuboid.")]
         public static RHG.Box ToRhino(this BHG.Cuboid cuboid)
         {
             if (cuboid == null) return default(RHG.Box);
@@ -775,8 +775,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the renderText.")]
-        [Input("renderText", "Input renderText")]
-        [Output("rhGeom", "Rhino renderGeo")]
+        [Input("renderText", "Input renderText.")]
+        [Output("rhGeom", "Rhino renderGeo.")]
         public static Text3d ToRhino(this RenderText renderText)
         {
             if (renderText == null) return null;
@@ -802,8 +802,8 @@ namespace BH.Engine.Rhinoceros
 
 
         [Description("Returns the Rhino version of the renderGeo.")]
-        [Input("renderText", "Input renderGeo")]
-        [Output("rhGeom", "Rhino object")]
+        [Input("renderText", "Input renderGeo.")]
+        [Output("rhGeom", "Rhino object.")]
         public static object ToRhino(this RenderGeometry renderGeo)
         {
             if (renderGeo.Geometry == null) return null;
@@ -816,8 +816,8 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the CompositeGeometry.")]
-        [Input("compositeGeometry", "Input CompositeGeometry")]
-        [Output("rhGeom", "Rhino object")]
+        [Input("compositeGeometry", "Input CompositeGeometry.")]
+        [Output("rhGeom", "Rhino object.")]
         public static List<object> ToRhino(this BHG.CompositeGeometry geometries)
         {
             if (geometries == null) return new List<object>();
