@@ -159,7 +159,7 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the Transformation matrix.")]
-        [Input("quartenion", "Input TransformMatrix.")]
+        [Input("bhTrans", "Input TransformMatrix.")]
         [Output("rhGeom", "Rhino TransformMatrix.")]
         public static RHG.Transform ToRhino(this BHG.TransformMatrix bhTrans)
         {
@@ -802,7 +802,7 @@ namespace BH.Engine.Rhinoceros
 
 
         [Description("Returns the Rhino version of the renderGeo.")]
-        [Input("renderText", "Input renderGeo.")]
+        [Input("renderGeo", "Input renderGeo.")]
         [Output("rhGeom", "Rhino object.")]
         public static object ToRhino(this RenderGeometry renderGeo)
         {
@@ -816,7 +816,7 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
 
         [Description("Returns the Rhino version of the CompositeGeometry.")]
-        [Input("compositeGeometry", "Input CompositeGeometry.")]
+        [Input("geometries", "Input CompositeGeometry.")]
         [Output("rhGeom", "Rhino object.")]
         public static List<object> ToRhino(this BHG.CompositeGeometry geometries)
         {
