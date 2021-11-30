@@ -35,6 +35,7 @@ namespace BH.oM.Adapters.Rhinoceros
 
         [Description("Define the version of Rhinoceros the Adapter should be operating with.")]
         public virtual int Version { get; set; } = 6;
+        public virtual int Units { get; set; }
 
         /***************************************************/
     }

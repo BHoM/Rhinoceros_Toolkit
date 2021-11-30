@@ -258,6 +258,8 @@ namespace BH.Engine.Rhinoceros
                     return ToRhino5(bCurve);
                 case 6:
                     return ToRhino6(bCurve);
+                case 7:
+                    return ToRhino6(bCurve);
                 default:
                     throw new NotImplementedException($"Rhino {Rhino.RhinoApp.Version.ToString()} version not supported.");
             }

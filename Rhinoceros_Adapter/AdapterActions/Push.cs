@@ -31,6 +31,7 @@ using BH.oM.Adapter;
 using BH.oM.Base;
 using BH.Engine.Reflection;
 using System.IO;
+using BH.oM.Adapters.Rhinoceros;
 
 namespace BH.Adapter.Rhinoceros
 {
@@ -46,9 +47,22 @@ namespace BH.Adapter.Rhinoceros
 
             if (Path.GetExtension(m_Filepath) != ".3dm")
                 return new List<object>();
-             
+
+            if (actionConfig == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please provide configuration settings to push to a Rhinoceros file.");
+                return new List<object>();
+            }
+
+            RhinocerosConfig config = actionConfig as RhinocerosConfig;
+            if (config == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please provide a valid RhinocerosConfig object for pushing to a Rhinoceros file.");
+                return new List<object>();
+            }
+
             m_File3dm = new Rhino.FileIO.File3dm();
-            m_File3dm.Settings.ModelUnitSystem = Rhino.UnitSystem.Meters;
+            m_File3dm.Settings.ModelUnitSystem = (Rhino.UnitSystem)config.Units;
             return base.Push(objects, tag, pushType, actionConfig);
         }
     }
