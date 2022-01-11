@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
-using BH.Engine.Reflection;
+using BH.Engine.Base;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -415,7 +415,7 @@ namespace BH.Engine.Rhinoceros
             string log;
             if (!brep.IsValidWithLog(out log))
             {
-                Reflection.Compute.RecordError("Conversion failed, Rhino Brep is invalid: " + log);
+                Base.Compute.RecordError("Conversion failed, Rhino Brep is invalid: " + log);
                 return null;
             }
 
@@ -481,7 +481,7 @@ namespace BH.Engine.Rhinoceros
             if (extrs.Count > 1)
                 return new BH.oM.Geometry.CompositeGeometry() { Elements = extrs.OfType<BH.oM.Geometry.IGeometry>().ToList() };
 
-            BH.Engine.Reflection.Compute.RecordError("Could not convert the extrusion.");
+            BH.Engine.Base.Compute.RecordError("Could not convert the extrusion.");
             return null;
         }
 
@@ -702,7 +702,7 @@ namespace BH.Engine.Rhinoceros
                 return geom;
 
             if (obj != null)
-                Engine.Reflection.Compute.RecordError($"No conversion could be found between {obj.GetType().IToText()} and Rhino geometry.");
+                Engine.Base.Compute.RecordError($"No conversion could be found between {obj.GetType().IToText()} and Rhino geometry.");
 
             return null;
         }

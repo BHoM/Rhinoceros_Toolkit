@@ -26,8 +26,7 @@ using System.Linq;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
-using BH.oM.Reflection.Attributes;
-using BH.Engine.Reflection;
+using BH.oM.Base.Attributes;
 using System.Drawing;
 using BH.oM.Base;
 using Rhino.Display;
@@ -393,7 +392,7 @@ namespace BH.Engine.Rhinoceros
                 if (rhCurves.Count < planarSurface.InternalBoundaries.Count)
                 {
                     int skipped = planarSurface.InternalBoundaries.Count - rhCurves.Count;
-                    Reflection.Compute.RecordWarning($"{skipped} internal boundaries skipped due to a failed planarity test.");
+                    Base.Compute.RecordWarning($"{skipped} internal boundaries skipped due to a failed planarity test.");
                 }
             }
             rhCurves.Add(externalCurve);
@@ -419,12 +418,12 @@ namespace BH.Engine.Rhinoceros
 
                 if (rhSurfacesFromDifference.Length > 1)
                 {
-                    Reflection.Compute.RecordWarning("Surface edges are not coplanar or their intersection is not empty." +
+                    Base.Compute.RecordWarning("Surface edges are not coplanar or their intersection is not empty." +
                                                      "The conversion to Rhino results into multiple Breps and only the first brep will be returned.");
                 }
                 else if (rhSurfacesFromDifference.Length == 1)
                 {
-                    Reflection.Compute.RecordWarning("The internal edges overlap with the external." +
+                    Base.Compute.RecordWarning("The internal edges overlap with the external." +
                         "Boolean intersection has been used to try to get out the correct geometry." +
                         "Topology might have changed for the surface obejct");
                     return rhSurfacesFromDifference.FirstOrDefault();
@@ -527,7 +526,7 @@ namespace BH.Engine.Rhinoceros
         {
             if (!extrusion.Curve.IIsPlanar())
             {
-                BH.Engine.Reflection.Compute.RecordError("The provided BHoM Extrusion has a base curve that is not planar.");
+                BH.Engine.Base.Compute.RecordError("The provided BHoM Extrusion has a base curve that is not planar.");
                 return null;
             }
 
@@ -576,7 +575,7 @@ namespace BH.Engine.Rhinoceros
             if (joinedSweep.IsSurface)
                 return joinedSweep.Surfaces[0];
 
-            BH.Engine.Reflection.Compute.RecordError("Could not convert this BHoM Extrusion to a Rhino Surface. The extrusion direction is not perpendicular to the base curve, and the base curve is too complex for a Sweep to return a valid Surface.");
+            BH.Engine.Base.Compute.RecordError("Could not convert this BHoM Extrusion to a Rhino Surface. The extrusion direction is not perpendicular to the base curve, and the base curve is too complex for a Sweep to return a valid Surface.");
 
 
             return null;
@@ -607,14 +606,14 @@ namespace BH.Engine.Rhinoceros
                     if (face.A < nbVertices && face.B < nbVertices && face.C < nbVertices && face.D < nbVertices)
                         rFaces.Add(new RHG.MeshFace(face.A, face.B, face.C, face.D));
                     else
-                        Reflection.Compute.RecordWarning("Mesh face [" + face.A + ", " + face.B + ", " + face.C + ", " + face.D + "] could not be created due to corresponding vertices missing");
+                        Base.Compute.RecordWarning("Mesh face [" + face.A + ", " + face.B + ", " + face.C + ", " + face.D + "] could not be created due to corresponding vertices missing");
                 }
                 else
                 {
                     if (face.A < nbVertices && face.B < nbVertices && face.C < nbVertices)
                         rFaces.Add(new RHG.MeshFace(face.A, face.B, face.C));
                     else
-                        Reflection.Compute.RecordWarning("Mesh face [" + face.A + ", " + face.B + ", " + face.C + "] could not be created due to corresponding vertices missing");
+                        Base.Compute.RecordWarning("Mesh face [" + face.A + ", " + face.B + ", " + face.C + "] could not be created due to corresponding vertices missing");
                 }
             }
             RHG.Mesh rMesh = new RHG.Mesh();
@@ -715,7 +714,7 @@ namespace BH.Engine.Rhinoceros
 
             if (torus.RadiusMajor <= torus.RadiusMinor)
             {
-                Reflection.Compute.RecordError("Major Radius less than or equal to Minor Radius. Conversion to Rhino Torus failed.");
+                Base.Compute.RecordError("Major Radius less than or equal to Minor Radius. Conversion to Rhino Torus failed.");
                 return RHG.Torus.Unset;
             }
 
