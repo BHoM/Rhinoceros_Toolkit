@@ -274,7 +274,7 @@ namespace BH.Engine.Rhinoceros
 
             //Curve is checked that it is a joined curve and only converted if that is the case.
             //Appending disjoined curves to a single Rhino polycurves ensures it is joined and by doing so changes the geometry.
-            //Rhino Join is throwing access violation exceptions in some cases, leading to a full rhino crash, that can not be caught by a try-catch.
+            //Rhino Join is throwing access violation exceptions in some cases, leading to a full Rhino crash, that cannot be caught by a try-catch.
             //For this reason, the BHoM Join is used instead.
             if (BH.Engine.Geometry.Compute.IJoin(bPolyCurve.Curves).Count > 1)
                 return null;    //Not returning error message here as that will lead to confusing messages on any method returning a disjointed Polycurve deemed valid in BHoM.
