@@ -817,6 +817,19 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
+
+
+        [Description("Returns the Rhino version of the inner Curve of the RenderCurve.")]
+        [Input("renderCurve", "Input RenderCurve.")]
+        [Output("rhGeom", "Rhino object.")]
+        public static object ToRhino(this RenderCurve renderCurve)
+        {
+            if (renderCurve?.Curve == null) return null;
+
+            return ToRhino(renderCurve.Curve as dynamic);
+        }
+
+        /***************************************************/
         /**** Miscellanea                               ****/
         /***************************************************/
 
