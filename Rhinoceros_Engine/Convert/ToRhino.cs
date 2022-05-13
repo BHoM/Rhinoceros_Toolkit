@@ -830,6 +830,24 @@ namespace BH.Engine.Rhinoceros
         }
 
         /***************************************************/
+
+        [Description("Returns the Rhino version of the Texture.")]
+        [Input("renderCurve", "Input BHoM Texture.")]
+        [Output("rhGeom", "The RHino display material.")]
+        public static DisplayMaterial ToRhino(this BH.oM.Graphics.Texture texture)
+        {
+            if (texture == null)
+                return null;
+
+            DisplayMaterial material = new DisplayMaterial(texture.Diffuse, texture.Specular, texture.Ambient, texture.Emission, texture.Shine, texture.Transparency);
+            if (!string.IsNullOrWhiteSpace(texture.BitmapTexture) && System.IO.File.Exists(texture.BitmapTexture))
+            {
+                material.SetBitmapTexture(texture.BitmapTexture, true);
+            }
+            return material;
+        }
+
+        /***************************************************/
         /**** Miscellanea                               ****/
         /***************************************************/
 
