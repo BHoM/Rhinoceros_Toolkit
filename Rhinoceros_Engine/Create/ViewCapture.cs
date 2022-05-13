@@ -28,6 +28,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Rhino.DocObjects;
 using Rhino.Collections;
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
 
 namespace BH.Engine.Rhinoceros
 {
@@ -37,16 +39,18 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
-        public static void ViewCapture(bool capture, string folder, string name)
-        {
-            int counter = 0;
-            counter++;
-
+        [Description("Capture a Rhino Viewport as a .jpg image and save to a specific filepath")]
+        [Input("filepath", "Location for the image to be saved")]
+        [Input("name", "Name for the image to be saved in the specified location")]
+        [Input("active", "Activate to save image using the provided settings")]
+        public static void ViewCapture(string filepath, string name, bool active)
+        {       
             string file =
-              '"' + folder + System.IO.Path.DirectorySeparatorChar + name + "_" + counter + ".jpg" + '"';
+              '"' + filepath + System.IO.Path.DirectorySeparatorChar + name + ".jpg" + '"';
             string command = "-_ViewCaptureToFile " + file + " Scale=2 _Enter";
 
-            if (capture)
+            if (active)
+                BH.Engine.Base.Compute.RecordNote($"{filepath}" + $"{name}" + ".jpg");
                 Rhino.RhinoApp.RunScript(command, false);
         }
 
