@@ -833,7 +833,7 @@ namespace BH.Engine.Rhinoceros
 
         [Description("Returns the Rhino version of the Texture.")]
         [Input("texture", "Input BHoM Texture.")]
-        [Output("rhGeom", "The RHino display material.")]
+        [Output("rhMat", "The Rhino display material.")]
         public static DisplayMaterial ToRhino(this BH.oM.Graphics.Texture texture)
         {
             if (texture == null)
