@@ -252,7 +252,8 @@ namespace BH.Engine.Rhinoceros
         [Output("rhGeom", "Rhino NurbsCurve.")]
         public static RHG.NurbsCurve ToRhino(this BHG.NurbsCurve bCurve)
         {
-            if (bCurve == null) return null;
+            if (bCurve == null)
+                return null;
 
             int version = Rhino.RhinoApp.Version.Major;
 
