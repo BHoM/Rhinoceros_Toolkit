@@ -246,20 +246,40 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
+        
         [Description("Returns the Rhino version of the NurbsCurve.")]
         [Input("bCurve", "Input NurbsCurve.")]
         [Output("rhGeom", "Rhino NurbsCurve.")]
         public static RHG.NurbsCurve ToRhino(this BHG.NurbsCurve bCurve)
         {
-            switch (Rhino.RhinoApp.Version.Major)
+            if (bCurve == null) return null;
+
+            int version = Rhino.RhinoApp.Version.Major;
+
+            //Difference in how weights are handled for NurbsCurve that was introduced in Version 6.
+            //Filtering out special case for supported version Rhino5, and using new version for 6 and above.
+            if(version < 5)
+                throw new NotImplementedException($"Rhino {Rhino.RhinoApp.Version.ToString()} version not supported.");
+            if (version == 5)
+                return ToRhino5(bCurve);
+
+
+            List<double> knots = bCurve.Knots;
+            List<double> weights = bCurve.Weights;
+            List<BHG.Point> ctrlPts = bCurve.ControlPoints;
+
+            RHG.NurbsCurve rCurve = new RHG.NurbsCurve(3, false, bCurve.Degree() + 1, ctrlPts.Count);
+
+            for (int i = 0; i < knots.Count; i++)
+                rCurve.Knots[i] = knots[i];
+
+            for (int i = 0; i < ctrlPts.Count; i++)
             {
-                case 5:
-                    return ToRhino5(bCurve);
-                case 6:
-                    return ToRhino6(bCurve);
-                default:
-                    throw new NotImplementedException($"Rhino {Rhino.RhinoApp.Version.ToString()} version not supported.");
+                BHG.Point pt = ctrlPts[i] * weights[i];
+                rCurve.Points.SetPoint(i, pt.X, pt.Y, pt.Z, weights[i]);
             }
+
+            return rCurve;
         }
 
         /***************************************************/
