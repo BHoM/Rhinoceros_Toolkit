@@ -264,7 +264,6 @@ namespace BH.Engine.Rhinoceros
             if (version == 5)
                 return ToRhino5(bCurve);
 
-
             List<double> knots = bCurve.Knots;
             List<double> weights = bCurve.Weights;
             List<BHG.Point> ctrlPts = bCurve.ControlPoints;
