@@ -39,7 +39,7 @@ namespace BH.oM.Rhinoceros.ViewCapture
         /***************************************************/
 
         [Description("Scale factor of the current preview. A factor of 2 gives a resolution twice to the current viewport resolution.")]
-        public double Scale { get; set; } = 2.0;
+        public virtual double Scale { get; set; } = 2.0;
 
         [Description("File format to be used. Defaults to png.")]
         public virtual string FileFormat { get; set; } = "png";
