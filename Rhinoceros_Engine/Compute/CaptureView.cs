@@ -51,6 +51,9 @@ namespace BH.Engine.Rhinoceros
         {
             RhinoDoc doc = Rhino.RhinoDoc.ActiveDoc;
 
+            if (doc == null)
+                return false;
+
             folderPath = ValidateFolderPath(folderPath, doc);
             if (folderPath == null)
                 return false;
