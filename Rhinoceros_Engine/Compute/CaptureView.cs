@@ -49,7 +49,17 @@ namespace BH.Engine.Rhinoceros
         [Output("success", "Returns true if the view capture was successful.")]
         public static bool CaptureView(bool active = false, string folderPath = "", string imageName = "", IViewCaptureSettings settings = null)
         {
-            RhinoDoc doc = Rhino.RhinoDoc.ActiveDoc;
+            RhinoDoc doc;
+            try
+            {
+                doc = RhinoDoc.ActiveDoc;
+            }
+            catch (Exception e)
+            {
+                string msg = "Failed to get the active rhino document. Exception thrown: " + e.Message;
+                Base.Compute.RecordError(msg);
+                return false;
+            }
 
             if (doc == null)
                 return false;
