@@ -246,7 +246,6 @@ namespace BH.Engine.Rhinoceros
 
         /***************************************************/
 
-        [PreviousVersion("6.0", "BH.Engine.Rhinoceros.Convert.ToRhino6(BH.oM.Geometry.NurbsCurve)")]
         [Description("Returns the Rhino version of the NurbsCurve.")]
         [Input("bCurve", "Input NurbsCurve.")]
         [Output("rhGeom", "Rhino NurbsCurve.")]
