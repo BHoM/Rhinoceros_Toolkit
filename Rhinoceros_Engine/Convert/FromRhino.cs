@@ -197,9 +197,7 @@ namespace BH.Engine.Rhinoceros
         {
             return new BHG.Ellipse
             {
-                Centre = ellipse.Plane.Origin.FromRhino(),
-                Axis1 = ellipse.Plane.XAxis.FromRhino(),
-                Axis2 = ellipse.Plane.YAxis.FromRhino(),
+                CoordinateSystem = ellipse.Plane.FromRhino(),
                 Radius1 = ellipse.Radius1,
                 Radius2 = ellipse.Radius2
             };

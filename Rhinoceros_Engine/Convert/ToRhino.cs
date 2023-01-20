@@ -228,7 +228,7 @@ namespace BH.Engine.Rhinoceros
         {
             if (ellipse == null) return default(RHG.Ellipse);
 
-            RHG.Plane plane = new RHG.Plane(ellipse.Centre.ToRhino(), ellipse.Axis1.ToRhino(), ellipse.Axis2.ToRhino());
+            RHG.Plane plane = ellipse.CoordinateSystem.ToRhino();
             return new RHG.Ellipse(plane, ellipse.Radius1, ellipse.Radius2);
         }
 
