@@ -22,7 +22,7 @@
 
 using Rhino;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Query
     {

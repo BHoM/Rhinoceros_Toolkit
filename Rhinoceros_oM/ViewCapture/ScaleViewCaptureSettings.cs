@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 using BH.oM.Base;
 using System.ComponentModel;
 
-namespace BH.oM.Rhinoceros.ViewCapture
+namespace BH.oM.Adapters.Rhinoceros.ViewCapture
 {
     [Description("View capture settings allowing the size of the image to be controled as a scale of the current viewport size.")]
     public class ScaleViewCaptureSettings : IViewCaptureSettings

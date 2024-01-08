@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 using BH.oM.Base;
 using System.ComponentModel;
 
-namespace BH.oM.Rhinoceros.ViewCapture
+namespace BH.oM.Adapters.Rhinoceros.ViewCapture
 {
     [Description("Base itnerface for interface controling settings for view capture.")]
     public interface IViewCaptureSettings : IObject

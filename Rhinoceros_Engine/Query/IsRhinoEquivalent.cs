@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Query
     {
