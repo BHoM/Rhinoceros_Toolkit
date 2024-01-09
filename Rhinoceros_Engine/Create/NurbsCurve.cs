@@ -24,7 +24,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Create
     {

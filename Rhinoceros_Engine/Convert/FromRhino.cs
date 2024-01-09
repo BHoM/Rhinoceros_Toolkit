@@ -27,7 +27,7 @@ using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Base;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Convert
     {

@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 using BH.oM.Base;
 using System.ComponentModel;
 
-namespace BH.oM.Rhinoceros.ViewCapture
+namespace BH.oM.Adapters.Rhinoceros.ViewCapture
 {
     [Description("View capture settings class with control over the final size of the image in pixels.")]
     public class DimensionViewCaptureSettings : IViewCaptureSettings

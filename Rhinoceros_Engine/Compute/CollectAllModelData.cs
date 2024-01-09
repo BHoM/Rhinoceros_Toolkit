@@ -31,7 +31,7 @@ using System.IO;
 using System.Drawing;
 using Rhino.Geometry;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Compute
     {

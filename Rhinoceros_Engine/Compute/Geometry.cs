@@ -22,7 +22,7 @@
 
 using System;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Compute
     {

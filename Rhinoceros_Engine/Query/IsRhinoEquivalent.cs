@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Query
     {
@@ -33,7 +33,7 @@ namespace BH.Engine.Rhinoceros
         /**** Public Methods  - Mesh                    ****/
         /***************************************************/
 
-        public static bool IsRhinoEquivalent(Type type)     
+        public static bool IsRhinoEquivalent(this Type type)     
         {
             if (typeof(IGeometry).IsAssignableFrom(type))
                 return (type != typeof(Extrusion)

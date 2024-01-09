@@ -30,10 +30,10 @@ using System.IO;
 using Rhino;
 using Rhino.Display;
 using System.Drawing;
-using BH.oM.Rhinoceros.ViewCapture;
+using BH.oM.Adapters.Rhinoceros.ViewCapture;
 using System.Drawing.Imaging;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Compute
     {

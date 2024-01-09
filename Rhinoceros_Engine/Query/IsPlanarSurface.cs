@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BH.Engine.Geometry;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Query
     {
