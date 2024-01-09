@@ -33,7 +33,7 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods  - Mesh                    ****/
         /***************************************************/
 
-        public static bool IsRhinoEquivalent(Type type)     
+        public static bool IsRhinoEquivalent(this Type type)     
         {
             if (typeof(IGeometry).IsAssignableFrom(type))
                 return (type != typeof(Extrusion)
