@@ -1,6 +1,6 @@
-﻿/*
+/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2023, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2024, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -30,10 +30,10 @@ using System.IO;
 using Rhino;
 using Rhino.Display;
 using System.Drawing;
-using BH.oM.Rhinoceros.ViewCapture;
+using BH.oM.Adapters.Rhinoceros.ViewCapture;
 using System.Drawing.Imaging;
 
-namespace BH.Engine.Rhinoceros
+namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Compute
     {
@@ -100,3 +100,4 @@ namespace BH.Engine.Rhinoceros
         /***************************************************/
     }
 }
+

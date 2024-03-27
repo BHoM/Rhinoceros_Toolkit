@@ -1,0 +1,10 @@
+﻿{
+  "Namespace": {
+    "ToNew": {
+      "BH.Engine.Rhinoceros": "BH.Engine.Adapters.Rhinoceros"
+    },
+    "ToOld": {
+      "BH.Engine.Adapters.Rhinoceros": "BH.Engine.Rhinoceros"
+    }
+  }
+}

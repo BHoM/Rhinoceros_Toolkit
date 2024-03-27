@@ -1,0 +1,10 @@
+﻿{
+  "Namespace": {
+    "ToNew": {
+      "BH.oM.Rhinoceros": "BH.oM.Adapters.Rhinoceros"
+    },
+    "ToOld": {
+      "BH.oM.Adapters.Rhinoceros": "BH.oM.Rhinoceros"
+    }
+  }
+}
