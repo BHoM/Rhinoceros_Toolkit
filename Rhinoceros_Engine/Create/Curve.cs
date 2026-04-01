@@ -20,9 +20,11 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
+using Rhino.Geometry;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -32,6 +34,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Creates a list of random Rhino Curves of each supported type using the provided Random instance.")]
+        [Input("random", "The Random instance used to generate coordinate values.")]
+        [Output("curves", "A list of random Rhino Curves containing one ArcCurve, LineCurve, NurbsCurve, PolylineCurve, and PolyCurve.")]
         public static List<Curve> RandomCurves(Random random)
         {
             return new List<Curve>()
@@ -46,6 +51,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a list of random Rhino Curves of each supported type using a seed value.")]
+        [Input("seed", "Seed value for the Random instance. Defaults to 0.")]
+        [Output("curves", "A list of random Rhino Curves containing one ArcCurve, LineCurve, NurbsCurve, PolylineCurve, and PolyCurve.")]
         public static List<Curve> RandomCurves(int seed = 0)
         {
             return RandomCurves(new Random(seed));

@@ -20,8 +20,10 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using Rhino.Geometry;
 using System;
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
+using Rhino.Geometry;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -31,6 +33,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Creates a random Rhino Polyline using the provided Random instance.")]
+        [Input("random", "The Random instance used to generate coordinate values.")]
+        [Output("polyline", "A random Rhino Polyline with 10 points having coordinates between 0 and 1.")]
         public static Polyline RandomPolyline(Random random)
         {
             return new Polyline(RandomPoint3dList(random));
@@ -38,6 +43,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a random Rhino Polyline using a seed value.")]
+        [Input("seed", "Seed value for the Random instance. Defaults to 0.")]
+        [Output("polyline", "A random Rhino Polyline with 10 points having coordinates between 0 and 1.")]
         public static Polyline RandomPolyline(int seed = 0)
         {
             return RandomPolyline(new Random(seed));
