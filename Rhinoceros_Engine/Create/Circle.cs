@@ -22,10 +22,8 @@
 
 using Rhino.Geometry;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BH.oM.Base.Attributes;
+using System.ComponentModel;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -35,6 +33,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Creates a random Rhino Circle using the provided random number generator.")]
+        [Input("random", "Random number generator to use for circle creation.")]
+        [Output("circle", "A randomly generated Rhino Circle.")]
         public static Circle RandomCircle(Random random)
         {
             return new Circle(RandomPoint3d(random), RandomPoint3d(random), RandomPoint3d(random));
@@ -42,6 +43,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a random Rhino Circle using the provided seed.")]
+        [Input("seed", "Seed for the random number generator.")]
+        [Output("circle", "A randomly generated Rhino Circle.")]
         public static Circle RandomCircle(int seed = 0)
         {
             return RandomCircle(new Random(seed));
