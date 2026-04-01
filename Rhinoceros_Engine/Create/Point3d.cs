@@ -20,9 +20,11 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
+using Rhino.Geometry;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -32,6 +34,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Creates a random Rhino Point3d using the provided Random instance.")]
+        [Input("random", "The Random instance used to generate coordinate values.")]
+        [Output("point", "A random Rhino Point3d with X, Y, Z coordinates between 0 and 1.")]
         public static Point3d RandomPoint3d(Random random)
         {
             return new Point3d(random.NextDouble(), random.NextDouble(), random.NextDouble());
@@ -39,6 +44,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a random Rhino Point3d using a seed value.")]
+        [Input("seed", "Seed value for the Random instance. Defaults to 0.")]
+        [Output("point", "A random Rhino Point3d with X, Y, Z coordinates between 0 and 1.")]
         public static Point3d RandomPoint3d(int seed = 0)
         {
             return RandomPoint3d(new Random(seed));
@@ -46,6 +54,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a list of 10 random Rhino Point3d objects using the provided Random instance.")]
+        [Input("random", "The Random instance used to generate coordinate values.")]
+        [Output("points", "A list of 10 random Rhino Point3d objects with X, Y, Z coordinates between 0 and 1.")]
         public static List<Point3d> RandomPoint3dList(Random random)
         {
             List<Point3d> points = new List<Point3d>();
@@ -56,6 +67,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a list of 10 random Rhino Point3d objects using a seed value.")]
+        [Input("seed", "Seed value for the Random instance. Defaults to 0.")]
+        [Output("points", "A list of 10 random Rhino Point3d objects with X, Y, Z coordinates between 0 and 1.")]
         public static List<Point3d> RandomPoint3dList(int seed = 0)
         {
             return RandomPoint3dList(new Random(seed));

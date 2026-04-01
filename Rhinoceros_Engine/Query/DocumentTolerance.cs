@@ -20,6 +20,8 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
 using Rhino;
 
 namespace BH.Engine.Adapters.Rhinoceros
@@ -30,6 +32,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Returns the absolute model tolerance of the active Rhino document. \n" +
+            "If no active document is found, the standard BHoM geometrical distance tolerance is returned instead.")]
+        [Output("tolerance", "The absolute model tolerance of the active Rhino document, or the BHoM distance tolerance if no document is active.")]
         public static double DocumentTolerance()
         {
             RhinoDoc doc = Rhino.RhinoDoc.ActiveDoc;

@@ -21,11 +21,13 @@
  */
 
 using System;
-using RHG = Rhino.Geometry;
-using BHG = BH.oM.Geometry;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using BH.Engine.Geometry;
+using BH.oM.Base.Attributes;
+using BHG = BH.oM.Geometry;
+using RHG = Rhino.Geometry;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -35,6 +37,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods  - Vectors                 ****/
         /***************************************************/
 
+        [Description("Checks whether a Rhino Brep represents a planar surface, i.e. all its faces are planar and all its vertices are coplanar.")]
+        [Input("brep", "The Rhino Brep to check.")]
+        [Output("isPlanarSurface", "True if all faces of the Brep are planar and all vertices are coplanar, false otherwise.")]
         public static bool IsPlanarSurface(this RHG.Brep brep)
         {
             bool isPlanarSurface = true;

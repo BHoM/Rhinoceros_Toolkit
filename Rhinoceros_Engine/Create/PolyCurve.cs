@@ -20,8 +20,10 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using Rhino.Geometry;
 using System;
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
+using Rhino.Geometry;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -31,6 +33,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Creates a random Rhino PolyCurve using the provided Random instance.")]
+        [Input("random", "The Random instance used to generate coordinate values.")]
+        [Output("polyCurve", "A random Rhino PolyCurve composed of one Arc, Line, NurbsCurve, and PolylineCurve segment.")]
         public static PolyCurve RandomPolyCurve(Random random)
         {
             PolyCurve polycurve = new PolyCurve();
@@ -43,6 +48,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a random Rhino PolyCurve using a seed value.")]
+        [Input("seed", "Seed value for the Random instance. Defaults to 0.")]
+        [Output("polyCurve", "A random Rhino PolyCurve composed of one Arc, Line, NurbsCurve, and PolylineCurve segment.")]
         public static PolyCurve RandomPolyCurve(int seed = 0)
         {
             return RandomPolyCurve(new Random(seed));
