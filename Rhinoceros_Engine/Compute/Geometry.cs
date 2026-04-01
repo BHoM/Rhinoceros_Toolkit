@@ -21,6 +21,8 @@
  */
 
 using System;
+using BH.oM.Base.Attributes;
+using System.ComponentModel;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -30,6 +32,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Generates a random Rhino geometry object using the provided seed.")]
+        [Input("seed", "Seed for the random number generator.")]
+        [Output("geometry", "A randomly generated Rhino geometry object.")]
         public static object RandomGeometry(int seed = 0)
         {
             return RandomGeometry(new Random(seed));
@@ -37,6 +42,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Generates a random Rhino geometry object using the provided random number generator.")]
+        [Input("random", "Random number generator to use for geometry creation.")]
+        [Output("geometry", "A randomly generated Rhino geometry object.")]
         public static object RandomGeometry(Random random)
         {
             int throwDice = random.Next(15);
@@ -81,6 +89,10 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Generates a random Rhino geometry object of the specified type using the provided random number generator.")]
+        [Input("type", "The type of Rhino geometry to generate.")]
+        [Input("random", "Random number generator to use for geometry creation.")]
+        [Output("geometry", "A randomly generated Rhino geometry object of the specified type.")]
         public static object RandomGeometry(Type type, Random random)
         {
             switch(type.Name.ToLower())

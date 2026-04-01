@@ -24,11 +24,16 @@ using System.Collections.Generic;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
+using BH.oM.Base.Attributes;
+using System.ComponentModel;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Convert
     {
+        [Description("Converts a BHoM NurbsCurve to its Rhino 5 compatible NurbsCurve equivalent.")]
+        [Input("bCurve", "BHoM NurbsCurve to convert.")]
+        [Output("rCurve", "Rhino NurbsCurve equivalent.")]
         public static RHG.NurbsCurve ToRhino5(this BHG.NurbsCurve bCurve)
         {
             if (bCurve == null) return null;

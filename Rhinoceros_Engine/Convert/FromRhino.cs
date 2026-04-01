@@ -26,6 +26,8 @@ using System.Linq;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Base;
+using BH.oM.Base.Attributes;
+using System.ComponentModel;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -35,6 +37,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods  - Interfaces              ****/
         /***************************************************/
 
+        [Description("Converts a Rhino GeometryBase object to its BHoM IGeometry equivalent.")]
+        [Input("geometry", "Rhino GeometryBase to convert.")]
+        [Output("geometry", "BHoM IGeometry equivalent.")]
         public static BHG.IGeometry IFromRhino(this RHG.GeometryBase geometry)
         {
             return (geometry == null) ? null : Convert.FromRhino(geometry as dynamic);
@@ -42,6 +47,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino IEpsilonComparable geometry object to its BHoM IGeometry equivalent.")]
+        [Input("geometry", "Rhino IEpsilonComparable geometry to convert.")]
+        [Output("geometry", "BHoM IGeometry equivalent.")]
         public static BHG.IGeometry IFromRhino<T>(this Rhino.IEpsilonComparable<T> geometry)
         {
             return (geometry == null) ? null : Convert.FromRhino(geometry as dynamic);
@@ -49,6 +57,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino geometry object to its BHoM IGeometry equivalent.")]
+        [Input("geometry", "Rhino geometry object to convert.")]
+        [Output("geometry", "BHoM IGeometry equivalent.")]
         public static BHG.IGeometry IFromRhino(this object geometry)
         {
             return (geometry == null) ? null : Convert.FromRhino(geometry as dynamic);
@@ -59,6 +70,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods  - Vectors                 ****/
         /***************************************************/
 
+        [Description("Converts a Rhino Point3d to a BHoM Point.")]
+        [Input("rhinoPoint", "Rhino Point3d to convert.")]
+        [Output("point", "BHoM Point equivalent.")]
         public static BHG.Point FromRhino(this RHG.Point3d rhinoPoint)
         {
             return new BHG.Point { X = rhinoPoint.X, Y = rhinoPoint.Y, Z = rhinoPoint.Z };
@@ -66,6 +80,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Point3f to a BHoM Point.")]
+        [Input("rhinoPoint", "Rhino Point3f to convert.")]
+        [Output("point", "BHoM Point equivalent.")]
         public static BHG.Point FromRhino(this RHG.Point3f rhinoPoint)
         {
             return new BHG.Point { X = rhinoPoint.X, Y = rhinoPoint.Y, Z = rhinoPoint.Z };
@@ -73,6 +90,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Point to a BHoM Point.")]
+        [Input("rhinoPoint", "Rhino Point to convert.")]
+        [Output("point", "BHoM Point equivalent.")]
         public static BHG.Point FromRhino(this RHG.Point rhinoPoint)
         {
             if (rhinoPoint == null) return null;
@@ -82,6 +102,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino ControlPoint to a BHoM Point.")]
+        [Input("rhinoPoint", "Rhino ControlPoint to convert.")]
+        [Output("point", "BHoM Point equivalent.")]
         public static BHG.Point FromRhino(this RHG.ControlPoint rhinoPoint)
         {
             return new BHG.Point { X = rhinoPoint.Location.X, Y = rhinoPoint.Location.Y, Z = rhinoPoint.Location.Z };
@@ -89,6 +112,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino BrepVertex to a BHoM Point.")]
+        [Input("vertex", "Rhino BrepVertex to convert.")]
+        [Output("point", "BHoM Point equivalent.")]
         public static BHG.Point FromRhino(this RHG.BrepVertex vertex)
         {
             return new BHG.Point { X = vertex.Location.X, Y = vertex.Location.Y, Z = vertex.Location.Z };
@@ -96,6 +122,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Vector3d to a BHoM Vector.")]
+        [Input("vector", "Rhino Vector3d to convert.")]
+        [Output("vector", "BHoM Vector equivalent.")]
         public static BHG.Vector FromRhino(this RHG.Vector3d vector)
         {
             return new BHG.Vector { X = vector.X, Y = vector.Y, Z = vector.Z };
@@ -103,6 +132,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Vector3f to a BHoM Vector.")]
+        [Input("vector", "Rhino Vector3f to convert.")]
+        [Output("vector", "BHoM Vector equivalent.")]
         public static BHG.Vector FromRhino(this RHG.Vector3f vector)
         {
             return new BHG.Vector { X = vector.X, Y = vector.Y, Z = vector.Z };
@@ -110,6 +142,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Plane to a BHoM Cartesian coordinate system.")]
+        [Input("plane", "Rhino Plane to convert.")]
+        [Output("coordinateSystem", "BHoM Cartesian coordinate system equivalent.")]
         public static BHG.CoordinateSystem.Cartesian FromRhino(this RHG.Plane plane)
         {
             return Geometry.Create.CartesianCoordinateSystem(plane.Origin.FromRhino(), plane.XAxis.FromRhino(), plane.YAxis.FromRhino());
@@ -117,6 +152,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Quaternion to a BHoM Quaternion.")]
+        [Input("quaternion", "Rhino Quaternion to convert.")]
+        [Output("quaternion", "BHoM Quaternion equivalent.")]
         public static BHG.Quaternion FromRhino(this RHG.Quaternion quaternion)
         {
             return new BHG.Quaternion
@@ -130,6 +168,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Transform to a BHoM TransformMatrix.")]
+        [Input("rhTrans", "Rhino Transform to convert.")]
+        [Output("transformMatrix", "BHoM TransformMatrix equivalent.")]
         public static BHG.TransformMatrix FromRhino(this RHG.Transform rhTrans)
         {
             BHG.TransformMatrix bhTrans = new BHG.TransformMatrix();
@@ -161,6 +202,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods  - Curves                  ****/
         /***************************************************/
 
+        [Description("Converts a Rhino Arc to a BHoM Arc.")]
+        [Input("arc", "Rhino Arc to convert.")]
+        [Output("arc", "BHoM Arc equivalent.")]
         public static BHG.Arc FromRhino(this RHG.Arc arc)
         {
             BHG.CoordinateSystem.Cartesian system = arc.Plane.FromRhino();
@@ -170,6 +214,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino ArcCurve to a BHoM ICurve (Arc or Circle).")]
+        [Input("arcCurve", "Rhino ArcCurve to convert.")]
+        [Output("curve", "BHoM ICurve equivalent.")]
         public static BHG.ICurve FromRhino(this RHG.ArcCurve arcCurve)
         {
             if (arcCurve == null) return null;
@@ -186,6 +233,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Circle to a BHoM Circle.")]
+        [Input("circle", "Rhino Circle to convert.")]
+        [Output("circle", "BHoM Circle equivalent.")]
         public static BHG.Circle FromRhino(this RHG.Circle circle)
         {
             return new BHG.Circle { Centre = circle.Center.FromRhino(), Normal = circle.Normal.FromRhino(), Radius = circle.Radius };
@@ -193,6 +243,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Ellipse to a BHoM Ellipse.")]
+        [Input("ellipse", "Rhino Ellipse to convert.")]
+        [Output("ellipse", "BHoM Ellipse equivalent.")]
         public static BHG.Ellipse FromRhino(this RHG.Ellipse ellipse)
         {
             return new BHG.Ellipse
@@ -207,6 +260,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Line to a BHoM Line.")]
+        [Input("line", "Rhino Line to convert.")]
+        [Output("line", "BHoM Line equivalent.")]
         public static BHG.Line FromRhino(this RHG.Line line)
         {
             return new BHG.Line { Start = line.From.FromRhino(), End = line.To.FromRhino() };
@@ -214,6 +270,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino LineCurve to a BHoM Line.")]
+        [Input("line", "Rhino LineCurve to convert.")]
+        [Output("line", "BHoM Line equivalent.")]
         public static BHG.Line FromRhino(this RHG.LineCurve line)
         {
             if (line == null) return null;
@@ -223,6 +282,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino NurbsCurve to a BHoM ICurve.")]
+        [Input("rCurve", "Rhino NurbsCurve to convert.")]
+        [Output("curve", "BHoM ICurve equivalent.")]
         public static BHG.ICurve FromRhino(this RHG.NurbsCurve rCurve)
         {
             if (rCurve == null) return null;
@@ -253,6 +315,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Curve to its BHoM ICurve equivalent, dispatching to the most specific type.")]
+        [Input("rCurve", "Rhino Curve to convert.")]
+        [Output("curve", "BHoM ICurve equivalent.")]
         public static BHG.ICurve FromRhino(this RHG.Curve rCurve)
         {
             if (rCurve == null) return null;
@@ -302,6 +367,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino PolyCurve to a BHoM ICurve.")]
+        [Input("polyCurve", "Rhino PolyCurve to convert.")]
+        [Output("curve", "BHoM ICurve equivalent.")]
         public static BHG.ICurve FromRhino(this RHG.PolyCurve polyCurve)
         {
             if (polyCurve == null) return null;
@@ -319,6 +387,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Polyline to a BHoM Polyline.")]
+        [Input("polyline", "Rhino Polyline to convert.")]
+        [Output("polyline", "BHoM Polyline equivalent.")]
         public static BHG.Polyline FromRhino(this RHG.Polyline polyline)
         {
             if (polyline == null) return null;
@@ -328,6 +399,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino PolylineCurve to a BHoM Polyline.")]
+        [Input("polyline", "Rhino PolylineCurve to convert.")]
+        [Output("polyline", "BHoM Polyline equivalent.")]
         public static BHG.Polyline FromRhino(this RHG.PolylineCurve polyline)
         {
             if (polyline == null) return null;
@@ -349,6 +423,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods  - Surfaces                ****/
         /***************************************************/
 
+        [Description("Converts a Rhino BoundingBox to a BHoM BoundingBox.")]
+        [Input("boundingBox", "Rhino BoundingBox to convert.")]
+        [Output("boundingBox", "BHoM BoundingBox equivalent.")]
         public static BHG.BoundingBox FromRhino(this RHG.BoundingBox boundingBox)
         {
             return new BHG.BoundingBox { Min = boundingBox.Min.FromRhino(), Max = boundingBox.Max.FromRhino() };
@@ -356,6 +433,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Box to a BHoM BoundingBox.")]
+        [Input("box", "Rhino Box to convert.")]
+        [Output("boundingBox", "BHoM BoundingBox equivalent.")]
         public static BHG.BoundingBox FromRhino(this RHG.Box box)
         {
             return box.BoundingBox.FromRhino();
@@ -363,6 +443,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Surface to a BHoM ISurface.")]
+        [Input("surface", "Rhino Surface to convert.")]
+        [Output("surface", "BHoM ISurface equivalent.")]
         public static BHG.ISurface FromRhino(this RHG.Surface surface)
         {
             if (surface == null)
@@ -379,6 +462,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino NurbsSurface to a BHoM ISurface.")]
+        [Input("surface", "Rhino NurbsSurface to convert.")]
+        [Output("surface", "BHoM ISurface equivalent.")]
         public static BHG.ISurface FromRhino(this RHG.NurbsSurface surface)
         {
             if (surface == null)
@@ -407,6 +493,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Brep to its BHoM IGeometry equivalent.")]
+        [Input("brep", "Rhino Brep to convert.")]
+        [Output("geometry", "BHoM IGeometry equivalent.")]
         public static BHG.IGeometry FromRhino(this RHG.Brep brep)
         {
             if (brep == null)
@@ -441,6 +530,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino BrepFace to a BHoM ISurface.")]
+        [Input("face", "Rhino BrepFace to convert.")]
+        [Output("surface", "BHoM ISurface equivalent.")]
         public static BHG.ISurface FromRhino(this RHG.BrepFace face)
         {
             if (face == null)
@@ -454,6 +546,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Extrusion to its BHoM IGeometry equivalent.")]
+        [Input("extrusion", "Rhino Extrusion to convert.")]
+        [Output("geometry", "BHoM IGeometry equivalent.")]
         public static BHG.IGeometry FromRhino(this RHG.Extrusion extrusion)
         {
             if (extrusion == null) return null;
@@ -490,6 +585,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods  - Mesh                    ****/
         /***************************************************/
 
+        [Description("Converts a Rhino Mesh to a BHoM Mesh.")]
+        [Input("rMesh", "Rhino Mesh to convert.")]
+        [Output("mesh", "BHoM Mesh equivalent.")]
         public static BHG.Mesh FromRhino(this RHG.Mesh rMesh)
         {
             if (rMesh == null) return null;
@@ -513,6 +611,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino MeshFace to a BHoM Face.")]
+        [Input("rFace", "Rhino MeshFace to convert.")]
+        [Output("face", "BHoM Face equivalent.")]
         public static BHG.Face FromRhino(this RHG.MeshFace rFace)
         {
 
@@ -533,6 +634,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods  - Solids                  ****/
         /***************************************************/
 
+        [Description("Converts a Rhino Sphere to a BHoM Sphere.")]
+        [Input("sphere", "Rhino Sphere to convert.")]
+        [Output("sphere", "BHoM Sphere equivalent.")]
         public static BHG.Sphere FromRhino(this RHG.Sphere sphere)
         {
             return new BHG.Sphere { Centre = sphere.Center.FromRhino(), Radius = sphere.Radius };
@@ -540,6 +644,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Torus to a BHoM Torus.")]
+        [Input("torus", "Rhino Torus to convert.")]
+        [Output("torus", "BHoM Torus equivalent.")]
         public static BHG.Torus FromRhino(this RHG.Torus torus)
         {
             return new BHG.Torus { Centre = torus.Plane.Origin.FromRhino(), Axis = torus.Plane.ZAxis.FromRhino(), RadiusMajor = torus.MajorRadius, RadiusMinor = torus.MinorRadius };
@@ -547,6 +654,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Cone to a BHoM Cone.")]
+        [Input("cone", "Rhino Cone to convert.")]
+        [Output("cone", "BHoM Cone equivalent.")]
         public static BHG.Cone FromRhino(this RHG.Cone cone)
         {
             return new BHG.Cone { Centre = cone.BasePoint.FromRhino(), Axis = cone.Axis.FromRhino() * -1.0, Radius = cone.Radius, Height = cone.Height };
@@ -554,6 +664,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino Cylinder to a BHoM Cylinder.")]
+        [Input("cylinder", "Rhino Cylinder to convert.")]
+        [Output("cylinder", "BHoM Cylinder equivalent.")]
         public static BHG.Cylinder FromRhino(this RHG.Cylinder cylinder)
         {
             BHG.Point centre = cylinder.Center.FromRhino() + cylinder.Axis.FromRhino() * cylinder.Height1;
@@ -565,6 +678,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Miscellanea                               ****/
         /***************************************************/
 
+        [Description("Converts a list of Rhino GeometryBase objects to a BHoM CompositeGeometry.")]
+        [Input("geometries", "List of Rhino GeometryBase objects to convert.")]
+        [Output("compositeGeometry", "BHoM CompositeGeometry equivalent.")]
         public static BHG.CompositeGeometry FromRhino(this List<RHG.GeometryBase> geometries)
         {
             return new BHG.CompositeGeometry { Elements = geometries.Select(x => x.IFromRhino()).ToList() };
@@ -572,6 +688,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Converts a Rhino BrepLoop to a BHoM SurfaceTrim.")]
+        [Input("loop", "Rhino BrepLoop to convert.")]
+        [Output("surfaceTrim", "BHoM SurfaceTrim equivalent.")]
         public static BHG.SurfaceTrim FromRhino(this RHG.BrepLoop loop)
         {
             BHG.PolyCurve curve2d = new BHG.PolyCurve();
@@ -694,6 +813,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Fallback Methods                          ****/
         /***************************************************/
 
+        [Description("Fallback conversion method for objects that do not have a specific FromRhino overload.")]
+        [Input("obj", "Object to attempt conversion from.")]
+        [Output("geometry", "BHoM IGeometry if the object is already a BHoM geometry, otherwise null.")]
         public static BHG.IGeometry FromRhino(this object obj)
         {
             BHG.IGeometry geom = obj as BHG.IGeometry;
