@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2025, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2026, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -22,10 +22,8 @@
 
 using Rhino.Geometry;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BH.oM.Base.Attributes;
+using System.ComponentModel;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -35,6 +33,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Creates a random Rhino Arc using the provided random number generator.")]
+        [Input("random", "Random number generator to use for arc creation.")]
+        [Output("arc", "A randomly generated Rhino Arc.")]
         public static Arc RandomArc(Random random)
         {
             return new Arc(RandomPoint3d(random), random.NextDouble(), random.NextDouble());
@@ -42,6 +43,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a random Rhino Arc using the provided seed.")]
+        [Input("seed", "Seed for the random number generator.")]
+        [Output("arc", "A randomly generated Rhino Arc.")]
         public static Arc RandomArc(int seed = 0)
         {
             return RandomArc(new Random(seed));
@@ -50,6 +54,7 @@ namespace BH.Engine.Adapters.Rhinoceros
         /***************************************************/
     }
 }
+
 
 
 

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2025, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2026, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -20,10 +20,12 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Geometry;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using BH.oM.Base.Attributes;
+using BH.oM.Geometry;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -33,7 +35,11 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods  - Mesh                    ****/
         /***************************************************/
 
-        public static bool IsRhinoEquivalent(this Type type)     
+        [Description("Checks whether a BHoM geometry type has a direct Rhino equivalent, i.e. can be converted to a Rhino geometry object. \n" +
+            "Types that implement IGeometry but have no Rhino equivalent (such as Extrusion, Pipe, Loft, and others) return false.")]
+        [Input("type", "The BHoM geometry Type to check.")]
+        [Output("isRhinoEquivalent", "True if the type implements IGeometry and has a direct Rhino equivalent, false otherwise.")]
+        public static bool IsRhinoEquivalent(this Type type)
         {
             if (typeof(IGeometry).IsAssignableFrom(type))
                 return (type != typeof(Extrusion)
@@ -51,6 +57,7 @@ namespace BH.Engine.Adapters.Rhinoceros
         /***************************************************/
     }
 }
+
 
 
 

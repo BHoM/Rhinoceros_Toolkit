@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2025, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2026, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -20,9 +20,11 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
+using Rhino.Geometry;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -32,6 +34,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Creates a random Rhino NurbsCurve using the provided Random instance.")]
+        [Input("random", "The Random instance used to generate coordinate values and curve degree.")]
+        [Output("nurbsCurve", "A random Rhino NurbsCurve with 10 control points and a degree between 3 and 5.")]
         public static NurbsCurve RandomNurbsCurve(Random random)
         {
             List<Point3d> points = RandomPoint3dList(random);
@@ -40,6 +45,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a random Rhino NurbsCurve using a seed value.")]
+        [Input("seed", "Seed value for the Random instance. Defaults to 0.")]
+        [Output("nurbsCurve", "A random Rhino NurbsCurve with 10 control points and a degree between 3 and 5.")]
         public static NurbsCurve RandomNurbsCurve(int seed = 0)
         {
             return RandomNurbsCurve(new Random(seed));
@@ -48,6 +56,7 @@ namespace BH.Engine.Adapters.Rhinoceros
         /***************************************************/
     }
 }
+
 
 
 

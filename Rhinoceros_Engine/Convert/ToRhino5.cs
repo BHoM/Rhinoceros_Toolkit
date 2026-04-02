@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2025, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2026, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -24,11 +24,16 @@ using System.Collections.Generic;
 using RHG = Rhino.Geometry;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
+using BH.oM.Base.Attributes;
+using System.ComponentModel;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
     public static partial class Convert
     {
+        [Description("Converts a BHoM NurbsCurve to its Rhino 5 compatible NurbsCurve equivalent.")]
+        [Input("bCurve", "BHoM NurbsCurve to convert.")]
+        [Output("rCurve", "Rhino NurbsCurve equivalent.")]
         public static RHG.NurbsCurve ToRhino5(this BHG.NurbsCurve bCurve)
         {
             if (bCurve == null) return null;
@@ -52,6 +57,7 @@ namespace BH.Engine.Adapters.Rhinoceros
         }
     }
 }
+
 
 
 

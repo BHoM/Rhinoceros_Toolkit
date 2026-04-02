@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2025, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2026, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -20,8 +20,10 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using Rhino.Geometry;
 using System;
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
+using Rhino.Geometry;
 
 namespace BH.Engine.Adapters.Rhinoceros
 {
@@ -31,6 +33,9 @@ namespace BH.Engine.Adapters.Rhinoceros
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Creates a random Rhino ControlPoint using the provided Random instance.")]
+        [Input("random", "The Random instance used to generate coordinate values.")]
+        [Output("controlPoint", "A random Rhino ControlPoint with X, Y, Z coordinates between 0 and 1.")]
         public static ControlPoint RandomControlPoint(Random random)
         {
             return new ControlPoint(random.NextDouble(), random.NextDouble(), random.NextDouble());
@@ -38,6 +43,9 @@ namespace BH.Engine.Adapters.Rhinoceros
 
         /***************************************************/
 
+        [Description("Creates a random Rhino ControlPoint using a seed value.")]
+        [Input("seed", "Seed value for the Random instance. Defaults to 0.")]
+        [Output("controlPoint", "A random Rhino ControlPoint with X, Y, Z coordinates between 0 and 1.")]
         public static ControlPoint RandomControlPoint(int seed = 0)
         {
             return RandomControlPoint(new Random(seed));
@@ -46,6 +54,7 @@ namespace BH.Engine.Adapters.Rhinoceros
         /***************************************************/
     }
 }
+
 
 
 
